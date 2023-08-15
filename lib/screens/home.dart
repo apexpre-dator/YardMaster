@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:yms/screens/IncomingRegistration.dart';
 
 class HomeScreen extends StatelessWidget {
+  
   const HomeScreen({super.key});
-  static const routeName = '/home';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,12 +21,12 @@ class HomeScreen extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
+                  print('here');
                   Navigator.of(context)
-                      .pushNamed(IncomingRegistration.routeName);
+                      .popAndPushNamed(IncomingRegistration.routeName);
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.amberAccent,
                       border: Border.all(
                         color: Colors.black54,
                         width: 3,
@@ -35,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset('assets/Incoming.png'),
+                      Image.asset('assets/incoming.gif'),
                       const Text(
                         'Incoming',
                         style: TextStyle(
@@ -53,7 +54,6 @@ class HomeScreen extends StatelessWidget {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: Colors.amberAccent,
                     border: Border.all(
                       color: Colors.black54,
                       width: 3,
@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset('assets/Outgoing.png'),
+                    Image.asset('assets/outgoing.gif'),
                     const Text(
                       'Outgoing',
                       style: TextStyle(
