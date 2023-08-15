@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+import 'package:yms/custom.dart';
+import 'package:yms/models/driver_model.dart';
+import 'package:yms/models/vehicle_model.dart';
+import 'package:yms/screens/home.dart';
 import 'package:yms/widgets/custom_input.dart';
 
 class IncomingRegistration extends StatefulWidget {
@@ -11,12 +16,92 @@ class IncomingRegistration extends StatefulWidget {
 
 class _IncomingRegistrationState extends State<IncomingRegistration> {
   int currentStep = 0;
+  final TextEditingController vNoController = TextEditingController();
+  final TextEditingController vWeightController = TextEditingController();
+  final TextEditingController vModelController = TextEditingController();
+  final TextEditingController personsController = TextEditingController();
+  final TextEditingController objectiveController = TextEditingController();
+  final TextEditingController sourceController = TextEditingController();
+  final TextEditingController dIdController = TextEditingController();
+  final TextEditingController dNameController = TextEditingController();
+  final TextEditingController dlNoController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  bool registered = false;
+
+  late Driver driver;
+  late Vehicle vehicle;
+  final String vRegNo = const Uuid().v1();
+
+  void registerVehicle(BuildContext context) {
+    if (vModelController.text.isEmpty ||
+        vNoController.text.isEmpty ||
+        vWeightController.text.isEmpty ||
+        personsController.text.isEmpty ||
+        objectiveController.text.isEmpty ||
+        sourceController.text.isEmpty ||
+        dIdController.text.isEmpty ||
+        dNameController.text.isEmpty ||
+        dlNoController.text.isEmpty ||
+        addressController.text.isEmpty ||
+        phoneController.text.isEmpty) {
+      const snackBar = SnackBar(
+        content: Text('Please fill in all the fields correctly!'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    driver = Driver(
+        dId: dIdController.text,
+        dName: dNameController.text,
+        dlNo: dlNoController.text,
+        phone: phoneController.text,
+        address: addressController.text,
+        vRegNo: vRegNo);
+    vehicle = Vehicle(
+      regNo: vRegNo,
+      vNo: vNoController.text,
+      vWeight: vWeightController.text,
+      vModel: vModelController.text,
+      persons: personsController.text,
+      driver: driver,
+      objective: objectiveController.text,
+      dockNo: 1,
+      lotNo: 1,
+      timeIn: DateTime.now(),
+      timeOut: DateTime.now(),
+      source: sourceController.text,
+      destination: "",
+    );
+
+    vehicles.add(vehicle);
+    setState(() {
+      registered = true;
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    vNoController.dispose();
+    vWeightController.dispose();
+    vModelController.dispose();
+    personsController.dispose();
+    objectiveController.dispose();
+    sourceController.dispose();
+    dIdController.dispose();
+    dNameController.dispose();
+    dlNoController.dispose();
+    addressController.dispose();
+    phoneController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Yard Management System"),
+          title: const Text("Vehicle Registration"),
           centerTitle: true,
         ),
         body: Container(
@@ -32,7 +117,11 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
               onStepContinue: () {
                 bool isLastStep = (currentStep == getSteps().length - 1);
                 if (isLastStep) {
-                  //Do something with this information
+                  registerVehicle(context);
+                  print('here');
+                  if (registered) {
+                    Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+                  }
                 } else {
                   setState(() {
                     currentStep += 1;
@@ -55,22 +144,26 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         isActive: currentStep >= 0,
         title: const Text("Vehicle"),
         content: Column(
-          children: const [
+          children: [
             CustomInput(
               hint: "Vehicle Number",
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
+              controller: vNoController,
             ),
             CustomInput(
               hint: "Vehicle Weight",
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
+              controller: vWeightController,
             ),
             CustomInput(
               hint: "Vehicle Model",
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
+              controller: vModelController,
             ),
             CustomInput(
               hint: "Accompanied Personnel",
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
+              controller: personsController,
             ),
           ],
         ),
@@ -80,26 +173,31 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         isActive: currentStep >= 1,
         title: const Text("Driver"),
         content: Column(
-          children: const [
+          children: [
             CustomInput(
               hint: "Driver Name",
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
+              controller: dNameController,
             ),
             CustomInput(
               hint: "License Number",
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
+              controller: dlNoController,
             ),
             CustomInput(
               hint: "Identification Number",
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
+              controller: dIdController,
             ),
             CustomInput(
               hint: "Phone Number",
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
+              controller: phoneController,
             ),
             CustomInput(
               hint: "Address",
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
+              controller: addressController,
             ),
           ],
         ),
@@ -109,26 +207,26 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         isActive: currentStep >= 2,
         title: const Text("Checking In"),
         content: Column(
-          children: const [
+          children: [
             CustomInput(
               hint: "Objective",
-              inputBorder: OutlineInputBorder(),
+              inputBorder: const OutlineInputBorder(),
+              controller: objectiveController,
             ),
+            // CustomInput(
+            //   hint: "Parking Lot",
+            //   inputBorder: OutlineInputBorder(),
+            //   controller: lotNoController,
+            // ),
+            // CustomInput(
+            //   hint: "Dock Number",
+            //   inputBorder: OutlineInputBorder(),
+            //   controller: dockNoController,
+            // ),
             CustomInput(
-              hint: "Parking Lot",
-              inputBorder: OutlineInputBorder(),
-            ),
-            CustomInput(
-              hint: "Dock Number",
-              inputBorder: OutlineInputBorder(),
-            ),
-            CustomInput(
-              hint: "Entry Time",
-              inputBorder: OutlineInputBorder(),
-            ),
-            CustomInput(
-              hint: "Source Destination",
-              inputBorder: OutlineInputBorder(),
+              hint: "Source Address",
+              inputBorder: const OutlineInputBorder(),
+              controller: sourceController,
             ),
           ],
         ),

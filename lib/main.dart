@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
         ),
         home: const MyHomePage(title: 'Yard Management System'),
         routes: {
+          HomeScreen.routeName: (context) => HomeScreen(),
           IncomingRegistration.routeName: (context) => IncomingRegistration(),
         });
   }
@@ -34,14 +35,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          widget.title,
-        ),
-      ),
-      body: const HomeScreen(),
-    );
+    return const HomeScreen();
   }
 }
