@@ -156,7 +156,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                   type: StepperType.horizontal,
                   currentStep: currentStep,
                   onStepCancel: () => currentStep == 0
-                      ? null
+                      ? Navigator.of(context).pop()
                       : setState(() {
                           currentStep -= 1;
                         }),

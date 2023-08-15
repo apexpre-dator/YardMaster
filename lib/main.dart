@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yms/screens/Outgoing.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/IncomingRegistration.dart';
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         ),
         home: HomeScreen(),
         routes: {
+          OutgoingRegistration.routeName: (context) => OutgoingRegistration(),
           IncomingRegistration.routeName: (context) => IncomingRegistration(),
         });
   }
