@@ -1,15 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yms/custom.dart';
 import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
-import 'package:yms/screens/home.dart';
 import 'package:yms/widgets/custom_input.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 class IncomingRegistration extends StatefulWidget {
   static const routeName = '/incoming-registration';
-  IncomingRegistration({super.key});
+  const IncomingRegistration({super.key});
 
   @override
   State<IncomingRegistration> createState() => _IncomingRegistrationState();
@@ -29,10 +31,23 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
   final TextEditingController addressController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   bool registered = false;
+  File? vehicleImage;
+  File? driverPic;
 
   late Driver driver;
   late Vehicle vehicle;
   final String vRegNo = const Uuid().v1();
+
+  Future pickImage(bool flag) async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemp = File(image.path);
+      setState(() => flag ? vehicleImage : driverPic = imageTemp);
+    } catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
 
   void registerVehicle(BuildContext context) {
     if (vModelController.text.isEmpty ||
@@ -82,7 +97,6 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     vNoController.dispose();
     vWeightController.dispose();
@@ -192,6 +206,61 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         title: const Text("Vehicle"),
         content: Column(
           children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              height: 150,
+              width: double.infinity,
+              child: vehicleImage != null
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.file(
+                          vehicleImage!,
+                          width: 150,
+                          height: 150,
+                          fit: BoxFit.fill,
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              vehicleImage = null;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Colors.redAccent, // Background color
+                          ),
+                          child: const Text('Delete'),
+                        ),
+                      ],
+                    )
+                  : Row(
+                      //crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/dummy.png',
+                          width: 150,
+                          height: 150,
+                          fit: BoxFit.fill,
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            await pickImage(true);
+                          },
+                          child: const Text('Upload'),
+                        ),
+                      ],
+                    ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             CustomInput(
               hint: "Vehicle Number",
               inputBorder: const OutlineInputBorder(),
@@ -221,6 +290,61 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         title: const Text("Driver"),
         content: Column(
           children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              height: 150,
+              width: double.infinity,
+              child: driverPic != null
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.file(
+                          driverPic!,
+                          width: 150,
+                          height: 150,
+                          fit: BoxFit.fill,
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              driverPic = null;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Colors.redAccent, // Background color
+                          ),
+                          child: const Text('Delete'),
+                        ),
+                      ],
+                    )
+                  : Row(
+                      //crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/dummy.png',
+                          width: 150,
+                          height: 150,
+                          fit: BoxFit.fill,
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            await pickImage(false);
+                          },
+                          child: const Text('Upload'),
+                        ),
+                      ],
+                    ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             CustomInput(
               hint: "Driver Name",
               inputBorder: const OutlineInputBorder(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yms/screens/Outgoing.dart';
+import 'package:yms/screens/outgoing.dart';
 import 'package:yms/screens/home.dart';
-import 'package:yms/screens/IncomingRegistration.dart';
+import 'package:yms/screens/incomingRegistration.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,9 +17,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: HomeScreen(),
+        home: const HomeScreen(),
         routes: {
-          OutgoingRegistration.routeName: (context) => OutgoingRegistration(),
+          OutgoingRegistration.routeName: (context) =>
+              const OutgoingRegistration(),
           IncomingRegistration.routeName: (context) => IncomingRegistration(),
         });
   }
