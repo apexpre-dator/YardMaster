@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
         routes: {
           OutgoingRegistration.routeName: (context) =>
               const OutgoingRegistration(),
-          IncomingRegistration.routeName: (context) => IncomingRegistration(),
+          IncomingRegistration.routeName: (context) =>
+              const IncomingRegistration(),
         });
   }
 }

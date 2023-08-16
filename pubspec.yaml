@@ -30,6 +30,7 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.2
   custom_radio_grouped_button: ^2.2.0
+  dropdown_button2: ^1.9.1
   easy_stepper: ^0.6.0
   flutter:
     sdk: flutter

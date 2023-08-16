@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 import 'package:yms/custom.dart';
 import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
+import 'package:yms/widgets/custom_dropdown.dart';
 import 'package:yms/widgets/custom_input.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -35,6 +36,8 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
   bool registered = false;
   File? vehicleImage;
   File? driverPic;
+  String? parkingLot;
+  String? yardNo;
 
   late Driver driver;
   late Vehicle vehicle;
@@ -198,6 +201,18 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 )),
       ),
     );
+  }
+
+  void setParkingLot(String? val) {
+    setState(() {
+      parkingLot = val;
+    });
+  }
+
+  void setYardNo(String? val) {
+    setState(() {
+      yardNo = val;
+    });
   }
 
   List<Step> getSteps() {
@@ -407,7 +422,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
               child: const Text(
                 'Objective -',
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                 ),
               ),
             ),
@@ -423,9 +438,9 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 'Both',
               ],
               buttonValues: const [
-                "L",
-                "U",
-                "B",
+                "Loading",
+                "Unloading",
+                "Both",
               ],
               buttonTextStyle: const ButtonTextStyle(
                 selectedColor: Colors.white,
@@ -448,6 +463,28 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                   hintText: 'Source Address',
                   border: OutlineInputBorder(),
                 ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(5),
+              child: CustomDropdownButton2(
+                dropdownWidth: MediaQuery.of(context).size.width - 80,
+                buttonWidth: double.infinity,
+                hint: 'Select Parking Lot',
+                value: parkingLot,
+                dropdownItems: const ['1', '2', '3', '4', '5'],
+                onChanged: setParkingLot,
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(5),
+              child: CustomDropdownButton2(
+                dropdownWidth: MediaQuery.of(context).size.width - 80,
+                buttonWidth: double.infinity,
+                hint: 'Select Yard No',
+                value: yardNo,
+                dropdownItems: const ['1', '2', '3', '4', '5'],
+                onChanged: setYardNo,
               ),
             ),
           ],
