@@ -34,11 +34,15 @@ dependencies:
   easy_stepper: ^0.6.0
   flutter:
     sdk: flutter
-  image_picker: ^1.0.2
+  image_picker: ^1.0.1
   intl: ^0.18.1
   intl_phone_field: ^3.2.0
   qr_flutter: ^4.1.0
   uuid: ^3.0.7
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.2
+  firebase_storage: ^11.2.5
+  cloud_firestore: ^4.8.4
 
 dev_dependencies:
   flutter_lints: ^2.0.0

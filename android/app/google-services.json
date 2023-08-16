@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "63201572627",
+    "firebase_url": "https://databse-c875b-default-rtdb.firebaseio.com",
+    "project_id": "databse-c875b",
+    "storage_bucket": "databse-c875b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63201572627:android:195405e04adfad6d0a4ce6",
+        "android_client_info": {
+          "package_name": "com.example.yms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63201572627-qij0sgarpsde7f0d0f7i1fqlte5oa6j7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAVcpv3vtuIurdCaFQFWUegEOSwali5dI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63201572627-qij0sgarpsde7f0d0f7i1fqlte5oa6j7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

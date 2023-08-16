@@ -5,6 +5,7 @@ class Driver {
   final String phone;
   final String address;
   final String vRegNo;
+  String photoUrl;
 
   Driver({
     required this.dId,
@@ -13,7 +14,16 @@ class Driver {
     required this.phone,
     required this.address,
     required this.vRegNo,
+    required this.photoUrl,
   });
 
-
+  Map<String, dynamic> toJson() => {
+        "dId": dId,
+        "dName": dName,
+        "dlNo": dlNo,
+        "phone": phone,
+        "address": address,
+        "vRegNo": vRegNo,
+        "photoUrl": photoUrl,
+      };
 }
