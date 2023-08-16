@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yms/screens/Outgoing.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/IncomingRegistration.dart';
 
@@ -16,25 +17,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const MyHomePage(title: 'Yard Management System'),
+        home: HomeScreen(),
         routes: {
-          HomeScreen.routeName: (context) => HomeScreen(),
+          OutgoingRegistration.routeName: (context) => OutgoingRegistration(),
           IncomingRegistration.routeName: (context) => IncomingRegistration(),
         });
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return const HomeScreen();
   }
 }

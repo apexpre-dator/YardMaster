@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:yms/screens/IncomingRegistration.dart';
+import 'package:yms/screens/Outgoing.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-  static const routeName = '/home';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,22 +21,22 @@ class HomeScreen extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
+                  print('here');
                   Navigator.of(context)
                       .pushNamed(IncomingRegistration.routeName);
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.amberAccent,
                       border: Border.all(
-                        color: Colors.black54,
-                        width: 3,
-                      )),
+                    color: Colors.black54,
+                    width: 3,
+                  )),
                   height: 180,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset('assets/Incoming.png'),
+                      Image.asset('assets/incoming.gif'),
                       const Text(
                         'Incoming',
                         style: TextStyle(
@@ -51,28 +52,33 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.amberAccent,
-                    border: Border.all(
-                      color: Colors.black54,
-                      width: 3,
-                    )),
-                height: 180,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/Outgoing.png'),
-                    const Text(
-                      'Outgoing',
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(OutgoingRegistration.routeName);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                    color: Colors.black54,
+                    width: 3,
+                  )),
+                  height: 180,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/outgoing.gif'),
+                      const Text(
+                        'Outgoing',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

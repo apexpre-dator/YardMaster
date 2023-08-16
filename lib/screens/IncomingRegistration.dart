@@ -5,6 +5,7 @@ import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/widgets/custom_input.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class IncomingRegistration extends StatefulWidget {
   static const routeName = '/incoming-registration';
@@ -104,35 +105,81 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
           title: const Text("Vehicle Registration"),
           centerTitle: true,
         ),
-        body: Container(
-            padding: const EdgeInsets.all(10),
-            child: Stepper(
-              type: StepperType.horizontal,
-              currentStep: currentStep,
-              onStepCancel: () => currentStep == 0
-                  ? null
-                  : setState(() {
-                      currentStep -= 1;
-                    }),
-              onStepContinue: () {
-                bool isLastStep = (currentStep == getSteps().length - 1);
-                if (isLastStep) {
-                  registerVehicle(context);
-                  print('here');
-                  if (registered) {
-                    Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
-                  }
-                } else {
-                  setState(() {
-                    currentStep += 1;
-                  });
-                }
-              },
-              onStepTapped: (step) => setState(() {
-                currentStep = step;
-              }),
-              steps: getSteps(),
-            )),
+        body: registered
+            ? Container(
+                height: MediaQuery.of(context).size.height - 10,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 45,
+                      ),
+                      const Text(
+                        'Vehicle Registered Successfully!',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 35,
+                      ),
+                      Center(
+                        child: QrImageView(
+                          data: vRegNo,
+                          version: QrVersions.auto,
+                          size: 320,
+                          gapless: false,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      const Text('QR sent to Driver\'s Dashboard'),
+                      const SizedBox(
+                        height: 45,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).popAndPushNamed('/');
+                        },
+                        child: const Text('Home'),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : Container(
+                padding: const EdgeInsets.all(10),
+                child: Stepper(
+                  type: StepperType.horizontal,
+                  currentStep: currentStep,
+                  onStepCancel: () => currentStep == 0
+                      ? Navigator.of(context).pop()
+                      : setState(() {
+                          currentStep -= 1;
+                        }),
+                  onStepContinue: () {
+                    bool isLastStep = (currentStep == getSteps().length - 1);
+                    if (isLastStep) {
+                      FocusScope.of(context).unfocus();
+                      registerVehicle(context);
+                      print('here');
+                      // setState(() {
+                      //   registered = false;
+                      // });
+                    } else {
+                      setState(() {
+                        currentStep += 1;
+                      });
+                    }
+                  },
+                  onStepTapped: (step) => setState(() {
+                    currentStep = step;
+                  }),
+                  steps: getSteps(),
+                )),
       ),
     );
   }
