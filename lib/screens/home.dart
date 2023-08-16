@@ -57,10 +57,10 @@ class HomeScreen extends StatelessWidget {
                 onTap: () {
                   // Navigator.of(context)
                   //               .pushNamed(QRViewExample.routeName);
-
+                  // Navigator.of(context).pop();
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => OutgoingRegistration(
-                        vRegNo: "9a7ff1e0-3c5f-11ee-a3a0-1706ec3184ff"),
+                        vRegNo: "e68615c0-3c63-11ee-a167-893336dfd0f6"),
                   ));
                 },
                 child: Container(

@@ -8,6 +8,25 @@ import 'package:yms/models/vehicle_model.dart';
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  Future<String> exitYard(Vehicle v) async {
+    String res = "Error Occured!";
+
+    try {
+      _firestore.collection('vehicles').doc(v.regNo).update({
+        "destination": v.destination,
+        "timeOut": v.timeOut,
+      });
+
+      res = "success";
+    } on FirebaseException catch (e) {
+      res = e.toString();
+    } catch (e) {
+      res = e.toString();
+    }
+
+    return res;
+  }
+
   Future<String> registerVehicle(
     Vehicle v,
     Driver d,

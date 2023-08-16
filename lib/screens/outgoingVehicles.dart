@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
-import 'package:yms/screens/qr_scan.dart';
 import 'package:yms/widgets/custom_input.dart';
 import 'package:yms/widgets/text_display.dart';
 
@@ -23,26 +21,11 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
       TextEditingController();
   final TextEditingController outgoingWeight = TextEditingController();
   final TextEditingController timeOutgoing = TextEditingController();
-  // String? vRegno;
 
   bool _isLoading = false;
-  // String? vehicleImage;
-  // String? driverPic;
-  // String? vehicleNumber;
-  // String? incomingWeight;
-  // String? vehicleModel;
-  // String? accompaniedPersonnel;
-  // String? driverName;
-  // String? licenseNumber;
-  // String? identificationNumber;
-  // String? phoneNumber;
-  // String? driverAddress;
-  // String? objective;
-  // String? timeIn;
-  // String? sourceAddress;
   late Driver driver;
   late Vehicle vehicle;
-  // final String vRegNo = const Uuid().v1();
+  bool _checkOut = false;
 
   void loadData() {}
 
@@ -65,6 +48,32 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
     });
   }
 
+  void exitYard() async {
+    setState(() {
+      _isLoading = true;
+    });
+    vehicle.destination = addressDestinationController.text;
+    vehicle.timeOut = DateTime.now().toIso8601String();
+
+    String res = await FirestoreMethods().exitYard(vehicle);
+
+    setState(() {
+      _isLoading = false;
+    });
+    print(res);
+
+    if (res != "success") {
+      SnackBar snackBar = SnackBar(
+        content: Text(res),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      setState(() {
+        _checkOut = true;
+      });
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -84,36 +93,66 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : Container(
-                padding: const EdgeInsets.all(10),
-                child: Stepper(
-                  type: StepperType.horizontal,
-                  currentStep: currentStep,
-                  onStepCancel: () => currentStep == 0
-                      ? Navigator.of(context).pop()
-                      : setState(() {
-                          currentStep -= 1;
-                        }),
-                  onStepContinue: () {
-                    bool isLastStep = (currentStep == getSteps().length - 1);
-                    if (isLastStep) {
-                      FocusScope.of(context).unfocus();
-                      //vehicle gone out deregister
-                      print('here');
-                      // setState(() {
-                      //   registered = false;
-                      // });
-                    } else {
-                      setState(() {
-                        currentStep += 1;
-                      });
-                    }
-                  },
-                  onStepTapped: (step) => setState(() {
-                    currentStep = step;
-                  }),
-                  steps: getSteps(),
-                )),
+            : _checkOut
+                ? Container(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          // alignment: Alignment.center,
+                          height: 250,
+                          width: 250,
+                          child: Image.network(
+                              fit: BoxFit.contain,
+                              "https://static.vecteezy.com/system/resources/previews/022/068/737/non_2x/approved-sign-and-symbol-clip-art-free-png.png"),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Text('Checked-Out Successfully!'),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).popAndPushNamed('/');
+                            },
+                            child: Text('Back to Home'))
+                      ],
+                    ),
+                  )
+                : Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Stepper(
+                      type: StepperType.horizontal,
+                      currentStep: currentStep,
+                      onStepCancel: () => currentStep == 0
+                          ? Navigator.of(context).pop()
+                          : setState(() {
+                              currentStep -= 1;
+                            }),
+                      onStepContinue: () {
+                        bool isLastStep =
+                            (currentStep == getSteps().length - 1);
+                        if (isLastStep) {
+                          FocusScope.of(context).unfocus();
+                          exitYard();
+                          //vehicle gone out deregister
+                          print('here');
+                          // setState(() {
+                          //   registered = false;
+                          // });
+                        } else {
+                          setState(() {
+                            currentStep += 1;
+                          });
+                        }
+                      },
+                      onStepTapped: (step) => setState(() {
+                        currentStep = step;
+                      }),
+                      steps: getSteps(),
+                    )),
       ),
     );
   }
