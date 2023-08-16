@@ -29,21 +29,17 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.2
+  custom_radio_grouped_button: ^2.2.0
   easy_stepper: ^0.6.0
   flutter:
     sdk: flutter
   image_picker: ^1.0.2
   intl: ^0.18.1
+  intl_phone_field: ^3.2.0
   qr_flutter: ^4.1.0
   uuid: ^3.0.7
 
 dev_dependencies:
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter

@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yms/custom.dart';
 import 'package:yms/models/driver_model.dart';
@@ -322,7 +324,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                       ],
                     )
                   : Row(
-                      //crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
                           'assets/dummy.png',
@@ -360,15 +362,28 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
               inputBorder: const OutlineInputBorder(),
               controller: dIdController,
             ),
-            CustomInput(
-              hint: "Phone Number",
-              inputBorder: const OutlineInputBorder(),
+            IntlPhoneField(
               controller: phoneController,
+              decoration: const InputDecoration(
+                labelText: 'Phone Number',
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(),
+                ),
+              ),
+              initialCountryCode: 'IN',
             ),
-            CustomInput(
-              hint: "Address",
-              inputBorder: const OutlineInputBorder(),
-              controller: addressController,
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              child: TextField(
+                maxLines: 5,
+                minLines: 3,
+                controller: addressController,
+                onSubmitted: (v) {},
+                decoration: const InputDecoration(
+                  hintText: 'Address',
+                  border: OutlineInputBorder(),
+                ),
+              ),
             ),
           ],
         ),
@@ -378,26 +393,62 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         isActive: currentStep >= 2,
         title: const Text("Checking In"),
         content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomInput(
-              hint: "Objective",
-              inputBorder: const OutlineInputBorder(),
-              controller: objectiveController,
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black45),
+                  borderRadius: const BorderRadius.all(Radius.circular(5))),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 12,
+              ),
+              child: const Text(
+                'Objective -',
+                style: TextStyle(
+                  fontSize: 22,
+                ),
+              ),
             ),
-            // CustomInput(
-            //   hint: "Parking Lot",
-            //   inputBorder: OutlineInputBorder(),
-            //   controller: lotNoController,
-            // ),
-            // CustomInput(
-            //   hint: "Dock Number",
-            //   inputBorder: OutlineInputBorder(),
-            //   controller: dockNoController,
-            // ),
-            CustomInput(
-              hint: "Source Address",
-              inputBorder: const OutlineInputBorder(),
-              controller: sourceController,
+            CustomRadioButton(
+              horizontal: true,
+              enableShape: true,
+              defaultSelected: 'Loading',
+              elevation: 0,
+              unSelectedColor: Theme.of(context).canvasColor,
+              buttonLables: const [
+                'Loading',
+                'Unloading',
+                'Both',
+              ],
+              buttonValues: const [
+                "L",
+                "U",
+                "B",
+              ],
+              buttonTextStyle: const ButtonTextStyle(
+                selectedColor: Colors.white,
+                unSelectedColor: Colors.black,
+                textStyle: TextStyle(fontSize: 16),
+              ),
+              radioButtonValue: (value) {
+                print(value);
+              },
+              selectedColor: Theme.of(context).accentColor,
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              child: TextField(
+                maxLines: 5,
+                minLines: 3,
+                controller: sourceController,
+                onSubmitted: (v) {},
+                decoration: const InputDecoration(
+                  hintText: 'Source Address',
+                  border: OutlineInputBorder(),
+                ),
+              ),
             ),
           ],
         ),
