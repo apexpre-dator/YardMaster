@@ -3,6 +3,7 @@ import 'package:uuid/uuid.dart';
 import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:yms/screens/qr_scan.dart';
 import 'package:yms/widgets/custom_input.dart';
 import 'package:yms/widgets/text_display.dart';
 
@@ -16,11 +17,12 @@ class OutgoingRegistration extends StatefulWidget {
 
 class _OutgoingRegistrationState extends State<OutgoingRegistration> {
   int currentStep = 0;
+  final TextEditingController regIdController = TextEditingController();
   final TextEditingController addressDestinationController =
       TextEditingController();
   final TextEditingController outgoingWeight = TextEditingController();
   final TextEditingController timeOutgoing = TextEditingController();
-  bool verify = false;
+  bool verify = true;
   String? vehicleImage;
   String? driverPic;
   String? vehicleNumber;
@@ -63,42 +65,43 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      //Implement scan QR code UI and set verify to false after verification and loading data
-                      //default verify will be true
-                      // const SizedBox(
-                      //   height: 45,
-                      // ),
-                      // const Text(
-                      //   'Vehicle Registered Successfully!',
-                      //   style: TextStyle(
-                      //     fontSize: 20,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 35,
-                      // ),
-                      // Center(
-                      //   child: QrImageView(
-                      //     data: vRegNo,
-                      //     version: QrVersions.auto,
-                      //     size: 320,
-                      //     gapless: false,
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 25,
-                      // ),
-                      // const Text('QR sent to Driver\'s Dashboard'),
-                      // const SizedBox(
-                      //   height: 45,
-                      // ),
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     Navigator.of(context).popAndPushNamed('/');
-                      //   },
-                      //   child: const Text('Home'),
-                      // ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(QRViewExample.routeName);
+                          },
+                          child: Text('Scan QR'),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text('OR'),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Container(
+                          width: 200,
+                          child: TextField(
+                            controller: regIdController,
+                            onSubmitted: (value) {},
+                            decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(3),
+                                hintText: "Enter Registration ID"),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text('Submit'),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -235,7 +238,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
             ),
             TextField(
               controller: timeOutgoing, //editing controller of this TextField
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   icon: Icon(Icons.timer), //icon of text field
                   labelText: "Enter Time" //label text of field
                   ),
