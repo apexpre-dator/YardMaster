@@ -4,10 +4,9 @@ import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:uuid/uuid.dart';
-import 'package:yms/custom.dart';
+import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
-import 'package:yms/widgets/custom_dropdown.dart';
 import 'package:yms/widgets/custom_input.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,6 +37,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
   File? driverPic;
   String? parkingLot;
   String? yardNo;
+  bool _isLoading = false;
 
   late Driver driver;
   late Vehicle vehicle;
@@ -48,13 +48,25 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() => flag ? vehicleImage : driverPic = imageTemp);
+      setState(() {
+        vehicleImage = imageTemp;
+      });
+      setState(() {
+        if(flag){
+          vehicleImage = imageTemp;
+        }else{
+          driverPic = imageTemp;
+        }
+      });
     } catch (e) {
       print('Failed to pick image: $e');
     }
   }
 
-  void registerVehicle(BuildContext context) {
+  void registerVehicle(BuildContext context) async {
+    setState(() {
+      _isLoading = true;
+    });
     if (vModelController.text.isEmpty ||
         vNoController.text.isEmpty ||
         vWeightController.text.isEmpty ||
@@ -72,32 +84,51 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
     driver = Driver(
-        dId: dIdController.text,
-        dName: dNameController.text,
-        dlNo: dlNoController.text,
-        phone: phoneController.text,
-        address: addressController.text,
-        vRegNo: vRegNo);
-    vehicle = Vehicle(
-      regNo: vRegNo,
-      vNo: vNoController.text,
-      vWeight: vWeightController.text,
-      vModel: vModelController.text,
-      persons: personsController.text,
-      driver: driver,
-      objective: objectiveController.text,
-      dockNo: 1,
-      lotNo: 1,
-      timeIn: DateTime.now(),
-      timeOut: DateTime.now(),
-      source: sourceController.text,
-      destination: "",
+      dId: dIdController.text,
+      dName: dNameController.text,
+      dlNo: dlNoController.text,
+      phone: phoneController.text,
+      address: addressController.text,
+      vRegNo: vRegNo,
+      photoUrl: "",
     );
+    vehicle = Vehicle(
+        regNo: vRegNo,
+        vNo: vNoController.text,
+        vWeight: vWeightController.text,
+        vModel: vModelController.text,
+        persons: personsController.text,
+        dId: driver.dId,
+        objective: objectiveController.text,
+        dockNo: "1",
+        lotNo: "1",
+        timeIn: DateTime.now().toIso8601String(),
+        timeOut: DateTime.now().toIso8601String(),
+        source: sourceController.text,
+        destination: "",
+        photoUrl: "");
 
-    vehicles.add(vehicle);
+    final res = await FirestoreMethods()
+        .registerVehicle(vehicle, driver, vehicleImage, driverPic);
+
     setState(() {
-      registered = true;
+      _isLoading = false;
     });
+
+    print(res);
+
+
+    if (res != "success") {
+      SnackBar snackBar = SnackBar(
+        content: Text(res),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      setState(() {
+        registered = true;
+      });
+    }
+
   }
 
   @override
@@ -124,81 +155,85 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
           title: const Text("Vehicle Registration"),
           centerTitle: true,
         ),
-        body: registered
-            ? Container(
-                height: MediaQuery.of(context).size.height - 10,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        height: 45,
-                      ),
-                      const Text(
-                        'Vehicle Registered Successfully!',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 35,
-                      ),
-                      Center(
-                        child: QrImageView(
-                          data: vRegNo,
-                          version: QrVersions.auto,
-                          size: 320,
-                          gapless: false,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      const Text('QR sent to Driver\'s Dashboard'),
-                      const SizedBox(
-                        height: 45,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).popAndPushNamed('/');
-                        },
-                        child: const Text('Home'),
-                      ),
-                    ],
-                  ),
-                ),
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
               )
-            : Container(
-                padding: const EdgeInsets.all(10),
-                child: Stepper(
-                  type: StepperType.horizontal,
-                  currentStep: currentStep,
-                  onStepCancel: () => currentStep == 0
-                      ? Navigator.of(context).pop()
-                      : setState(() {
-                          currentStep -= 1;
-                        }),
-                  onStepContinue: () {
-                    bool isLastStep = (currentStep == getSteps().length - 1);
-                    if (isLastStep) {
-                      FocusScope.of(context).unfocus();
-                      registerVehicle(context);
-                      print('here');
-                      // setState(() {
-                      //   registered = false;
-                      // });
-                    } else {
-                      setState(() {
-                        currentStep += 1;
-                      });
-                    }
-                  },
-                  onStepTapped: (step) => setState(() {
-                    currentStep = step;
-                  }),
-                  steps: getSteps(),
-                )),
+            : registered
+                ? Container(
+                    height: MediaQuery.of(context).size.height - 10,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 45,
+                          ),
+                          const Text(
+                            'Vehicle Registered Successfully!',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 35,
+                          ),
+                          Center(
+                            child: QrImageView(
+                              data: vRegNo,
+                              version: QrVersions.auto,
+                              size: 320,
+                              gapless: false,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          const Text('QR sent to Driver\'s Dashboard'),
+                          const SizedBox(
+                            height: 45,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).popAndPushNamed('/');
+                            },
+                            child: const Text('Home'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Stepper(
+                      type: StepperType.horizontal,
+                      currentStep: currentStep,
+                      onStepCancel: () => currentStep == 0
+                          ? Navigator.of(context).pop()
+                          : setState(() {
+                              currentStep -= 1;
+                            }),
+                      onStepContinue: () {
+                        bool isLastStep =
+                            (currentStep == getSteps().length - 1);
+                        if (isLastStep) {
+                          FocusScope.of(context).unfocus();
+                          registerVehicle(context);
+                          // setState(() {
+                          //   registered = false;
+                          // });
+                        } else {
+                          setState(() {
+                            currentStep += 1;
+                          });
+                        }
+                      },
+                      onStepTapped: (step) => setState(() {
+                        currentStep = step;
+                      }),
+                      steps: getSteps(),
+                    )),
       ),
     );
   }
@@ -258,7 +293,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                       //crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
-                          'assets/dummy.png',
+                           'assets/dummy.png',
                           width: 150,
                           height: 150,
                           fit: BoxFit.fill,
@@ -269,6 +304,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                         ElevatedButton(
                           onPressed: () async {
                             await pickImage(true);
+                            
                           },
                           child: const Text('Upload'),
                         ),
@@ -465,28 +501,28 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 ),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.all(5),
-              child: CustomDropdownButton2(
-                dropdownWidth: MediaQuery.of(context).size.width - 80,
-                buttonWidth: double.infinity,
-                hint: 'Select Parking Lot',
-                value: parkingLot,
-                dropdownItems: const ['1', '2', '3', '4', '5'],
-                onChanged: setParkingLot,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(5),
-              child: CustomDropdownButton2(
-                dropdownWidth: MediaQuery.of(context).size.width - 80,
-                buttonWidth: double.infinity,
-                hint: 'Select Yard No',
-                value: yardNo,
-                dropdownItems: const ['1', '2', '3', '4', '5'],
-                onChanged: setYardNo,
-              ),
-            ),
+            // Container(
+            //   margin: const EdgeInsets.all(5),
+            //   child: CustomDropdownButton2(
+            //     dropdownWidth: MediaQuery.of(context).size.width - 80,
+            //     buttonWidth: double.infinity,
+            //     hint: 'Select Parking Lot',
+            //     value: parkingLot,
+            //     dropdownItems: const ['1', '2', '3', '4', '5'],
+            //     onChanged: setParkingLot,
+            //   ),
+            // ),
+            // Container(
+            //   margin: const EdgeInsets.all(5),
+            //   child: CustomDropdownButton2(
+            //     dropdownWidth: MediaQuery.of(context).size.width - 80,
+            //     buttonWidth: double.infinity,
+            //     hint: 'Select Yard No',
+            //     value: yardNo,
+            //     dropdownItems: const ['1', '2', '3', '4', '5'],
+            //     onChanged: setYardNo,
+            //   ),
+            // ),
           ],
         ),
       ),
