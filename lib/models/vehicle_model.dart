@@ -11,9 +11,9 @@ class Vehicle {
   final String dockNo;
   final String lotNo;
   final String timeIn;
-  final String timeOut;
+  String? timeOut;
   final String source;
-  final String destination;
+  String? destination;
   String photoUrl;
 
   Vehicle({
@@ -27,9 +27,9 @@ class Vehicle {
     required this.dockNo,
     required this.lotNo,
     required this.timeIn,
-    required this.timeOut,
+    this.timeOut,
     required this.source,
-    required this.destination,
+    this.destination,
     required this.photoUrl,
   });
 

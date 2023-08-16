@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
+import 'package:yms/widgets/custom_dropdown.dart';
 import 'package:yms/widgets/custom_input.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,12 +35,14 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
   final TextEditingController addressController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController timeIncoming = TextEditingController();
+
   bool registered = false;
   File? vehicleImage;
   File? driverPic;
-  String? parkingLot;
-  String? yardNo;
+  String? lotNo;
+  String? dockNo;
   bool _isLoading = false;
+  String? obj;
 
   late Driver driver;
   late Vehicle vehicle;
@@ -95,20 +98,21 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
       photoUrl: "",
     );
     vehicle = Vehicle(
-        regNo: vRegNo,
-        vNo: vNoController.text,
-        vWeight: vWeightController.text,
-        vModel: vModelController.text,
-        persons: personsController.text,
-        dId: driver.dId,
-        objective: objectiveController.text,
-        dockNo: "1",
-        lotNo: "1",
-        timeIn: DateTime.now().toIso8601String(),
-        timeOut: DateTime.now().toIso8601String(),
-        source: sourceController.text,
-        destination: "",
-        photoUrl: "");
+      regNo: vRegNo,
+      vNo: vNoController.text,
+      vWeight: vWeightController.text,
+      vModel: vModelController.text,
+      persons: personsController.text,
+      dId: driver.dId,
+      objective: obj!,
+      dockNo: dockNo!,
+      lotNo: lotNo!,
+      timeIn: DateTime.now().toIso8601String(),
+      // timeOut: null,
+      source: sourceController.text,
+      // destination: "",
+      photoUrl: "",
+    );
 
     final res = await FirestoreMethods()
         .registerVehicle(vehicle, driver, vehicleImage, driverPic);
@@ -157,8 +161,17 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
           centerTitle: true,
         ),
         body: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text('Registering Vehicle, Please wait...')
+                  ],
+                ),
               )
             : registered
                 ? Container(
@@ -197,6 +210,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                           ),
                           ElevatedButton(
                             onPressed: () {
+                              Navigator.of(context).pop();
                               Navigator.of(context).popAndPushNamed('/');
                             },
                             child: const Text('Home'),
@@ -221,9 +235,6 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                         if (isLastStep) {
                           FocusScope.of(context).unfocus();
                           registerVehicle(context);
-                          // setState(() {
-                          //   registered = false;
-                          // });
                         } else {
                           setState(() {
                             currentStep += 1;
@@ -241,13 +252,13 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
 
   void setParkingLot(String? val) {
     setState(() {
-      parkingLot = val;
+      lotNo = val!;
     });
   }
 
   void setYardNo(String? val) {
     setState(() {
-      yardNo = val;
+      dockNo = val!;
     });
   }
 
@@ -427,7 +438,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
               margin: const EdgeInsets.only(bottom: 10),
               child: TextField(
                 maxLines: 5,
-                minLines: 3,
+                minLines: 2,
                 controller: addressController,
                 onSubmitted: (v) {},
                 decoration: const InputDecoration(
@@ -456,9 +467,9 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 vertical: 12,
               ),
               child: const Text(
-                'Objective -',
+                'Objective',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                 ),
               ),
             ),
@@ -484,7 +495,9 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 textStyle: TextStyle(fontSize: 16),
               ),
               radioButtonValue: (value) {
-                print(value);
+                setState(() {
+                  obj = value;
+                });
               },
               selectedColor: Theme.of(context).accentColor,
             ),
@@ -505,7 +518,8 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
               controller: timeIncoming, //editing controller of this TextField
               decoration: InputDecoration(
                   icon: Icon(Icons.timer), //icon of text field
-                  labelText: "Enter Time" //label text of field
+                  labelText: "Enter Time" ,//label text of field
+                  border: InputBorder.none,
                   ),
               readOnly:
                   true, //set it true, so that user will not able to edit text
@@ -525,28 +539,28 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 }
               },
             ),
-            // Container(
-            //   margin: const EdgeInsets.all(5),
-            //   child: CustomDropdownButton2(
-            //     dropdownWidth: MediaQuery.of(context).size.width - 80,
-            //     buttonWidth: double.infinity,
-            //     hint: 'Select Parking Lot',
-            //     value: parkingLot,
-            //     dropdownItems: const ['1', '2', '3', '4', '5'],
-            //     onChanged: setParkingLot,
-            //   ),
-            // ),
-            // Container(
-            //   margin: const EdgeInsets.all(5),
-            //   child: CustomDropdownButton2(
-            //     dropdownWidth: MediaQuery.of(context).size.width - 80,
-            //     buttonWidth: double.infinity,
-            //     hint: 'Select Yard No',
-            //     value: yardNo,
-            //     dropdownItems: const ['1', '2', '3', '4', '5'],
-            //     onChanged: setYardNo,
-            //   ),
-            // ),
+            Container(
+              margin: const EdgeInsets.all(5),
+              child: CustomDropdownButton2(
+                dropdownWidth: MediaQuery.of(context).size.width - 80,
+                buttonWidth: double.infinity,
+                hint: 'Select Parking Lot',
+                value: lotNo,
+                dropdownItems: const ['1', '2', '3', '4', '5', '7', '8', '9'],
+                onChanged: setParkingLot,
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(5),
+              child: CustomDropdownButton2(
+                dropdownWidth: MediaQuery.of(context).size.width - 80,
+                buttonWidth: double.infinity,
+                hint: 'Select Dock No',
+                value: dockNo,
+                dropdownItems: const ['1', '2', '3', '4', '5'],
+                onChanged: setYardNo,
+              ),
+            ),
           ],
         ),
       ),
