@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yms/screens/incomingRegistration.dart';
-import 'package:yms/screens/outgoing.dart';
+import 'package:yms/screens/outgoingVehicles.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
