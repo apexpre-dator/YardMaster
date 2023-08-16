@@ -19,6 +19,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
   final TextEditingController addressDestinationController =
       TextEditingController();
   final TextEditingController outgoingWeight = TextEditingController();
+  final TextEditingController timeOutgoing = TextEditingController();
   bool verify = false;
   String? vehicleImage;
   String? driverPic;
@@ -44,6 +45,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
   void dispose() {
     super.dispose();
     addressDestinationController.dispose();
+    timeOutgoing.dispose();
   }
 
   @override
@@ -230,6 +232,30 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               controller: outgoingWeight,
               hint: 'Outgoing Weight',
               inputBorder: const OutlineInputBorder(),
+            ),
+            TextField(
+              controller: timeOutgoing, //editing controller of this TextField
+              decoration: InputDecoration(
+                  icon: Icon(Icons.timer), //icon of text field
+                  labelText: "Enter Time" //label text of field
+                  ),
+              readOnly:
+                  true, //set it true, so that user will not able to edit text
+              onTap: () async {
+                TimeOfDay? pickedTime = await showTimePicker(
+                  initialTime: TimeOfDay.now(),
+                  context: context,
+                );
+
+                if (pickedTime != null) {
+                  print(pickedTime.format(context));
+                  setState(() {
+                    timeOutgoing.text = pickedTime.format(context);
+                  });
+                } else {
+                  print("Time is not selected");
+                }
+              },
             ),
             Container(
               margin: const EdgeInsets.only(bottom: 10),

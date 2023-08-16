@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/driver_model.dart';
@@ -32,6 +33,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
   final TextEditingController dlNoController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController timeIncoming = TextEditingController();
   bool registered = false;
   File? vehicleImage;
   File? driverPic;
@@ -52,9 +54,9 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         vehicleImage = imageTemp;
       });
       setState(() {
-        if(flag){
+        if (flag) {
           vehicleImage = imageTemp;
-        }else{
+        } else {
           driverPic = imageTemp;
         }
       });
@@ -117,7 +119,6 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
 
     print(res);
 
-
     if (res != "success") {
       SnackBar snackBar = SnackBar(
         content: Text(res),
@@ -128,7 +129,6 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         registered = true;
       });
     }
-
   }
 
   @override
@@ -145,6 +145,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
     dlNoController.dispose();
     addressController.dispose();
     phoneController.dispose();
+    timeIncoming.dispose();
   }
 
   @override
@@ -293,7 +294,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                       //crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
-                           'assets/dummy.png',
+                          'assets/dummy.png',
                           width: 150,
                           height: 150,
                           fit: BoxFit.fill,
@@ -304,7 +305,6 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                         ElevatedButton(
                           onPressed: () async {
                             await pickImage(true);
-                            
                           },
                           child: const Text('Upload'),
                         ),
@@ -500,6 +500,30 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                   border: OutlineInputBorder(),
                 ),
               ),
+            ),
+            TextField(
+              controller: timeIncoming, //editing controller of this TextField
+              decoration: InputDecoration(
+                  icon: Icon(Icons.timer), //icon of text field
+                  labelText: "Enter Time" //label text of field
+                  ),
+              readOnly:
+                  true, //set it true, so that user will not able to edit text
+              onTap: () async {
+                TimeOfDay? pickedTime = await showTimePicker(
+                  initialTime: TimeOfDay.now(),
+                  context: context,
+                );
+
+                if (pickedTime != null) {
+                  print(pickedTime.format(context));
+                  setState(() {
+                    timeIncoming.text = pickedTime.format(context);
+                  });
+                } else {
+                  print("Time is not selected");
+                }
+              },
             ),
             // Container(
             //   margin: const EdgeInsets.all(5),
