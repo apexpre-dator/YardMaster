@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:yms/screens/qr_scan.dart';
 import 'package:yms/widgets/custom_input.dart';
 import 'package:yms/widgets/text_display.dart';
 
 class OutgoingRegistration extends StatefulWidget {
+  final String vRegNo;
   static const routeName = '/outgoing-registration';
-  const OutgoingRegistration({super.key});
+
+  const OutgoingRegistration({super.key, required this.vRegNo});
 
   @override
   State<OutgoingRegistration> createState() => _OutgoingRegistrationState();
@@ -17,31 +19,51 @@ class OutgoingRegistration extends StatefulWidget {
 
 class _OutgoingRegistrationState extends State<OutgoingRegistration> {
   int currentStep = 0;
-  final TextEditingController regIdController = TextEditingController();
   final TextEditingController addressDestinationController =
       TextEditingController();
   final TextEditingController outgoingWeight = TextEditingController();
   final TextEditingController timeOutgoing = TextEditingController();
-  bool verify = true;
-  String? vehicleImage;
-  String? driverPic;
-  String? vehicleNumber;
-  String? incomingWeight;
-  String? vehicleModel;
-  String? accompaniedPersonnel;
-  String? driverName;
-  String? licenseNumber;
-  String? identificationNumber;
-  String? phoneNumber;
-  String? driverAddress;
-  String? objective;
-  String? timeIn;
-  String? sourceAddress;
+  // String? vRegno;
+
+  bool _isLoading = false;
+  // String? vehicleImage;
+  // String? driverPic;
+  // String? vehicleNumber;
+  // String? incomingWeight;
+  // String? vehicleModel;
+  // String? accompaniedPersonnel;
+  // String? driverName;
+  // String? licenseNumber;
+  // String? identificationNumber;
+  // String? phoneNumber;
+  // String? driverAddress;
+  // String? objective;
+  // String? timeIn;
+  // String? sourceAddress;
   late Driver driver;
   late Vehicle vehicle;
-  final String vRegNo = const Uuid().v1();
+  // final String vRegNo = const Uuid().v1();
 
   void loadData() {}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    setState(() {
+      _isLoading = true;
+    });
+    vehicle = await FirestoreMethods().getVehicle(widget.vRegNo);
+    driver = await FirestoreMethods().getDriver(vehicle.dId);
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   void dispose() {
@@ -58,53 +80,9 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
           title: const Text("Vehicle Outgoing"),
           centerTitle: true,
         ),
-        body: verify
-            ? Container(
-                height: MediaQuery.of(context).size.height - 10,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(QRViewExample.routeName);
-                          },
-                          child: Text('Scan QR'),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text('OR'),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: Container(
-                          width: 200,
-                          child: TextField(
-                            controller: regIdController,
-                            onSubmitted: (value) {},
-                            decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.all(3),
-                                hintText: "Enter Registration ID"),
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text('Submit'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
               )
             : Container(
                 padding: const EdgeInsets.all(10),
@@ -153,7 +131,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               height: 150,
               width: double.infinity,
               child: Image.network(
-                vehicleImage!,
+                vehicle.photoUrl,
                 width: 150,
                 height: 150,
                 fit: BoxFit.fill,
@@ -163,16 +141,16 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               height: 10,
             ),
             TextDisplay(
-              hint: vehicleNumber,
+              hint: vehicle.vNo,
             ),
             TextDisplay(
-              hint: incomingWeight,
+              hint: vehicle.vWeight,
             ),
             TextDisplay(
-              hint: vehicleModel,
+              hint: vehicle.vModel,
             ),
             TextDisplay(
-              hint: accompaniedPersonnel,
+              hint: vehicle.persons,
             ),
           ],
         ),
@@ -188,7 +166,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               height: 150,
               width: double.infinity,
               child: Image.network(
-                driverPic!,
+                driver.photoUrl,
                 width: 150,
                 height: 150,
                 fit: BoxFit.fill,
@@ -198,19 +176,19 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               height: 10,
             ),
             TextDisplay(
-              hint: driverName,
+              hint: driver.dName,
             ),
             TextDisplay(
-              hint: licenseNumber,
+              hint: driver.dlNo,
             ),
             TextDisplay(
-              hint: identificationNumber,
+              hint: driver.dId,
             ),
             TextDisplay(
-              hint: phoneNumber,
+              hint: driver.phone,
             ),
             TextDisplay(
-              hint: driverAddress,
+              hint: driver.address,
             ),
           ],
         ),
@@ -223,24 +201,24 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextDisplay(
-              hint: objective,
+              hint: vehicle.objective,
             ),
             TextDisplay(
-              hint: timeIn,
+              hint: vehicle.timeIn,
             ),
             TextDisplay(
-              hint: sourceAddress,
+              hint: vehicle.source,
             ),
             CustomInput(
               controller: outgoingWeight,
-              hint: 'Outgoing Weight',
+              hint: 'Enter Outgoing Weight (Metric Tons)',
               inputBorder: const OutlineInputBorder(),
             ),
             TextField(
               controller: timeOutgoing, //editing controller of this TextField
               decoration: const InputDecoration(
                   icon: Icon(Icons.timer), //icon of text field
-                  labelText: "Enter Time" //label text of field
+                  labelText: "Enter Exit Time" //label text of field
                   ),
               readOnly:
                   true, //set it true, so that user will not able to edit text
@@ -268,7 +246,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
                 controller: addressDestinationController,
                 onSubmitted: (v) {},
                 decoration: const InputDecoration(
-                  hintText: 'Destination Address',
+                  hintText: 'Enter Destination Address',
                   border: OutlineInputBorder(),
                 ),
               ),

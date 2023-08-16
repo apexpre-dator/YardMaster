@@ -24,9 +24,8 @@ class MyApp extends StatelessWidget {
         ),
         home: const HomeScreen(),
         routes: {
-          QRViewExample.routeName: (context) => QRViewExample(),
-          OutgoingRegistration.routeName: (context) =>
-              const OutgoingRegistration(),
+          QRViewExample.routeName: (context) => const QRViewExample(),
+          OutgoingRegistration.routeName: (context) => const OutgoingRegistration(vRegNo: ""),
           IncomingRegistration.routeName: (context) =>
               const IncomingRegistration(),
         });

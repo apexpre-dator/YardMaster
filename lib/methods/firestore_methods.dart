@@ -17,15 +17,15 @@ class FirestoreMethods {
     String res = "Error Occured!";
 
     try {
-      String vPhotoUrl =
-          await StorageMethods().uploadImgToStorage(v.regNo, vehicleImage!, false);
+      String vPhotoUrl = await StorageMethods()
+          .uploadImgToStorage(v.regNo, vehicleImage!, false);
       String dPhotoUrl =
           await StorageMethods().uploadImgToStorage(v.regNo, driverPic!, true);
 
       v.photoUrl = vPhotoUrl;
       d.photoUrl = dPhotoUrl;
 
-      _firestore.collection('vehicles').doc().set(
+      _firestore.collection('vehicles').doc(v.regNo).set(
             v.toJson(),
           );
       _firestore.collection('drivers').doc(d.dId).set(
@@ -40,5 +40,19 @@ class FirestoreMethods {
     }
 
     return res;
+  }
+
+  Future<Vehicle> getVehicle(String vRegNo) async {
+    DocumentSnapshot doc =
+        await _firestore.collection('vehicles').doc(vRegNo).get();
+    Vehicle v = await Vehicle.fromSnap(doc);
+    return v;
+  }
+
+  Future<Driver> getDriver(String dId) async {
+    DocumentSnapshot doc =
+        await _firestore.collection('drivers').doc(dId).get();
+    Driver d = await Driver.fromSnap(doc);
+    return d;
   }
 }

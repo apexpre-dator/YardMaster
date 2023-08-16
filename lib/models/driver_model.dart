@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:yms/models/vehicle_model.dart';
+
 class Driver {
   final String dId;
   final String dName;
@@ -26,4 +29,18 @@ class Driver {
         "vRegNo": vRegNo,
         "photoUrl": photoUrl,
       };
+
+  static Driver fromSnap(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
+
+    return Driver(
+      dId: snapshot["dId"],
+      dName: snapshot["dName"],
+      dlNo: snapshot["dlNo"],
+      phone: snapshot["phone"],
+      address: snapshot["address"],
+      vRegNo: snapshot["vRegNo"],
+      photoUrl: snapshot["photoUrl"],
+    );
+  }
 }

@@ -331,7 +331,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
               controller: vNoController,
             ),
             CustomInput(
-              hint: "Vehicle Weight",
+              hint: "Vehicle Weight (Metric Tons)",
               inputBorder: const OutlineInputBorder(),
               controller: vWeightController,
             ),
