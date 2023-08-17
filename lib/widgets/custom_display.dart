@@ -11,17 +11,17 @@ class CustomDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.black45),
-          borderRadius: const BorderRadius.all(Radius.circular(5))),
+      // decoration: BoxDecoration(
+      //     border: Border.all(color: Colors.black45),
+      //     borderRadius: const BorderRadius.all(Radius.circular(5))),
       padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
+        horizontal: 8,
+        vertical: 3,
       ),
       child: Text(
         title,
         style: const TextStyle(
-          fontSize: 18,
+          fontSize: 16,
         ),
       ),
     );

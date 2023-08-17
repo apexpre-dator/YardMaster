@@ -52,7 +52,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                             OutgoingRegistration(vRegNo: result!.code!),
                       ));
                     },
-                    child: Text('Proceed'),
+                    child: Text('Verify Vehicle'),
                   )
                 else
                   Container(

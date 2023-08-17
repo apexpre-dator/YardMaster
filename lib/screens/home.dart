@@ -36,8 +36,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Yard Management System"),
+        title: const Text("YardMaster"),
         centerTitle: true,
+        elevation: 0,
+        leading: const Icon(
+          Icons.menu,
+        ),
+        actions: const [
+          Icon(
+            Icons.more_vert,
+          ),
+        ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(23),
+          ),
+        ),
       ),
       body: TabBarView(
         controller: _motionTabBarController,
@@ -49,70 +63,69 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Image.network(
+                      "https://cdn.corporate.walmart.com/dims4/WMT/71169a3/2147483647/strip/true/crop/2389x930+0+0/resize/980x381!/quality/90/?url=https%3A%2F%2Fcdn.corporate.walmart.com%2Fd6%2Fe7%2F48e91bac4a8ca8f22985b3682370%2Fwalmart-logos-lockupwtag-horiz-blu-rgb.png"),
                   GestureDetector(
                     onTap: () {
                       print('here');
                       Navigator.of(context)
                           .pushNamed(IncomingRegistration.routeName);
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        color: Colors.black54,
-                        width: 3,
-                      )),
-                      height: 180,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/incoming.gif'),
-                          const Text(
-                            'Incoming',
-                            style: TextStyle(
-                              color: Colors.blueAccent,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
+                    child: Card(
+                      elevation: 0,
+                      child: Container(
+                        height: 180,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset('assets/incoming.gif'),
+                            const Text(
+                              'Incoming',
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(
                     height: 30,
                   ),
+                  Divider(),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.of(context)
-                      //               .pushNamed(QRViewExample.routeName);
+                      Navigator.of(context)
+                                    .pushNamed(QRViewExample.routeName);
                       // Navigator.of(context).pop();
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => OutgoingRegistration(
-                            vRegNo: "e68615c0-3c63-11ee-a167-893336dfd0f6"),
-                      ));
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) => const OutgoingRegistration(
+                      //       vRegNo: "47465090-3ce2-11ee-bd4b-81b16a178a14"),
+                      // ));
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        color: Colors.black54,
-                        width: 3,
-                      )),
-                      height: 180,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/outgoing.gif'),
-                          const Text(
-                            'Outgoing',
-                            style: TextStyle(
-                              color: Colors.blueAccent,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
+                    child: Card(
+                      elevation: 0,
+                      child: Container(
+                        height: 180,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset('assets/outgoing.gif'),
+                            const Text(
+                              'Outgoing',
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -121,12 +134,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
           Container(
-            child: Center(
+            child: const Center(
               child: Text("Records"),
             ),
           ),
           Container(
-            child: Center(
+            child: const Center(
               child: Text("Dashboard"),
             ),
           ),
@@ -142,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ],
         initialSelectedTab: "Home",
         tabIconColor: Colors.white,
-        tabSelectedColor: Colors.red,
+        tabSelectedColor: Colors.amber,
         onTabItemSelected: (int value) {
           setState(() {
             _motionTabBarController?.index = value;
@@ -153,7 +166,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Icons.receipt,
           Icons.person,
         ],
-        textStyle: const TextStyle(color: Colors.white),
+        textStyle:
+            const TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),
       ),
     );
   }

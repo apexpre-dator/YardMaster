@@ -18,14 +18,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'YMS',
+        title: 'YardMaster',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+        debugShowCheckedModeBanner: false,
         home: const HomeScreen(),
         routes: {
           QRViewExample.routeName: (context) => const QRViewExample(),
-          OutgoingRegistration.routeName: (context) => const OutgoingRegistration(vRegNo: ""),
+          OutgoingRegistration.routeName: (context) =>
+              const OutgoingRegistration(vRegNo: ""),
           IncomingRegistration.routeName: (context) =>
               const IncomingRegistration(),
         });

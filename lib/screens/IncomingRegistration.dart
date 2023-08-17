@@ -53,9 +53,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() {
-        vehicleImage = imageTemp;
-      });
+
       setState(() {
         if (flag) {
           vehicleImage = imageTemp;
@@ -72,22 +70,22 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
     setState(() {
       _isLoading = true;
     });
-    if (vModelController.text.isEmpty ||
-        vNoController.text.isEmpty ||
-        vWeightController.text.isEmpty ||
-        personsController.text.isEmpty ||
-        objectiveController.text.isEmpty ||
-        sourceController.text.isEmpty ||
-        dIdController.text.isEmpty ||
-        dNameController.text.isEmpty ||
-        dlNoController.text.isEmpty ||
-        addressController.text.isEmpty ||
-        phoneController.text.isEmpty) {
-      const snackBar = SnackBar(
-        content: Text('Please fill in all the fields correctly!'),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
+    // if (vModelController.text.isEmpty ||
+    //     vNoController.text.isEmpty ||
+    //     vWeightController.text.isEmpty ||
+    //     personsController.text.isEmpty ||
+    //     objectiveController.text.isEmpty ||
+    //     sourceController.text.isEmpty ||
+    //     dIdController.text.isEmpty ||
+    //     dNameController.text.isEmpty ||
+    //     dlNoController.text.isEmpty ||
+    //     addressController.text.isEmpty ||
+    //     phoneController.text.isEmpty) {
+    //   const snackBar = SnackBar(
+    //     content: Text('Please fill in all the fields correctly!'),
+    //   );
+    //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    // }
     driver = Driver(
       dId: dIdController.text,
       dName: dNameController.text,
@@ -154,99 +152,114 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Vehicle Registration"),
-          centerTitle: true,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Vehicle Registration"),
+        centerTitle: true,
+        elevation: 0,
+        leading: Icon(
+          Icons.menu,
         ),
-        body: _isLoading
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    CircularProgressIndicator(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text('Registering Vehicle, Please wait...')
-                  ],
-                ),
-              )
-            : registered
-                ? SizedBox(
-                    height: MediaQuery.of(context).size.height - 10,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            height: 45,
-                          ),
-                          const Text(
-                            'Vehicle Registered Successfully!',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 35,
-                          ),
-                          Center(
-                            child: QrImageView(
-                              data: vRegNo,
-                              version: QrVersions.auto,
-                              size: 320,
-                              gapless: false,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          const Text('QR sent to Driver\'s Dashboard'),
-                          const SizedBox(
-                            height: 45,
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).popAndPushNamed('/');
-                            },
-                            child: const Text('Home'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                : Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Stepper(
-                      type: StepperType.horizontal,
-                      currentStep: currentStep,
-                      onStepCancel: () => currentStep == 0
-                          ? Navigator.of(context).pop()
-                          : setState(() {
-                              currentStep -= 1;
-                            }),
-                      onStepContinue: () {
-                        bool isLastStep =
-                            (currentStep == getSteps().length - 1);
-                        if (isLastStep) {
-                          FocusScope.of(context).unfocus();
-                          registerVehicle(context);
-                        } else {
-                          setState(() {
-                            currentStep += 1;
-                          });
-                        }
-                      },
-                      onStepTapped: (step) => setState(() {
-                        currentStep = step;
-                      }),
-                      steps: getSteps(),
-                    )),
+        actions: const [
+          Icon(
+            Icons.more_vert,
+          ),
+        ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(23),
+          ),
+        ),
       ),
+      body: _isLoading
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text('Registering Vehicle, Please wait...')
+                ],
+              ),
+            )
+          : registered
+              ? SizedBox(
+                  height: MediaQuery.of(context).size.height - 10,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 45,
+                        ),
+                        const Text(
+                          'Vehicle Registered Successfully!',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 35,
+                        ),
+                        Center(
+                          child: QrImageView(
+                            data: vRegNo,
+                            version: QrVersions.auto,
+                            size: 320,
+                            gapless: false,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        const Text('QR sent to Driver\'s Dashboard'),
+                        const SizedBox(
+                          height: 45,
+                        ),
+                        CustomDisplay(title: "Assigned Parking Lot "),
+                        CustomDisplay(title: "$lotNo"),
+                        CustomDisplay(title: "Assigned Dock No "),
+                        CustomDisplay(title: "$dockNo"),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).popAndPushNamed('/');
+                          },
+                          child: const Text('Home'),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Stepper(
+                    type: StepperType.horizontal,
+                    currentStep: currentStep,
+                    onStepCancel: () => currentStep == 0
+                        ? Navigator.of(context).pop()
+                        : setState(() {
+                            currentStep -= 1;
+                          }),
+                    onStepContinue: () {
+                      bool isLastStep = (currentStep == getSteps().length - 1);
+                      if (isLastStep) {
+                        FocusScope.of(context).unfocus();
+                        registerVehicle(context);
+                      } else {
+                        setState(() {
+                          currentStep += 1;
+                        });
+                      }
+                    },
+                    onStepTapped: (step) => setState(() {
+                      currentStep = step;
+                    }),
+                    steps: getSteps(),
+                  )),
     );
   }
 
@@ -437,8 +450,8 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
             Container(
               margin: const EdgeInsets.only(bottom: 10),
               child: TextField(
-                maxLines: 5,
-                minLines: 2,
+                maxLines: 2,
+                minLines: 1,
                 controller: addressController,
                 onSubmitted: (v) {},
                 decoration: const InputDecoration(
@@ -489,40 +502,43 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
             Container(
               margin: const EdgeInsets.only(bottom: 10),
               child: TextField(
-                maxLines: 5,
-                minLines: 3,
+                maxLines: 2,
+                minLines: 1,
                 controller: sourceController,
                 onSubmitted: (v) {},
                 decoration: const InputDecoration(
-                  hintText: 'Source Address',
+                  hintText: 'Enter Source Address',
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            TextField(
-              controller: timeIncoming, //editing controller of this TextField
-              decoration: const InputDecoration(
-                icon: Icon(Icons.timer), //icon of text field
-                labelText: "Select Incoming Time", //label text of field
-                border: InputBorder.none,
-              ),
-              readOnly:
-                  true, //set it true, so that user will not able to edit text
-              onTap: () async {
-                TimeOfDay? pickedTime = await showTimePicker(
-                  initialTime: TimeOfDay.now(),
-                  context: context,
-                );
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: timeIncoming, //editing controller of this TextField
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.timer), //icon of text field
+                  labelText: "Select Incoming Time", //label text of field
+                  border: InputBorder.none,
+                ),
+                readOnly:
+                    true, //set it true, so that user will not able to edit text
+                onTap: () async {
+                  TimeOfDay? pickedTime = await showTimePicker(
+                    initialTime: TimeOfDay.now(),
+                    context: context,
+                  );
 
-                if (pickedTime != null) {
-                  print(pickedTime.format(context));
-                  setState(() {
-                    timeIncoming.text = pickedTime.format(context);
-                  });
-                } else {
-                  print("Time is not selected");
-                }
-              },
+                  if (pickedTime != null) {
+                    print(pickedTime.format(context));
+                    setState(() {
+                      timeIncoming.text = pickedTime.format(context);
+                    });
+                  } else {
+                    print("Time is not selected");
+                  }
+                },
+              ),
             ),
             CustomDisplay(title: 'Parking Lot'),
             Container(
