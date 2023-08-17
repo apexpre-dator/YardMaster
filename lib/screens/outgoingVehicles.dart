@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
+import 'package:yms/widgets/custom_display.dart';
 import 'package:yms/widgets/custom_input.dart';
 import 'package:yms/widgets/text_display.dart';
 
@@ -108,7 +109,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
                               fit: BoxFit.contain,
                               "https://static.vecteezy.com/system/resources/previews/022/068/737/non_2x/approved-sign-and-symbol-clip-art-free-png.png"),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 25,
                         ),
                         Text('Checked-Out Successfully!'),
@@ -179,15 +180,19 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
             const SizedBox(
               height: 10,
             ),
+            CustomDisplay(title: 'Vehicle Number'),
             TextDisplay(
               hint: vehicle.vNo,
             ),
+            CustomDisplay(title: 'Vehicle Weight (MT)'),
             TextDisplay(
               hint: vehicle.vWeight,
             ),
+            CustomDisplay(title: 'Vehicle Model'),
             TextDisplay(
               hint: vehicle.vModel,
             ),
+            CustomDisplay(title: 'Accompanied Personnel'),
             TextDisplay(
               hint: vehicle.persons,
             ),
@@ -214,18 +219,23 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
             const SizedBox(
               height: 10,
             ),
+            CustomDisplay(title: 'Driver Name'),
             TextDisplay(
               hint: driver.dName,
             ),
+            CustomDisplay(title: 'Driving License Number'),
             TextDisplay(
               hint: driver.dlNo,
             ),
+            CustomDisplay(title: 'Identification Number'),
             TextDisplay(
               hint: driver.dId,
             ),
+            CustomDisplay(title: 'Phone Number'),
             TextDisplay(
               hint: driver.phone,
             ),
+            CustomDisplay(title: 'Address'),
             TextDisplay(
               hint: driver.address,
             ),
@@ -239,15 +249,21 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            CustomDisplay(title: 'Objective'),
             TextDisplay(
               hint: vehicle.objective,
             ),
+            CustomDisplay(title: 'Incoming Time'),
             TextDisplay(
-              hint: vehicle.timeIn,
+              hint: TimeOfDay.fromDateTime(DateTime.parse(vehicle.timeIn))
+                  .format(context),
             ),
+            CustomDisplay(title: 'Source Address'),
             TextDisplay(
               hint: vehicle.source,
             ),
+            CustomDisplay(title: 'Vehicle Weight'),
+            const SizedBox(height: 10),
             CustomInput(
               controller: outgoingWeight,
               hint: 'Enter Outgoing Weight (Metric Tons)',
@@ -257,7 +273,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               controller: timeOutgoing, //editing controller of this TextField
               decoration: const InputDecoration(
                   icon: Icon(Icons.timer), //icon of text field
-                  labelText: "Enter Exit Time" //label text of field
+                  labelText: "Enter Outgoing Time" //label text of field
                   ),
               readOnly:
                   true, //set it true, so that user will not able to edit text

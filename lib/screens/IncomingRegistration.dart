@@ -104,7 +104,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
       vModel: vModelController.text,
       persons: personsController.text,
       dId: driver.dId,
-      objective: obj!,
+      objective: obj,
       dockNo: dockNo!,
       lotNo: lotNo!,
       timeIn: DateTime.now().toIso8601String(),
