@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
+import 'package:yms/widgets/custom_display.dart';
 import 'package:yms/widgets/custom_dropdown.dart';
 import 'package:yms/widgets/custom_input.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -42,7 +42,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
   String? lotNo;
   String? dockNo;
   bool _isLoading = false;
-  String? obj;
+  String obj = 'Loading';
 
   late Driver driver;
   late Vehicle vehicle;
@@ -164,7 +164,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     CircularProgressIndicator(),
                     SizedBox(
                       height: 20,
@@ -174,7 +174,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 ),
               )
             : registered
-                ? Container(
+                ? SizedBox(
                     height: MediaQuery.of(context).size.height - 10,
                     child: SingleChildScrollView(
                       child: Column(
@@ -457,22 +457,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black45),
-                  borderRadius: const BorderRadius.all(Radius.circular(5))),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 12,
-              ),
-              child: const Text(
-                'Objective',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ),
+            CustomDisplay(title: 'Objective'),
             CustomRadioButton(
               horizontal: true,
               enableShape: true,
@@ -516,11 +501,11 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
             ),
             TextField(
               controller: timeIncoming, //editing controller of this TextField
-              decoration: InputDecoration(
-                  icon: Icon(Icons.timer), //icon of text field
-                  labelText: "Enter Time" ,//label text of field
-                  border: InputBorder.none,
-                  ),
+              decoration: const InputDecoration(
+                icon: Icon(Icons.timer), //icon of text field
+                labelText: "Select Incoming Time", //label text of field
+                border: InputBorder.none,
+              ),
               readOnly:
                   true, //set it true, so that user will not able to edit text
               onTap: () async {
@@ -539,8 +524,12 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 }
               },
             ),
+            CustomDisplay(title: 'Parking Lot'),
             Container(
-              margin: const EdgeInsets.all(5),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 5,
+                vertical: 10,
+              ),
               child: CustomDropdownButton2(
                 dropdownWidth: MediaQuery.of(context).size.width - 80,
                 buttonWidth: double.infinity,
@@ -550,8 +539,12 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 onChanged: setParkingLot,
               ),
             ),
+            CustomDisplay(title: 'Dock Number'),
             Container(
-              margin: const EdgeInsets.all(5),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 5,
+                vertical: 10,
+              ),
               child: CustomDropdownButton2(
                 dropdownWidth: MediaQuery.of(context).size.width - 80,
                 buttonWidth: double.infinity,
