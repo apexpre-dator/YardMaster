@@ -84,77 +84,101 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Vehicle Outgoing"),
-          centerTitle: true,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Vehicle Outgoing"),
+        centerTitle: true,
+        elevation: 0,
+        leading: Icon(
+          Icons.menu,
         ),
-        body: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : _checkOut
-                ? Container(
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          // alignment: Alignment.center,
-                          height: 250,
-                          width: 250,
-                          child: Image.network(
-                              fit: BoxFit.contain,
-                              "https://static.vecteezy.com/system/resources/previews/022/068/737/non_2x/approved-sign-and-symbol-clip-art-free-png.png"),
-                        ),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        Text('Checked-Out Successfully!'),
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).popAndPushNamed('/');
-                            },
-                            child: Text('Back to Home'))
-                      ],
-                    ),
-                  )
-                : Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Stepper(
-                      type: StepperType.horizontal,
-                      currentStep: currentStep,
-                      onStepCancel: () => currentStep == 0
-                          ? Navigator.of(context).pop()
-                          : setState(() {
-                              currentStep -= 1;
-                            }),
-                      onStepContinue: () {
-                        bool isLastStep =
-                            (currentStep == getSteps().length - 1);
-                        if (isLastStep) {
-                          FocusScope.of(context).unfocus();
-                          exitYard();
-                          //vehicle gone out deregister
-                          print('here');
-                          // setState(() {
-                          //   registered = false;
-                          // });
-                        } else {
-                          setState(() {
-                            currentStep += 1;
-                          });
-                        }
-                      },
-                      onStepTapped: (step) => setState(() {
-                        currentStep = step;
-                      }),
-                      steps: getSteps(),
-                    )),
+        actions: const [
+          Icon(
+            Icons.more_vert,
+          ),
+        ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(23),
+          ),
+        ),
       ),
+      body: _isLoading
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Text('Retrieving Vehicle Data...')
+                ],
+              ),
+            )
+          : _checkOut
+              ? Container(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        // alignment: Alignment.center,
+                        height: 250,
+                        width: 250,
+                        child: Image.network(
+                            fit: BoxFit.contain,
+                            "https://static.vecteezy.com/system/resources/previews/022/068/737/non_2x/approved-sign-and-symbol-clip-art-free-png.png"),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Text('Checked-Out Successfully!'),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).popAndPushNamed('/');
+                          },
+                          child: Text('Return Home'))
+                    ],
+                  ),
+                )
+              : Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Stepper(
+                    type: StepperType.horizontal,
+                    currentStep: currentStep,
+                    onStepCancel: () => currentStep == 0
+                        ? Navigator.of(context).pop()
+                        : setState(() {
+                            currentStep -= 1;
+                          }),
+                    onStepContinue: () {
+                      bool isLastStep = (currentStep == getSteps().length - 1);
+                      if (isLastStep) {
+                        FocusScope.of(context).unfocus();
+                        exitYard();
+                        //vehicle gone out deregister
+                        print('here');
+                        // setState(() {
+                        //   registered = false;
+                        // });
+                      } else {
+                        setState(() {
+                          currentStep += 1;
+                        });
+                      }
+                    },
+                    onStepTapped: (step) => setState(() {
+                      currentStep = step;
+                    }),
+                    steps: getSteps(),
+                  )),
     );
   }
 
@@ -269,35 +293,39 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               hint: 'Enter Outgoing Weight (Metric Tons)',
               inputBorder: const OutlineInputBorder(),
             ),
-            TextField(
-              controller: timeOutgoing, //editing controller of this TextField
-              decoration: const InputDecoration(
-                  icon: Icon(Icons.timer), //icon of text field
-                  labelText: "Enter Outgoing Time" //label text of field
-                  ),
-              readOnly:
-                  true, //set it true, so that user will not able to edit text
-              onTap: () async {
-                TimeOfDay? pickedTime = await showTimePicker(
-                  initialTime: TimeOfDay.now(),
-                  context: context,
-                );
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: timeOutgoing, //editing controller of this TextField
+                decoration: const InputDecoration(
+                    icon: Icon(Icons.timer),
+                    border: InputBorder.none, //icon of text field
+                    labelText: "Select Outgoing Time" //label text of field
+                    ),
+                readOnly:
+                    true, //set it true, so that user will not able to edit text
+                onTap: () async {
+                  TimeOfDay? pickedTime = await showTimePicker(
+                    initialTime: TimeOfDay.now(),
+                    context: context,
+                  );
 
-                if (pickedTime != null) {
-                  print(pickedTime.format(context));
-                  setState(() {
-                    timeOutgoing.text = pickedTime.format(context);
-                  });
-                } else {
-                  print("Time is not selected");
-                }
-              },
+                  if (pickedTime != null) {
+                    print(pickedTime.format(context));
+                    setState(() {
+                      timeOutgoing.text = pickedTime.format(context);
+                    });
+                  } else {
+                    print("Time is not selected");
+                  }
+                },
+              ),
             ),
             Container(
               margin: const EdgeInsets.only(bottom: 10),
               child: TextField(
-                maxLines: 5,
-                minLines: 3,
+                maxLines: 2,
+                minLines: 1,
                 controller: addressDestinationController,
                 onSubmitted: (v) {},
                 decoration: const InputDecoration(
