@@ -28,22 +28,23 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cloud_firestore: ^4.8.4
   cupertino_icons: ^1.0.2
   custom_radio_grouped_button: ^2.2.0
   dropdown_button2: ^1.9.1
   easy_stepper: ^0.6.0
+  firebase_auth: ^4.7.2
+  firebase_core: ^2.15.0
+  firebase_storage: ^11.2.5
   flutter:
     sdk: flutter
   image_picker: ^1.0.1
   intl: ^0.18.1
   intl_phone_field: ^3.2.0
-  qr_flutter: ^4.1.0
+  motion_tab_bar_v2: ^0.3.0
   qr_code_scanner: ^1.0.1
+  qr_flutter: ^4.1.0
   uuid: ^3.0.7
-  firebase_core: ^2.15.0
-  firebase_auth: ^4.7.2
-  firebase_storage: ^11.2.5
-  cloud_firestore: ^4.8.4
 
 dev_dependencies:
   flutter_lints: ^2.0.0
