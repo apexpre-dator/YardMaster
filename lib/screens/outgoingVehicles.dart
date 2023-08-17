@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
+import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:yms/widgets/custom_input.dart';
 import 'package:yms/widgets/text_display.dart';
 
 class OutgoingRegistration extends StatefulWidget {
+  final String vRegNo;
   static const routeName = '/outgoing-registration';
-  const OutgoingRegistration({super.key});
+
+  const OutgoingRegistration({super.key, required this.vRegNo});
 
   @override
   State<OutgoingRegistration> createState() => _OutgoingRegistrationState();
@@ -20,26 +21,58 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
       TextEditingController();
   final TextEditingController outgoingWeight = TextEditingController();
   final TextEditingController timeOutgoing = TextEditingController();
-  bool verify = false;
-  String? vehicleImage;
-  String? driverPic;
-  String? vehicleNumber;
-  String? incomingWeight;
-  String? vehicleModel;
-  String? accompaniedPersonnel;
-  String? driverName;
-  String? licenseNumber;
-  String? identificationNumber;
-  String? phoneNumber;
-  String? driverAddress;
-  String? objective;
-  String? timeIn;
-  String? sourceAddress;
+
+  bool _isLoading = false;
   late Driver driver;
   late Vehicle vehicle;
-  final String vRegNo = const Uuid().v1();
+  bool _checkOut = false;
 
   void loadData() {}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    setState(() {
+      _isLoading = true;
+    });
+    vehicle = await FirestoreMethods().getVehicle(widget.vRegNo);
+    driver = await FirestoreMethods().getDriver(vehicle.dId);
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  void exitYard() async {
+    setState(() {
+      _isLoading = true;
+    });
+    vehicle.destination = addressDestinationController.text;
+    vehicle.timeOut = DateTime.now().toIso8601String();
+
+    String res = await FirestoreMethods().exitYard(vehicle);
+
+    setState(() {
+      _isLoading = false;
+    });
+    print(res);
+
+    if (res != "success") {
+      SnackBar snackBar = SnackBar(
+        content: Text(res),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      setState(() {
+        _checkOut = true;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -56,83 +89,70 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
           title: const Text("Vehicle Outgoing"),
           centerTitle: true,
         ),
-        body: verify
-            ? Container(
-                height: MediaQuery.of(context).size.height - 10,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //Implement scan QR code UI and set verify to false after verification and loading data
-                      //default verify will be true
-                      // const SizedBox(
-                      //   height: 45,
-                      // ),
-                      // const Text(
-                      //   'Vehicle Registered Successfully!',
-                      //   style: TextStyle(
-                      //     fontSize: 20,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 35,
-                      // ),
-                      // Center(
-                      //   child: QrImageView(
-                      //     data: vRegNo,
-                      //     version: QrVersions.auto,
-                      //     size: 320,
-                      //     gapless: false,
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 25,
-                      // ),
-                      // const Text('QR sent to Driver\'s Dashboard'),
-                      // const SizedBox(
-                      //   height: 45,
-                      // ),
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     Navigator.of(context).popAndPushNamed('/');
-                      //   },
-                      //   child: const Text('Home'),
-                      // ),
-                    ],
-                  ),
-                ),
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
               )
-            : Container(
-                padding: const EdgeInsets.all(10),
-                child: Stepper(
-                  type: StepperType.horizontal,
-                  currentStep: currentStep,
-                  onStepCancel: () => currentStep == 0
-                      ? Navigator.of(context).pop()
-                      : setState(() {
-                          currentStep -= 1;
-                        }),
-                  onStepContinue: () {
-                    bool isLastStep = (currentStep == getSteps().length - 1);
-                    if (isLastStep) {
-                      FocusScope.of(context).unfocus();
-                      //vehicle gone out deregister
-                      print('here');
-                      // setState(() {
-                      //   registered = false;
-                      // });
-                    } else {
-                      setState(() {
-                        currentStep += 1;
-                      });
-                    }
-                  },
-                  onStepTapped: (step) => setState(() {
-                    currentStep = step;
-                  }),
-                  steps: getSteps(),
-                )),
+            : _checkOut
+                ? Container(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          // alignment: Alignment.center,
+                          height: 250,
+                          width: 250,
+                          child: Image.network(
+                              fit: BoxFit.contain,
+                              "https://static.vecteezy.com/system/resources/previews/022/068/737/non_2x/approved-sign-and-symbol-clip-art-free-png.png"),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Text('Checked-Out Successfully!'),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).popAndPushNamed('/');
+                            },
+                            child: Text('Back to Home'))
+                      ],
+                    ),
+                  )
+                : Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Stepper(
+                      type: StepperType.horizontal,
+                      currentStep: currentStep,
+                      onStepCancel: () => currentStep == 0
+                          ? Navigator.of(context).pop()
+                          : setState(() {
+                              currentStep -= 1;
+                            }),
+                      onStepContinue: () {
+                        bool isLastStep =
+                            (currentStep == getSteps().length - 1);
+                        if (isLastStep) {
+                          FocusScope.of(context).unfocus();
+                          exitYard();
+                          //vehicle gone out deregister
+                          print('here');
+                          // setState(() {
+                          //   registered = false;
+                          // });
+                        } else {
+                          setState(() {
+                            currentStep += 1;
+                          });
+                        }
+                      },
+                      onStepTapped: (step) => setState(() {
+                        currentStep = step;
+                      }),
+                      steps: getSteps(),
+                    )),
       ),
     );
   }
@@ -150,7 +170,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               height: 150,
               width: double.infinity,
               child: Image.network(
-                vehicleImage!,
+                vehicle.photoUrl,
                 width: 150,
                 height: 150,
                 fit: BoxFit.fill,
@@ -160,16 +180,16 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               height: 10,
             ),
             TextDisplay(
-              hint: vehicleNumber,
+              hint: vehicle.vNo,
             ),
             TextDisplay(
-              hint: incomingWeight,
+              hint: vehicle.vWeight,
             ),
             TextDisplay(
-              hint: vehicleModel,
+              hint: vehicle.vModel,
             ),
             TextDisplay(
-              hint: accompaniedPersonnel,
+              hint: vehicle.persons,
             ),
           ],
         ),
@@ -185,7 +205,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               height: 150,
               width: double.infinity,
               child: Image.network(
-                driverPic!,
+                driver.photoUrl,
                 width: 150,
                 height: 150,
                 fit: BoxFit.fill,
@@ -195,19 +215,19 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               height: 10,
             ),
             TextDisplay(
-              hint: driverName,
+              hint: driver.dName,
             ),
             TextDisplay(
-              hint: licenseNumber,
+              hint: driver.dlNo,
             ),
             TextDisplay(
-              hint: identificationNumber,
+              hint: driver.dId,
             ),
             TextDisplay(
-              hint: phoneNumber,
+              hint: driver.phone,
             ),
             TextDisplay(
-              hint: driverAddress,
+              hint: driver.address,
             ),
           ],
         ),
@@ -220,24 +240,24 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextDisplay(
-              hint: objective,
+              hint: vehicle.objective,
             ),
             TextDisplay(
-              hint: timeIn,
+              hint: vehicle.timeIn,
             ),
             TextDisplay(
-              hint: sourceAddress,
+              hint: vehicle.source,
             ),
             CustomInput(
               controller: outgoingWeight,
-              hint: 'Outgoing Weight',
+              hint: 'Enter Outgoing Weight (Metric Tons)',
               inputBorder: const OutlineInputBorder(),
             ),
             TextField(
               controller: timeOutgoing, //editing controller of this TextField
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   icon: Icon(Icons.timer), //icon of text field
-                  labelText: "Enter Time" //label text of field
+                  labelText: "Enter Exit Time" //label text of field
                   ),
               readOnly:
                   true, //set it true, so that user will not able to edit text
@@ -265,7 +285,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
                 controller: addressDestinationController,
                 onSubmitted: (v) {},
                 decoration: const InputDecoration(
-                  hintText: 'Destination Address',
+                  hintText: 'Enter Destination Address',
                   border: OutlineInputBorder(),
                 ),
               ),

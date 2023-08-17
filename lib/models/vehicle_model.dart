@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yms/models/driver_model.dart';
 
 class Vehicle {
@@ -11,9 +12,9 @@ class Vehicle {
   final String dockNo;
   final String lotNo;
   final String timeIn;
-  final String timeOut;
+  String? timeOut;
   final String source;
-  final String destination;
+  String? destination;
   String photoUrl;
 
   Vehicle({
@@ -27,9 +28,9 @@ class Vehicle {
     required this.dockNo,
     required this.lotNo,
     required this.timeIn,
-    required this.timeOut,
+    this.timeOut,
     required this.source,
-    required this.destination,
+    this.destination,
     required this.photoUrl,
   });
 
@@ -49,4 +50,23 @@ class Vehicle {
         "destination": destination,
         "photoUrl": photoUrl,
       };
+
+  static Vehicle fromSnap(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
+
+    return Vehicle(
+      regNo: snapshot["regNo"],
+      vNo: snapshot["vNo"],
+      vWeight: snapshot["vWeight"],
+      vModel: snapshot["vModel"],
+      persons: snapshot["persons"],
+      dId: snapshot["dId"],
+      objective: snapshot["objective"],
+      dockNo: snapshot["dockNo"],
+      lotNo: snapshot["lotNo"],
+      timeIn: snapshot["timeIn"],
+      source: snapshot["source"],
+      photoUrl: snapshot["photoUrl"],
+    );
+  }
 }

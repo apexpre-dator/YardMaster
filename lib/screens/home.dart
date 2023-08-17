@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
+import 'package:yms/screens/qr_scan.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -54,8 +55,13 @@ class HomeScreen extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(OutgoingRegistration.routeName);
+                  // Navigator.of(context)
+                  //               .pushNamed(QRViewExample.routeName);
+                  // Navigator.of(context).pop();
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => OutgoingRegistration(
+                        vRegNo: "e68615c0-3c63-11ee-a167-893336dfd0f6"),
+                  ));
                 },
                 child: Container(
                   decoration: BoxDecoration(

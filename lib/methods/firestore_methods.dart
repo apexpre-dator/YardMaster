@@ -8,6 +8,25 @@ import 'package:yms/models/vehicle_model.dart';
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  Future<String> exitYard(Vehicle v) async {
+    String res = "Error Occured!";
+
+    try {
+      _firestore.collection('vehicles').doc(v.regNo).update({
+        "destination": v.destination,
+        "timeOut": v.timeOut,
+      });
+
+      res = "success";
+    } on FirebaseException catch (e) {
+      res = e.toString();
+    } catch (e) {
+      res = e.toString();
+    }
+
+    return res;
+  }
+
   Future<String> registerVehicle(
     Vehicle v,
     Driver d,
@@ -17,15 +36,15 @@ class FirestoreMethods {
     String res = "Error Occured!";
 
     try {
-      String vPhotoUrl =
-          await StorageMethods().uploadImgToStorage(v.regNo, vehicleImage!, false);
+      String vPhotoUrl = await StorageMethods()
+          .uploadImgToStorage(v.regNo, vehicleImage!, false);
       String dPhotoUrl =
           await StorageMethods().uploadImgToStorage(v.regNo, driverPic!, true);
 
       v.photoUrl = vPhotoUrl;
       d.photoUrl = dPhotoUrl;
 
-      _firestore.collection('vehicles').doc().set(
+      _firestore.collection('vehicles').doc(v.regNo).set(
             v.toJson(),
           );
       _firestore.collection('drivers').doc(d.dId).set(
@@ -40,5 +59,19 @@ class FirestoreMethods {
     }
 
     return res;
+  }
+
+  Future<Vehicle> getVehicle(String vRegNo) async {
+    DocumentSnapshot doc =
+        await _firestore.collection('vehicles').doc(vRegNo).get();
+    Vehicle v = await Vehicle.fromSnap(doc);
+    return v;
+  }
+
+  Future<Driver> getDriver(String dId) async {
+    DocumentSnapshot doc =
+        await _firestore.collection('drivers').doc(dId).get();
+    Driver d = await Driver.fromSnap(doc);
+    return d;
   }
 }

@@ -4,6 +4,7 @@ import 'package:yms/firebase_options.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/incomingRegistration.dart';
+import 'package:yms/screens/qr_scan.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,8 +24,8 @@ class MyApp extends StatelessWidget {
         ),
         home: const HomeScreen(),
         routes: {
-          OutgoingRegistration.routeName: (context) =>
-              const OutgoingRegistration(),
+          QRViewExample.routeName: (context) => const QRViewExample(),
+          OutgoingRegistration.routeName: (context) => const OutgoingRegistration(vRegNo: ""),
           IncomingRegistration.routeName: (context) =>
               const IncomingRegistration(),
         });
