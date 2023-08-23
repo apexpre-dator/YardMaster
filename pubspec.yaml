@@ -44,6 +44,7 @@ dependencies:
   motion_tab_bar_v2: ^0.3.0
   qr_code_scanner: ^1.0.1
   qr_flutter: ^4.1.0
+  toggle_list: ^0.3.0
   uuid: ^3.0.7
 
 dev_dependencies:

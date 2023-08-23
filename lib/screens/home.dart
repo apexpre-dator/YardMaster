@@ -5,6 +5,7 @@ import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/qr_scan.dart';
+import 'package:yms/screens/records.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             Icons.more_vert,
           ),
         ],
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(23),
           ),
@@ -59,12 +60,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           SingleChildScrollView(
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-              height: MediaQuery.of(context).size.height - 100,
+              height: MediaQuery.of(context).size.height * 0.76,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.network(
-                      "https://cdn.corporate.walmart.com/dims4/WMT/71169a3/2147483647/strip/true/crop/2389x930+0+0/resize/980x381!/quality/90/?url=https%3A%2F%2Fcdn.corporate.walmart.com%2Fd6%2Fe7%2F48e91bac4a8ca8f22985b3682370%2Fwalmart-logos-lockupwtag-horiz-blu-rgb.png"),
                   GestureDetector(
                     onTap: () {
                       print('here');
@@ -72,8 +71,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           .pushNamed(IncomingRegistration.routeName);
                     },
                     child: Card(
-                      elevation: 0,
-                      child: Container(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        side: const BorderSide(
+                          color: Colors.blueAccent,
+                        ),
+                      ),
+                      elevation: 5,
+                      child: SizedBox(
                         height: 180,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -96,11 +101,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   const SizedBox(
                     height: 30,
                   ),
-                  Divider(),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context)
-                                    .pushNamed(QRViewExample.routeName);
+                      Navigator.of(context).pushNamed(QRViewExample.routeName);
                       // Navigator.of(context).pop();
                       // Navigator.of(context).push(MaterialPageRoute(
                       //   builder: (context) => const OutgoingRegistration(
@@ -108,8 +111,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       // ));
                     },
                     child: Card(
-                      elevation: 0,
-                      child: Container(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        side: const BorderSide(
+                          color: Colors.blueAccent,
+                        ),
+                      ),
+                      elevation: 5,
+                      child: SizedBox(
                         height: 180,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -118,6 +127,41 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             Image.asset('assets/outgoing.gif'),
                             const Text(
                               'Outgoing',
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(RecordScreen.routeName);
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        side: const BorderSide(
+                          color: Colors.blueAccent,
+                        ),
+                      ),
+                      elevation: 5,
+                      child: SizedBox(
+                        height: 180,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset('assets/outgoing.gif'),
+                            const Text(
+                              'Records',
                               style: TextStyle(
                                 color: Colors.blueAccent,
                                 fontSize: 24,
