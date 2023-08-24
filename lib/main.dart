@@ -6,6 +6,7 @@ import 'package:yms/screens/home.dart';
 import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/qr_scan.dart';
 import 'package:yms/screens/records.dart';
+import 'package:yms/screens/yardScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           IncomingRegistration.routeName: (context) =>
               const IncomingRegistration(),
           RecordScreen.routeName: (context) => const RecordScreen(),
+          YardScreen.routeName: (context) => const YardScreen(),
         });
   }
 }

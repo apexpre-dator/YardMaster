@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  carousel_slider: ^4.2.1
   cloud_firestore: ^4.8.4
   cupertino_icons: ^1.0.2
   custom_radio_grouped_button: ^2.2.0
@@ -44,6 +45,7 @@ dependencies:
   motion_tab_bar_v2: ^0.3.0
   qr_code_scanner: ^1.0.1
   qr_flutter: ^4.1.0
+  step_progress_indicator: ^1.0.2
   toggle_list: ^0.3.0
   uuid: ^3.0.7
 

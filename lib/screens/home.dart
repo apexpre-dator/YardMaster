@@ -6,6 +6,7 @@ import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/qr_scan.dart';
 import 'package:yms/screens/records.dart';
+import 'package:yms/screens/yardScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -177,11 +178,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
           ),
-          Container(
-            child: const Center(
-              child: Text("Records"),
-            ),
-          ),
+          const YardScreen(),
           Container(
             child: const Center(
               child: Text("Dashboard"),
