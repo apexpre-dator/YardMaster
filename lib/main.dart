@@ -4,8 +4,10 @@ import 'package:yms/firebase_options.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/incomingRegistration.dart';
+import 'package:yms/screens/phone.dart';
 import 'package:yms/screens/qr_scan.dart';
 import 'package:yms/screens/records.dart';
+import 'package:yms/screens/verify.dart';
 import 'package:yms/screens/yardScreen.dart';
 
 void main() async {
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: const HomeScreen(),
         routes: {
+          MyPhone.routeName: (context) => MyPhone(),
+          MyVerify.routeName: (context) => MyVerify(),
           QRViewExample.routeName: (context) => const QRViewExample(),
           OutgoingRegistration.routeName: (context) =>
               const OutgoingRegistration(vRegNo: ""),
