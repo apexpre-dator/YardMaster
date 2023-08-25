@@ -6,6 +6,7 @@ import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/phone.dart';
+import 'package:yms/screens/profile.dart';
 import 'package:yms/screens/qr_scan.dart';
 import 'package:yms/screens/records.dart';
 import 'package:yms/screens/verify.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: const MyPhone(),
         routes: {
+          SignUpScreen.routeName: (context) => SignUpScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(),
           MyPhone.routeName: (context) => const MyPhone(),
           MyVerify.routeName: (context) => const MyVerify(),

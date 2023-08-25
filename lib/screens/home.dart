@@ -7,6 +7,7 @@ import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/phone.dart';
+import 'package:yms/screens/profile.dart';
 import 'package:yms/screens/qr_scan.dart';
 import 'package:yms/screens/records.dart';
 import 'package:yms/screens/yardScreen.dart';
@@ -55,6 +56,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               auth.signOut();
             },
             icon: Icon(Icons.logout),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(SignUpScreen.routeName);
+            },
+            icon: Icon(
+              Icons.person_rounded,
+            ),
           ),
         ],
         shape: const RoundedRectangleBorder(
