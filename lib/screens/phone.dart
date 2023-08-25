@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:yms/screens/verify.dart';
@@ -6,13 +7,13 @@ class MyPhone extends StatefulWidget {
   static const routeName = '/phone';
   const MyPhone({Key? key}) : super(key: key);
   static String verify = '';
+  static String phone = '';
   @override
   State<MyPhone> createState() => _MyPhoneState();
 }
 
 class _MyPhoneState extends State<MyPhone> {
   TextEditingController countryController = TextEditingController();
-  String phone = '';
   // bool _isLoading = false;
 
   @override
@@ -96,7 +97,7 @@ class _MyPhoneState extends State<MyPhone> {
                         child: TextField(
                       onChanged: (value) {
                         setState(() {
-                          phone = value;
+                          MyPhone.phone = value;
                         });
                       },
                       keyboardType: TextInputType.phone,
@@ -124,11 +125,9 @@ class _MyPhoneState extends State<MyPhone> {
                       //   _isLoading = true;
                       // });
                       await FirebaseAuth.instance.verifyPhoneNumber(
-                        phoneNumber: countryController.text + phone,
+                        phoneNumber: countryController.text + MyPhone.phone,
                         verificationCompleted:
-                            (PhoneAuthCredential credential) {
-                          Navigator.of(context).pushNamed('/');
-                        },
+                            (PhoneAuthCredential credential) async {},
                         verificationFailed: (FirebaseAuthException e) {},
                         codeSent: (String verificationId, int? resendToken) {
                           // setState(() {

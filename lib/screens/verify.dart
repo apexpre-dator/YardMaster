@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:yms/screens/phone.dart';
+import 'package:yms/screens/signup.dart';
 
 class MyVerify extends StatefulWidget {
   static const routeName = '/verify';
@@ -114,7 +116,21 @@ class _MyVerifyState extends State<MyVerify> {
 
                         // Sign the user in (or link) with the credential
                         await auth.signInWithCredential(credential);
-                        Navigator.of(context).pushNamed('/home');
+                        final _auth = FirebaseAuth.instance;
+                        final _firestore = FirebaseFirestore.instance;
+
+                        await _firestore
+                            .collection('users')
+                            .doc(_auth.currentUser!.uid)
+                            .get()
+                            .then((doc) {
+                          if (doc.exists) {
+                            Navigator.of(context).pushNamed('/home');
+                          } else {
+                            Navigator.of(context)
+                                .pushNamed(SignUpScreen.routeName);
+                          }
+                        });
                       } catch (e) {
                         SnackBar snackBar = SnackBar(
                           content: Text(e.toString()),

@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:yms/models/user_model.dart';
+import 'package:yms/screens/home.dart';
+import 'package:yms/screens/phone.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = '/signup-screen';
@@ -137,18 +140,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     final signUpButton = Material(
       elevation: 5,
-      color: Colors.blueAccent,
-      borderRadius: BorderRadius.circular(30),
+      color: Colors.green.shade600,
+      borderRadius: BorderRadius.circular(15),
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        minWidth: MediaQuery.of(context).size.width,
-        onPressed: () {},
+        minWidth: MediaQuery.of(context).size.width - 75,
+        onPressed: () {
+          fillUp();
+        },
         child: const Text(
-          'Finish',
+          'Finish Sign Up',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -173,13 +178,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // SizedBox(
-                    //   height: 200,
-                    //   child: Image.asset(
-                    //     "assets/logo.png",
-                    //     fit: BoxFit.contain,
-                    //   ),
-                    // ),
+                    SizedBox(
+                      height: 200,
+                      child: Image.asset(
+                        "assets/img1.png",
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                     const SizedBox(
                       height: 35,
                     ),
@@ -213,35 +218,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Future<void> fillUp(String email, String password) async {
+  Future<void> fillUp() async {
     if (_formKey.currentState!.validate()) {
       final _auth = FirebaseAuth.instance;
       final _fireStore = FirebaseFirestore.instance;
 
       User? user = _auth.currentUser;
-      
+
+      UserModel userModel = UserModel(
+        name: userNameController.text,
+        email: emailController.text,
+        empId: empIdController.text,
+        uid: user!.uid,
+        yardName: yardNameController.text,
+        phone: MyPhone.phone,
+      );
+
+      await _fireStore
+          .collection('users')
+          .doc(user.uid)
+          .set(userModel.toJson());
+      Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
     }
   }
-
-  // postDetailsToFirestore() async {
-  //   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
-  //   User? user = _auth.currentUser;
-
-  //   UserModel userModel = UserModel();
-
-  //   userModel.email = user!.email;
-  //   userModel.uid = user.uid;
-  //   userModel.userName = userNameController.text;
-  //   userModel.address = 'Kanpur, Uttar Pradesh';
-  //   userModel.pno = '7007144430';
-
-  //   await firebaseFirestore
-  //       .collection("users")
-  //       .doc(user.uid)
-  //       .set(userModel.toMap());
-
-  //   Fluttertoast.showToast(msg: "Account created successfully!");
-  //   Navigator.of(context).pushReplacementNamed(SecondHomeScreen.routeName);
-  // }
 }

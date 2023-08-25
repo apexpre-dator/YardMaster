@@ -6,7 +6,7 @@ import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/phone.dart';
-import 'package:yms/screens/profile.dart';
+import 'package:yms/screens/signup.dart';
 import 'package:yms/screens/qr_scan.dart';
 import 'package:yms/screens/records.dart';
 import 'package:yms/screens/verify.dart';
