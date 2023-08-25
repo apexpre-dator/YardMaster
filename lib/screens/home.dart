@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
@@ -11,6 +13,7 @@ import 'package:yms/screens/yardScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  static const routeName = '/home';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -45,9 +48,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         leading: const Icon(
           Icons.menu,
         ),
-        actions: const [
-          Icon(
-            Icons.more_vert,
+        actions: [
+          IconButton(
+            onPressed: () {
+              FirebaseAuth auth = FirebaseAuth.instance;
+              auth.signOut();
+            },
+            icon: Icon(Icons.logout),
           ),
         ],
         shape: const RoundedRectangleBorder(

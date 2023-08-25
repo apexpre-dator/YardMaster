@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:yms/firebase_options.dart';
@@ -27,10 +28,11 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
-        home: const HomeScreen(),
+        home: const MyPhone(),
         routes: {
-          MyPhone.routeName: (context) => MyPhone(),
-          MyVerify.routeName: (context) => MyVerify(),
+          HomeScreen.routeName: (context) => const HomeScreen(),
+          MyPhone.routeName: (context) => const MyPhone(),
+          MyVerify.routeName: (context) => const MyVerify(),
           QRViewExample.routeName: (context) => const QRViewExample(),
           OutgoingRegistration.routeName: (context) =>
               const OutgoingRegistration(vRegNo: ""),
