@@ -497,7 +497,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                   obj = value;
                 });
               },
-              selectedColor: Theme.of(context).accentColor,
+              selectedColor: Theme.of(context).colorScheme.secondary,
             ),
             Container(
               margin: const EdgeInsets.only(bottom: 10),

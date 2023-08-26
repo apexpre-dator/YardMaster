@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:yms/models/driver_model.dart';
 
 class Vehicle {
   final String regNo;

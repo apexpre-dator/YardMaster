@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:yms/models/user_model.dart';
 import 'package:yms/screens/home.dart';
@@ -28,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       autofocus: false,
       controller: userNameController,
       validator: (value) {
-        RegExp regex = new RegExp(r'.{6,}$');
+        RegExp regex = RegExp(r'.{6,}$');
 
         if (value!.isEmpty) {
           return ("Please enter your Name!");
@@ -84,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       autofocus: false,
       controller: yardNameController,
       validator: (value) {
-        RegExp regex = new RegExp(r'.{6,}$');
+        RegExp regex = RegExp(r'.{6,}$');
 
         if (value!.isEmpty) {
           return ("Please enter the Yard name!");
@@ -113,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       autofocus: false,
       controller: empIdController,
       validator: (value) {
-        RegExp regex = new RegExp(r'.{6,}$');
+        RegExp regex = RegExp(r'.{6,}$');
 
         if (value!.isEmpty) {
           return ("Please enter your Employee ID!");
