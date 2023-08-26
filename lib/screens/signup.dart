@@ -36,6 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (!regex.hasMatch(value)) {
           return ('Please enter a valid Username! Min. 6 characters!');
         }
+        return null;
       },
       keyboardType: TextInputType.name,
       onSaved: (val) {
@@ -92,6 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (!regex.hasMatch(value)) {
           return ('Please enter a valid Yarrd Name! Min. 6 characters!');
         }
+        return null;
       },
       keyboardType: TextInputType.name,
       onSaved: (val) {
@@ -121,6 +123,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (!regex.hasMatch(value)) {
           return ('Please enter a valid ID! Min. 6 characters!');
         }
+        return null;
       },
       keyboardType: TextInputType.name,
       onSaved: (val) {
