@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
 import 'package:yms/widgets/custom_display.dart';
-import 'package:yms/widgets/custom_dropdown.dart';
 import 'package:yms/widgets/custom_input.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -39,8 +39,8 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
   bool registered = false;
   File? vehicleImage;
   File? driverPic;
-  String? lotNo;
-  String? dockNo;
+  String lotNo = (Random().nextInt(8) + 1) as String;
+  String dockNo = "1";
   bool _isLoading = false;
   String obj = 'Loading';
 
@@ -70,22 +70,6 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
     setState(() {
       _isLoading = true;
     });
-    // if (vModelController.text.isEmpty ||
-    //     vNoController.text.isEmpty ||
-    //     vWeightController.text.isEmpty ||
-    //     personsController.text.isEmpty ||
-    //     objectiveController.text.isEmpty ||
-    //     sourceController.text.isEmpty ||
-    //     dIdController.text.isEmpty ||
-    //     dNameController.text.isEmpty ||
-    //     dlNoController.text.isEmpty ||
-    //     addressController.text.isEmpty ||
-    //     phoneController.text.isEmpty) {
-    //   const snackBar = SnackBar(
-    //     content: Text('Please fill in all the fields correctly!'),
-    //   );
-    //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    // }
     driver = Driver(
       dId: dIdController.text,
       dName: dNameController.text,
@@ -103,8 +87,8 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
       persons: personsController.text,
       dId: driver.dId,
       objective: obj,
-      dockNo: dockNo!,
-      lotNo: lotNo!,
+      dockNo: dockNo,
+      lotNo: lotNo,
       timeIn: DateTime.now().toIso8601String(),
       // timeOut: null,
       source: sourceController.text,
@@ -540,36 +524,36 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 },
               ),
             ),
-            const CustomDisplay(title: 'Parking Lot'),
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 5,
-                vertical: 10,
-              ),
-              child: CustomDropdownButton2(
-                dropdownWidth: MediaQuery.of(context).size.width - 80,
-                buttonWidth: double.infinity,
-                hint: 'Select Parking Lot',
-                value: lotNo,
-                dropdownItems: const ['1', '2', '3', '4', '5', '7', '8', '9'],
-                onChanged: setParkingLot,
-              ),
-            ),
-            const CustomDisplay(title: 'Dock Number'),
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 5,
-                vertical: 10,
-              ),
-              child: CustomDropdownButton2(
-                dropdownWidth: MediaQuery.of(context).size.width - 80,
-                buttonWidth: double.infinity,
-                hint: 'Select Dock No',
-                value: dockNo,
-                dropdownItems: const ['1', '2', '3', '4', '5'],
-                onChanged: setYardNo,
-              ),
-            ),
+            // const CustomDisplay(title: 'Parking Lot'),
+            // Container(
+            //   margin: const EdgeInsets.symmetric(
+            //     horizontal: 5,
+            //     vertical: 10,
+            //   ),
+            //   child: CustomDropdownButton2(
+            //     dropdownWidth: MediaQuery.of(context).size.width - 80,
+            //     buttonWidth: double.infinity,
+            //     hint: 'Select Parking Lot',
+            //     value: lotNo,
+            //     dropdownItems: const ['1', '2', '3', '4', '5', '7', '8', '9'],
+            //     onChanged: setParkingLot,
+            //   ),
+            // ),
+            // const CustomDisplay(title: 'Dock Number'),
+            // Container(
+            //   margin: const EdgeInsets.symmetric(
+            //     horizontal: 5,
+            //     vertical: 10,
+            //   ),
+            //   child: CustomDropdownButton2(
+            //     dropdownWidth: MediaQuery.of(context).size.width - 80,
+            //     buttonWidth: double.infinity,
+            //     hint: 'Select Dock No',
+            //     value: dockNo,
+            //     dropdownItems: const ['1', '2', '3', '4', '5'],
+            //     onChanged: setYardNo,
+            //   ),
+            // ),
           ],
         ),
       ),

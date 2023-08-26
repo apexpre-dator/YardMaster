@@ -43,9 +43,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         title: const Text("YardMaster"),
         centerTitle: true,
         elevation: 0,
-        leading: const Icon(
-          Icons.menu,
-        ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(23),

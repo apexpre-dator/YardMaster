@@ -128,7 +128,7 @@ class _MyVerifyState extends State<MyVerify> {
                             .get()
                             .then((doc) {
                           if (doc.exists) {
-                            Navigator.of(context).pushNamed('/home');
+                            Navigator.of(context).popAndPushNamed('/home');
                           } else {
                             Navigator.of(context)
                                 .pushNamed(SignUpScreen.routeName);
