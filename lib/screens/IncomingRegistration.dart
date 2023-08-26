@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -39,7 +40,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
   bool registered = false;
   File? vehicleImage;
   File? driverPic;
-  String lotNo = (Random().nextInt(8) + 1) as String;
+  String lotNo = (Random().nextInt(8) + 1).toString();
   String dockNo = "1";
   bool _isLoading = false;
   String obj = 'Loading';
@@ -98,6 +99,17 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
 
     final res = await FirestoreMethods()
         .registerVehicle(vehicle, driver, vehicleImage, driverPic);
+
+    await FirebaseFirestore.instance.collection(dockNo).doc(vehicle.vNo).set({
+      "vNo": vehicle.vNo,
+      "objective": vehicle.objective,
+      "dockInTime": null,
+      "operationStartTime": null,
+      "operationEndTime": null,
+      "dockOutTime": null,
+      "step": 0,
+      "vRegNo": vRegNo,
+    });
 
     setState(() {
       _isLoading = false;
@@ -209,8 +221,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                         CustomDisplay(title: "$dockNo"),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).popAndPushNamed('/');
+                            Navigator.of(context).popAndPushNamed('/home');
                           },
                           child: const Text('Home'),
                         ),
