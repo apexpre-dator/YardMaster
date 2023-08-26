@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-class YardScreen extends StatefulWidget {
-  const YardScreen({super.key});
-  static const routeName = '/yard-screen';
+class ParkingScreen extends StatefulWidget {
+  const ParkingScreen({super.key});
+  static const routeName = '/parking-screen';
 
   @override
-  State<YardScreen> createState() => _YardScreenState();
+  State<ParkingScreen> createState() => _ParkingScreenState();
 }
 
-class _YardScreenState extends State<YardScreen> {
+class _ParkingScreenState extends State<ParkingScreen> {
   @override
   Widget build(BuildContext context) {
     CarouselController buttonCarouselController = CarouselController();
@@ -19,7 +18,7 @@ class _YardScreenState extends State<YardScreen> {
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 15),
           child: CarouselSlider(
-            items: [1, 2, 3, 4, 5].map((i) {
+            items: [1, 2, 3].map((i) {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
@@ -32,7 +31,7 @@ class _YardScreenState extends State<YardScreen> {
                     child: Column(
                       children: [
                         Text(
-                          'Dock No - $i',
+                          'Parking Lot- $i',
                           style: const TextStyle(
                             fontSize: 24,
                             color: Colors.white,
@@ -40,36 +39,26 @@ class _YardScreenState extends State<YardScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 3,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Trailer No: $index',
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const StepProgressIndicator(
-                                    size: 15,
-                                    padding: 2,
-                                    totalSteps: 4,
-                                    currentStep: 2,
-                                    selectedColor: Colors.greenAccent,
-                                    unselectedColor: Colors.yellow,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
+                        Expanded(
+                          child: GridView.builder(
+                            itemCount: 9,
+                            itemBuilder: (context, index) {
+                              return Icon(
+                                Icons.directions_car_filled,
+                                color: index % 2 == 0
+                                    ? Colors.redAccent
+                                    : Colors.greenAccent,
+                                size: 80,
+                              );
+                            },
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 8,
+                              crossAxisCount: 3,
+                            ),
+                          ),
                         ),
                       ],
                     ),

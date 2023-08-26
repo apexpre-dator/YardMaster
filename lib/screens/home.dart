@@ -6,6 +6,7 @@ import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 
 import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
+import 'package:yms/screens/parkingScreen.dart';
 import 'package:yms/screens/phone.dart';
 import 'package:yms/screens/signup.dart';
 import 'package:yms/screens/qr_scan.dart';
@@ -197,11 +198,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
           const YardScreen(),
-          Container(
-            child: const Center(
-              child: Text("Dashboard"),
-            ),
-          ),
+          const ParkingScreen(),
         ],
       ),
       bottomNavigationBar: MotionTabBar(

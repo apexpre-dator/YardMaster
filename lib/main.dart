@@ -5,6 +5,7 @@ import 'package:yms/firebase_options.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/incomingRegistration.dart';
+import 'package:yms/screens/parkingScreen.dart';
 import 'package:yms/screens/phone.dart';
 import 'package:yms/screens/signup.dart';
 import 'package:yms/screens/qr_scan.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
               const IncomingRegistration(),
           RecordScreen.routeName: (context) => const RecordScreen(),
           YardScreen.routeName: (context) => const YardScreen(),
+          ParkingScreen.routeName: (context) => const ParkingScreen(),
         });
   }
 }
