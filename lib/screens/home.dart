@@ -1,15 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 
 import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
+import 'package:yms/screens/phone.dart';
+import 'package:yms/screens/signup.dart';
 import 'package:yms/screens/qr_scan.dart';
 import 'package:yms/screens/records.dart';
 import 'package:yms/screens/yardScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  static const routeName = '/home';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -44,9 +49,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         leading: const Icon(
           Icons.menu,
         ),
-        actions: const [
-          Icon(
-            Icons.more_vert,
+        actions: [
+          IconButton(
+            onPressed: () {
+              FirebaseAuth auth = FirebaseAuth.instance;
+              auth.signOut();
+              Navigator.of(context).popAndPushNamed(MyPhone.routeName);
+            },
+            icon: Icon(Icons.logout),
+          ),
+          IconButton(
+            onPressed: () {
+              // Navigator.of(context).pushNamed(SignUpScreen.routeName);
+            },
+            icon: Icon(
+              Icons.person_rounded,
+            ),
           ),
         ],
         shape: const RoundedRectangleBorder(
@@ -144,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed(RecordScreen.routeName);
+                      Navigator.of(context).pushNamed(MyPhone.routeName);
                     },
                     child: Card(
                       shape: RoundedRectangleBorder(
