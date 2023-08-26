@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
         ),
       ),
-      endDrawer: const SideBarWidget(),
+      endDrawer: const SafeArea(child: SideBarWidget()),
       body: TabBarView(
         controller: _motionTabBarController,
         children: <Widget>[

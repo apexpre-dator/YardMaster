@@ -83,7 +83,7 @@ class FirestoreMethods {
   Future<Driver> getDriver(String dId) async {
     DocumentSnapshot doc =
         await _firestore.collection('drivers').doc(dId).get();
-    Driver d = await Driver.fromSnap(doc);
+    Driver d = Driver.fromSnap(doc);
     return d;
   }
 }

@@ -157,7 +157,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         title: const Text("Vehicle Registration"),
         centerTitle: true,
         elevation: 0,
-        leading: Icon(
+        leading: const Icon(
           Icons.menu,
         ),
         actions: const [
@@ -165,17 +165,17 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
             Icons.more_vert,
           ),
         ],
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(23),
           ),
         ),
       ),
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   CircularProgressIndicator(),
                   SizedBox(
                     height: 20,
@@ -219,9 +219,9 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                         const SizedBox(
                           height: 45,
                         ),
-                        CustomDisplay(title: "Assigned Parking Lot "),
+                        const CustomDisplay(title: "Assigned Parking Lot "),
                         CustomDisplay(title: "$lotNo"),
-                        CustomDisplay(title: "Assigned Dock No "),
+                        const CustomDisplay(title: "Assigned Dock No "),
                         CustomDisplay(title: "$dockNo"),
                         ElevatedButton(
                           onPressed: () {
@@ -470,7 +470,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomDisplay(title: 'Objective'),
+            const CustomDisplay(title: 'Objective'),
             CustomRadioButton(
               horizontal: true,
               enableShape: true,
@@ -540,7 +540,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 },
               ),
             ),
-            CustomDisplay(title: 'Parking Lot'),
+            const CustomDisplay(title: 'Parking Lot'),
             Container(
               margin: const EdgeInsets.symmetric(
                 horizontal: 5,
@@ -555,7 +555,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                 onChanged: setParkingLot,
               ),
             ),
-            CustomDisplay(title: 'Dock Number'),
+            const CustomDisplay(title: 'Dock Number'),
             Container(
               margin: const EdgeInsets.symmetric(
                 horizontal: 5,

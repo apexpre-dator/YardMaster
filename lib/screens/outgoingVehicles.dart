@@ -89,7 +89,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
         title: const Text("Vehicle Outgoing"),
         centerTitle: true,
         elevation: 0,
-        leading: Icon(
+        leading: const Icon(
           Icons.menu,
         ),
         actions: const [
@@ -97,14 +97,14 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
             Icons.more_vert,
           ),
         ],
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(23),
           ),
         ),
       ),
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -118,13 +118,13 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               ),
             )
           : _checkOut
-              ? Container(
+              ? SizedBox(
                   width: double.infinity,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         // alignment: Alignment.center,
                         height: 250,
                         width: 250,
@@ -135,7 +135,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
                       const SizedBox(
                         height: 25,
                       ),
-                      Text('Checked-Out Successfully!'),
+                      const Text('Checked-Out Successfully!'),
                       const SizedBox(
                         height: 25,
                       ),
@@ -144,7 +144,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
                             Navigator.of(context).pop();
                             Navigator.of(context).popAndPushNamed('/');
                           },
-                          child: Text('Return Home'))
+                          child: const Text('Return Home'))
                     ],
                   ),
                 )
@@ -204,19 +204,19 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
             const SizedBox(
               height: 10,
             ),
-            CustomDisplay(title: 'Vehicle Number'),
+            const CustomDisplay(title: 'Vehicle Number'),
             TextDisplay(
               hint: vehicle.vNo,
             ),
-            CustomDisplay(title: 'Vehicle Weight (MT)'),
+            const CustomDisplay(title: 'Vehicle Weight (MT)'),
             TextDisplay(
               hint: vehicle.vWeight,
             ),
-            CustomDisplay(title: 'Vehicle Model'),
+            const CustomDisplay(title: 'Vehicle Model'),
             TextDisplay(
               hint: vehicle.vModel,
             ),
-            CustomDisplay(title: 'Accompanied Personnel'),
+            const CustomDisplay(title: 'Accompanied Personnel'),
             TextDisplay(
               hint: vehicle.persons,
             ),
@@ -243,23 +243,23 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
             const SizedBox(
               height: 10,
             ),
-            CustomDisplay(title: 'Driver Name'),
+            const CustomDisplay(title: 'Driver Name'),
             TextDisplay(
               hint: driver.dName,
             ),
-            CustomDisplay(title: 'Driving License Number'),
+            const CustomDisplay(title: 'Driving License Number'),
             TextDisplay(
               hint: driver.dlNo,
             ),
-            CustomDisplay(title: 'Identification Number'),
+            const CustomDisplay(title: 'Identification Number'),
             TextDisplay(
               hint: driver.dId,
             ),
-            CustomDisplay(title: 'Phone Number'),
+            const CustomDisplay(title: 'Phone Number'),
             TextDisplay(
               hint: driver.phone,
             ),
-            CustomDisplay(title: 'Address'),
+            const CustomDisplay(title: 'Address'),
             TextDisplay(
               hint: driver.address,
             ),
@@ -273,20 +273,20 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomDisplay(title: 'Objective'),
+            const CustomDisplay(title: 'Objective'),
             TextDisplay(
               hint: vehicle.objective,
             ),
-            CustomDisplay(title: 'Incoming Time'),
+            const CustomDisplay(title: 'Incoming Time'),
             TextDisplay(
               hint: TimeOfDay.fromDateTime(DateTime.parse(vehicle.timeIn))
                   .format(context),
             ),
-            CustomDisplay(title: 'Source Address'),
+            const CustomDisplay(title: 'Source Address'),
             TextDisplay(
               hint: vehicle.source,
             ),
-            CustomDisplay(title: 'Vehicle Weight'),
+            const CustomDisplay(title: 'Vehicle Weight'),
             const SizedBox(height: 10),
             CustomInput(
               controller: outgoingWeight,

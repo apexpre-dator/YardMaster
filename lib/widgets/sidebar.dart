@@ -57,26 +57,26 @@ class SideBarWidget extends StatelessWidget {
         ),
       ),
       extendedTheme: const SidebarXTheme(
-        width: 150,
+        width: 200,
         decoration: BoxDecoration(
           color: canvasColor,
         ),
       ),
       //footerDivider: divider,
       headerBuilder: (context, extended) {
-        return SizedBox(
+        return const SizedBox(
           height: 50,
           child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Icon(Icons.home_filled)
-              // child: Image.asset('assets/images/avatar.png'),
-              ),
+            padding: EdgeInsets.all(16.0),
+            child: CircleAvatar(),
+            // child: Image.asset('assets/images/avatar.png'),
+          ),
         );
       },
       items: [
         SidebarXItem(
           icon: Icons.person,
-          label: 'Profile',
+          label: 'Edit Profile',
           onTap: () {},
         ),
         SidebarXItem(

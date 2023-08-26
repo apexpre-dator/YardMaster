@@ -36,6 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (!regex.hasMatch(value)) {
           return ('Please enter a valid Username! Min. 6 characters!');
         }
+        return null;
       },
       keyboardType: TextInputType.name,
       onSaved: (val) {
@@ -92,6 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (!regex.hasMatch(value)) {
           return ('Please enter a valid Yarrd Name! Min. 6 characters!');
         }
+        return null;
       },
       keyboardType: TextInputType.name,
       onSaved: (val) {
@@ -121,6 +123,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (!regex.hasMatch(value)) {
           return ('Please enter a valid ID! Min. 6 characters!');
         }
+        return null;
       },
       keyboardType: TextInputType.name,
       onSaved: (val) {
@@ -219,10 +222,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> fillUp() async {
     if (_formKey.currentState!.validate()) {
-      final _auth = FirebaseAuth.instance;
-      final _fireStore = FirebaseFirestore.instance;
+      final auth = FirebaseAuth.instance;
+      final fireStore = FirebaseFirestore.instance;
 
-      User? user = _auth.currentUser;
+      User? user = auth.currentUser;
 
       UserModel userModel = UserModel(
         name: userNameController.text,
@@ -233,7 +236,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         phone: MyPhone.phone,
       );
 
-      await _fireStore
+      await fireStore
           .collection('users')
           .doc(user.uid)
           .set(userModel.toJson());

@@ -90,6 +90,9 @@ class _MyVerifyState extends State<MyVerify> {
                 height: 30,
               ),
               Pinput(
+                defaultPinTheme: defaultPinTheme,
+                submittedPinTheme: submittedPinTheme,
+                focusedPinTheme: focusedPinTheme,
                 length: 6,
                 onChanged: (value) {
                   code = value;
@@ -105,7 +108,7 @@ class _MyVerifyState extends State<MyVerify> {
                 height: 45,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Colors.green.shade600,
+                        backgroundColor: Colors.green.shade600,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
@@ -116,12 +119,12 @@ class _MyVerifyState extends State<MyVerify> {
 
                         // Sign the user in (or link) with the credential
                         await auth.signInWithCredential(credential);
-                        final _auth = FirebaseAuth.instance;
-                        final _firestore = FirebaseFirestore.instance;
+                        final auth0 = FirebaseAuth.instance;
+                        final firestore = FirebaseFirestore.instance;
 
-                        await _firestore
+                        await firestore
                             .collection('users')
-                            .doc(_auth.currentUser!.uid)
+                            .doc(auth0.currentUser!.uid)
                             .get()
                             .then((doc) {
                           if (doc.exists) {
