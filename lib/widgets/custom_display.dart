@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomDisplay extends StatelessWidget {
-  String title;
-  CustomDisplay({
+  final String title;
+  const CustomDisplay({
     super.key,
     required this.title,
   });

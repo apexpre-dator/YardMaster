@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 
 class ParkingScreen extends StatefulWidget {
   const ParkingScreen({super.key});
@@ -43,12 +44,60 @@ class _ParkingScreenState extends State<ParkingScreen> {
                           child: GridView.builder(
                             itemCount: 9,
                             itemBuilder: (context, index) {
-                              return Icon(
-                                Icons.directions_car_filled,
-                                color: index % 2 == 0
-                                    ? Colors.redAccent
-                                    : Colors.greenAccent,
-                                size: 80,
+                              return IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => GiffyDialog.rive(
+                                      const RiveAnimation.network(
+                                        'https://cdn.rive.app/animations/vehicles.riv',
+                                        fit: BoxFit.cover,
+                                        placeHolder: Center(
+                                            child: CircularProgressIndicator()),
+                                      ),
+                                      giffyBuilder: (context, rive) {
+                                        return ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(20)),
+                                          child: SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.2,
+                                            child: rive,
+                                          ),
+                                        );
+                                      },
+                                      title: const Text(
+                                        'Vehicle Number',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      content: const Text(
+                                        'Registration Id',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'CALL'),
+                                          child: const Text('CALL'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'OK'),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                icon: Icon(
+                                  Icons.directions_car_filled,
+                                  color: index % 2 == 0
+                                      ? Colors.redAccent
+                                      : Colors.greenAccent,
+                                  size: 80,
+                                ),
                               );
                             },
                             physics: const NeverScrollableScrollPhysics(),

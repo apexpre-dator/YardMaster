@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:yms/methods/firestore_methods.dart';
-import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
 

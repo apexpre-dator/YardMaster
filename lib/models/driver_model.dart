@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:yms/models/vehicle_model.dart';
 
 class Driver {
   final String dId;
