@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
-class CustomDropdownButton2 extends StatelessWidget {
+class CustomDropdownButton2 extends StatefulWidget {
   final String hint;
   final String? value;
   final List<String> dropdownItems;
@@ -60,15 +60,20 @@ class CustomDropdownButton2 extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<CustomDropdownButton2> createState() => _CustomDropdownButton2State();
+}
+
+class _CustomDropdownButton2State extends State<CustomDropdownButton2> {
+  @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         //To avoid long text overflowing.
         isExpanded: true,
         hint: Container(
-          alignment: hintAlignment,
+          alignment: widget.hintAlignment,
           child: Text(
-            hint,
+            widget.hint,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             style: TextStyle(
@@ -77,12 +82,12 @@ class CustomDropdownButton2 extends StatelessWidget {
             ),
           ),
         ),
-        value: value,
-        items: dropdownItems
+        value: widget.value,
+        items: widget.dropdownItems
             .map((item) => DropdownMenuItem<String>(
                   value: item,
                   child: Container(
-                    alignment: valueAlignment,
+                    alignment: widget.valueAlignment,
                     child: Text(
                       item,
                       overflow: TextOverflow.ellipsis,
@@ -94,40 +99,41 @@ class CustomDropdownButton2 extends StatelessWidget {
                   ),
                 ))
             .toList(),
-        onChanged: onChanged,
-        selectedItemBuilder: selectedItemBuilder,
-        icon: icon ?? const Icon(Icons.arrow_drop_down_outlined),
-        iconSize: iconSize ?? 30,
-        iconEnabledColor: iconEnabledColor,
-        iconDisabledColor: iconDisabledColor,
-        buttonHeight: buttonHeight ?? 40,
-        buttonWidth: buttonWidth ?? 140,
+        onChanged: widget.onChanged,
+        selectedItemBuilder: widget.selectedItemBuilder,
+        icon: widget.icon ?? const Icon(Icons.arrow_drop_down_outlined),
+        iconSize: widget.iconSize ?? 30,
+        iconEnabledColor: widget.iconEnabledColor,
+        iconDisabledColor: widget.iconDisabledColor,
+        buttonHeight: widget.buttonHeight ?? 40,
+        buttonWidth: widget.buttonWidth ?? 140,
         buttonPadding:
-            buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
-        buttonDecoration: buttonDecoration ??
+            widget.buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
+        buttonDecoration: widget.buttonDecoration ??
             BoxDecoration(
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
                 color: Colors.black45,
               ),
             ),
-        buttonElevation: buttonElevation,
-        itemHeight: itemHeight ?? 40,
-        itemPadding: itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
+        buttonElevation: widget.buttonElevation,
+        itemHeight: widget.itemHeight ?? 40,
+        itemPadding:
+            widget.itemPadding ?? const EdgeInsets.only(left: 14, right: 14),
         //Max height for the dropdown menu & becoming scrollable if there are more items. If you pass Null it will take max height possible for the items.
-        dropdownMaxHeight: dropdownHeight ?? 200,
-        dropdownWidth: dropdownWidth ?? 140,
-        dropdownPadding: dropdownPadding,
-        dropdownDecoration: dropdownDecoration ??
+        dropdownMaxHeight: widget.dropdownHeight ?? 200,
+        dropdownWidth: widget.dropdownWidth ?? 140,
+        dropdownPadding: widget.dropdownPadding,
+        dropdownDecoration: widget.dropdownDecoration ??
             BoxDecoration(
               borderRadius: BorderRadius.circular(14),
             ),
-        dropdownElevation: dropdownElevation ?? 8,
-        scrollbarRadius: scrollbarRadius ?? const Radius.circular(40),
-        scrollbarThickness: scrollbarThickness,
-        scrollbarAlwaysShow: scrollbarAlwaysShow,
+        dropdownElevation: widget.dropdownElevation ?? 8,
+        scrollbarRadius: widget.scrollbarRadius ?? const Radius.circular(40),
+        scrollbarThickness: widget.scrollbarThickness,
+        scrollbarAlwaysShow: widget.scrollbarAlwaysShow,
         //Null or Offset(0, 0) will open just under the button. You can edit as you want.
-        offset: offset,
+        offset: widget.offset,
         dropdownOverButton: false, //Default is false to show menu below button
       ),
     );
