@@ -242,7 +242,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
 
       await fireStore.collection('users').doc(user.uid).set(userModel.toJson());
-      Navigator.of(context).pop();
       Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
     }
   }

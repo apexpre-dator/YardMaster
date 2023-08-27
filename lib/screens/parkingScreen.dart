@@ -79,7 +79,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                                 ? 'Empty Slot'
                                                 : 'Vehicle Number: UP76XX9999',
                                             // textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 18,
                                             ),
                                           ),

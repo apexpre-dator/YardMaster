@@ -128,9 +128,9 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
                         // alignment: Alignment.center,
                         height: 250,
                         width: 250,
-                        child: Image.network(
+                        child: Image.asset(
                             fit: BoxFit.contain,
-                            "https://static.vecteezy.com/system/resources/previews/022/068/737/non_2x/approved-sign-and-symbol-clip-art-free-png.png"),
+                            'assets/done.gif'),
                       ),
                       const SizedBox(
                         height: 25,
@@ -142,7 +142,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
                       ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop();
-                            Navigator.of(context).popAndPushNamed('/');
+                            Navigator.of(context).popAndPushNamed('/home');
                           },
                           child: const Text('Return Home'))
                     ],
