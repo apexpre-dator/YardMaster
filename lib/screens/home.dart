@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
+import 'package:yms/colours.dart';
 
 import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/parkingScreen.dart';
-import 'package:yms/screens/phone.dart';
 import 'package:yms/screens/qr_scan.dart';
+import 'package:yms/screens/records.dart';
 import 'package:yms/screens/yardScreen.dart';
 import 'package:yms/widgets/sidebar.dart';
 
@@ -65,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         height: 40,
                         width: double.infinity,
                         decoration: const BoxDecoration(
-                          color: Color(0xFF464667),
+                          color: darkColor,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),
@@ -86,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         height: 40,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF5F5FA7).withOpacity(0.6),
+                          color: lightColor,
                           borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(15),
                             bottomRight: Radius.circular(15),
@@ -113,11 +114,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           .pushNamed(IncomingRegistration.routeName);
                     },
                     child: Card(
+                      color: lightColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
-                        side: const BorderSide(
-                          color: Colors.blueAccent,
-                        ),
+                        // side: const BorderSide(
+                        //   color: darkColor,
+                        // ),
                       ),
                       elevation: 5,
                       child: SizedBox(
@@ -130,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             const Text(
                               'Incoming',
                               style: TextStyle(
-                                color: Colors.blueAccent,
+                                color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -153,11 +155,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       // ));
                     },
                     child: Card(
+                      color: lightColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
-                        side: const BorderSide(
-                          color: Colors.blueAccent,
-                        ),
+                        // side: const BorderSide(
+                        //   color: darkColor,
+                        // ),
                       ),
                       elevation: 5,
                       child: SizedBox(
@@ -170,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             const Text(
                               'Outgoing',
                               style: TextStyle(
-                                color: Colors.blueAccent,
+                                color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -185,14 +188,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed(MyPhone.routeName);
+                      Navigator.of(context).pushNamed(RecordScreen.routeName);
                     },
                     child: Card(
+                      color: lightColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
-                        side: const BorderSide(
-                          color: Colors.blueAccent,
-                        ),
+                        // side: const BorderSide(
+                        //   color: darkColor,
+                        // ),
                       ),
                       elevation: 5,
                       child: SizedBox(
@@ -205,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             const Text(
                               'Records',
                               style: TextStyle(
-                                color: Colors.blueAccent,
+                                color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -224,16 +228,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ],
       ),
       bottomNavigationBar: MotionTabBar(
-        tabBarColor: Colors.blueAccent,
+        tabBarColor: darkColor,
         controller: _motionTabBarController,
         labels: const [
           "Home",
-          "Records",
-          "Dashboard",
+          "Dock",
+          "Parking",
         ],
         initialSelectedTab: "Home",
         tabIconColor: Colors.white,
-        tabSelectedColor: Colors.amber,
+        tabSelectedColor: lightColor.withOpacity(1),
         onTabItemSelected: (int value) {
           setState(() {
             _motionTabBarController?.index = value;
@@ -244,8 +248,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Icons.receipt,
           Icons.person,
         ],
-        textStyle:
-            const TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),
+        textStyle: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

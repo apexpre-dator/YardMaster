@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:toggle_list/toggle_list.dart';
+import 'package:yms/colours.dart';
 import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/vehicle_model.dart';
-
-const Color appColor = Colors.blueAccent;
 
 class RecordScreen extends StatefulWidget {
   static const routeName = '/record-screen';
@@ -91,8 +90,12 @@ class _RecordScreenState extends State<RecordScreen> {
                       v.length,
                       (index) => ToggleListItem(
                         leading: const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Icon(Icons.sailing)),
+                          padding: EdgeInsets.all(10),
+                          child: Icon(
+                            Icons.sailing,
+                            color: Colors.white,
+                          ),
+                        ),
                         title: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Column(
@@ -105,14 +108,16 @@ class _RecordScreenState extends State<RecordScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge!
-                                    .copyWith(fontSize: 18),
+                                    .copyWith(fontSize: 18)
+                                    .copyWith(color: Colors.white),
                               ),
                               Text(
                                 v[index].vNo,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
-                                    .copyWith(fontSize: 17),
+                                    .copyWith(fontSize: 17)
+                                    .copyWith(color: Colors.white),
                               ),
                             ],
                           ),
@@ -129,14 +134,17 @@ class _RecordScreenState extends State<RecordScreen> {
                             borderRadius: const BorderRadius.vertical(
                               bottom: Radius.circular(20),
                             ),
-                            color: appColor.withOpacity(0.15),
+                            color: lightColor.withOpacity(0.7),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 v[index].destination ?? '-',
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(color: Colors.white),
                               ),
                               const SizedBox(
                                 height: 5,
@@ -158,7 +166,9 @@ class _RecordScreenState extends State<RecordScreen> {
                                               'CheckIn Time',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyLarge,
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                             Text(
                                               TimeOfDay.fromDateTime(
@@ -167,7 +177,9 @@ class _RecordScreenState extends State<RecordScreen> {
                                                   .format(context),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyLarge,
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                           ],
                                         ),
@@ -179,13 +191,17 @@ class _RecordScreenState extends State<RecordScreen> {
                                               'CheckOut Time',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyLarge,
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                             Text(
                                               v[index].timeOut ?? '-',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyLarge,
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                           ],
                                         ),
@@ -197,13 +213,17 @@ class _RecordScreenState extends State<RecordScreen> {
                                               'DockNo',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyLarge,
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                             Text(
                                               v[index].dockNo,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyLarge,
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                           ],
                                         ),
@@ -215,13 +235,17 @@ class _RecordScreenState extends State<RecordScreen> {
                                               'ParkingLot',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyLarge,
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                             Text(
                                               v[index].lotNo,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyLarge,
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                           ],
                                         ),
@@ -233,13 +257,17 @@ class _RecordScreenState extends State<RecordScreen> {
                                               'Objective',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyLarge,
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                             Text(
                                               v[index].objective,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyLarge,
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: Colors.white),
                                             ),
                                           ],
                                         ),
@@ -257,7 +285,7 @@ class _RecordScreenState extends State<RecordScreen> {
                                 ],
                               ),
                               Divider(
-                                color: appColor.withOpacity(0.15),
+                                color: lightColor,
                                 height: 0,
                                 thickness: 0,
                               ),
@@ -265,13 +293,13 @@ class _RecordScreenState extends State<RecordScreen> {
                           ),
                         ),
                         headerDecoration: BoxDecoration(
-                          color: Colors.grey.shade400,
+                          color: darkColor.withOpacity(0.7),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(20),
                           ),
                         ),
                         expandedHeaderDecoration: BoxDecoration(
-                          color: appColor.withOpacity(0.60),
+                          color: darkColor.withOpacity(0.9),
                           borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(20),
                           ),

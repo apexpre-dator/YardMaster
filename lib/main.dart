@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:yms/colours.dart';
 import 'package:yms/firebase_options.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/home.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'YardMaster',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: colorCustom,
         ),
         debugShowCheckedModeBanner: false,
         home: const MyPhone(),

@@ -4,6 +4,7 @@ import 'package:sidebarx/sidebarx.dart';
 import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/user_model.dart';
 import 'package:yms/screens/phone.dart';
+import 'package:yms/colours.dart';
 
 class SideBarWidget extends StatefulWidget {
   const SideBarWidget({super.key});
@@ -36,10 +37,6 @@ class _SideBarWidgetState extends State<SideBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    const canvasColor = Color(0xFF2E2E48);
-    const scaffoldBackgroundColor = Color(0xFF464667);
-    const accentCanvasColor = Color(0xFF3E3E61);
-    final actionColor = const Color(0xFF5F5FA7).withOpacity(0.6);
     final SidebarXController controller =
         SidebarXController(selectedIndex: 0, extended: true);
 
@@ -51,7 +48,7 @@ class _SideBarWidgetState extends State<SideBarWidget> {
           color: canvasColor,
           borderRadius: BorderRadius.circular(20),
         ),
-        hoverColor: scaffoldBackgroundColor,
+        hoverColor: darkColor,
         textStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
         selectedTextStyle: const TextStyle(color: Colors.white),
         itemTextPadding: const EdgeInsets.only(left: 30),
@@ -63,7 +60,7 @@ class _SideBarWidgetState extends State<SideBarWidget> {
         selectedItemDecoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: actionColor.withOpacity(0.37),
+            color: borderColor,
           ),
           gradient: const LinearGradient(
             colors: [accentCanvasColor, canvasColor],
