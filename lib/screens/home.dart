@@ -59,10 +59,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           SingleChildScrollView(
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-              height: MediaQuery.of(context).size.height * 0.76,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Column(
+                    children: [
+                      Container(
+                        height: 40,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF464667),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                          ),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Current Vehicle Count',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 40,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF5F5FA7).withOpacity(0.6),
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(15),
+                            bottomRight: Radius.circular(15),
+                          ),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            '15',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
                   GestureDetector(
                     onTap: () {
                       print('here');
