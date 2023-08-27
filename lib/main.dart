@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: const MyPhone(),
         routes: {
-          SignUpScreen.routeName: (context) => SignUpScreen(),
+          SignUpScreen.routeName: (context) => const SignUpScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(),
           MyPhone.routeName: (context) => const MyPhone(),
           MyVerify.routeName: (context) => const MyVerify(),

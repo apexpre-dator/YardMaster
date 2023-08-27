@@ -48,13 +48,13 @@ class _QRViewExampleState extends State<QRViewExample> {
                             OutgoingRegistration(vRegNo: result!.code!),
                       ));
                     },
-                    child: Text('Verify Vehicle'),
+                    child: const Text('Verify Vehicle'),
                   )
                 else
-                  Container(
+                  const SizedBox(
                     width: 100,
                     height: 20,
-                    child: const Text(
+                    child: Text(
                       'Scan a QR',
                       style: TextStyle(fontSize: 18),
                     ),
