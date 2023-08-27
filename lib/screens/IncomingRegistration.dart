@@ -213,17 +213,39 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                         ),
                         const Text('QR sent to Driver\'s Dashboard'),
                         const SizedBox(
-                          height: 45,
+                          height: 25,
                         ),
-                        const CustomDisplay(title: "Assigned Parking Lot "),
-                        CustomDisplay(title: "$lotNo"),
-                        const CustomDisplay(title: "Assigned Dock No "),
-                        CustomDisplay(title: "$dockNo"),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).popAndPushNamed('/home');
-                          },
-                          child: const Text('Home'),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 30,
+                            vertical: 5,
+                          ),
+                          child: Column(
+                            children: [
+                              const CustomDisplay(
+                                  title: "Assigned Parking Lot "),
+                              CustomDisplay(title: "$lotNo"),
+                              const CustomDisplay(title: "Assigned Dock No "),
+                              CustomDisplay(title: "$dockNo"),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).popAndPushNamed('/home');
+                              },
+                              child: const Text('Print QR'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).popAndPushNamed('/home');
+                              },
+                              child: const Text('Home'),
+                            ),
+                          ],
                         ),
                       ],
                     ),
