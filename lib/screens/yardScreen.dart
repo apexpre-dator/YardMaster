@@ -381,7 +381,7 @@ class _YardScreenState extends State<YardScreen> {
                     ),
                     child: const Center(
                       child: Text(
-                        'Current Vehicle Count',
+                        'Total Vehicles in Dock',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,

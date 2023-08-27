@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:yms/colours.dart';
 import 'package:yms/screens/verify.dart';
 
 class MyPhone extends StatefulWidget {
@@ -13,7 +14,7 @@ class MyPhone extends StatefulWidget {
 
 class _MyPhoneState extends State<MyPhone> {
   TextEditingController countryController = TextEditingController();
-  // bool _isLoading = false;
+  
 
   @override
   void initState() {
@@ -22,12 +23,12 @@ class _MyPhoneState extends State<MyPhone> {
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   super.dispose();
-  //   countryController.dispose();
-  // }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    countryController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _MyPhoneState extends State<MyPhone> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/img1.png',
+                'assets/login.gif',
                 width: 150,
                 height: 150,
               ),
@@ -48,14 +49,14 @@ class _MyPhoneState extends State<MyPhone> {
                 height: 25,
               ),
               const Text(
-                "Phone Verification",
+                "Welcome to YardMaster",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
               ),
               const Text(
-                "We need to register your phone without getting started!",
+                "Register your Phone number to get started!",
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -67,7 +68,7 @@ class _MyPhoneState extends State<MyPhone> {
               Container(
                 height: 55,
                 decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.grey),
+                    border: Border.all(width: 1, color: borderColor),
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -116,22 +117,18 @@ class _MyPhoneState extends State<MyPhone> {
                 height: 45,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green.shade600,
+                        backgroundColor: darkColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
-                      // setState(() {
-                      //   _isLoading = true;
-                      // });
+                      
                       await FirebaseAuth.instance.verifyPhoneNumber(
                         phoneNumber: countryController.text + MyPhone.phone,
                         verificationCompleted:
                             (PhoneAuthCredential credential) async {},
                         verificationFailed: (FirebaseAuthException e) {},
                         codeSent: (String verificationId, int? resendToken) {
-                          // setState(() {
-                          //   _isLoading = false;
-                          // });
+                          
                           MyPhone.verify = verificationId;
                           Navigator.of(context).pushNamed(MyVerify.routeName);
                         },

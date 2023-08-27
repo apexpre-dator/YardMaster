@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:yms/colours.dart';
 import 'package:yms/models/user_model.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/phone.dart';
@@ -142,16 +143,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     final signUpButton = Material(
       elevation: 5,
-      color: Colors.green.shade600,
+      color: darkColor,
       borderRadius: BorderRadius.circular(15),
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        minWidth: MediaQuery.of(context).size.width - 75,
+        minWidth: MediaQuery.of(context).size.width - 150,
         onPressed: () {
           fillUp();
         },
         child: const Text(
-          'Finish Sign Up',
+          'Setup Profile',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
@@ -183,12 +184,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(
                       height: 200,
                       child: Image.asset(
-                        "assets/img1.png",
+                        "assets/profile.png",
                         fit: BoxFit.contain,
                       ),
                     ),
                     const SizedBox(
-                      height: 35,
+                      height: 15,
+                    ),
+                    const Text('Setup your Profile details'),
+                    const SizedBox(
+                      height: 25,
                     ),
                     userNameField,
                     const SizedBox(
@@ -236,10 +241,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         phone: MyPhone.phone,
       );
 
-      await fireStore
-          .collection('users')
-          .doc(user.uid)
-          .set(userModel.toJson());
+      await fireStore.collection('users').doc(user.uid).set(userModel.toJson());
+      Navigator.of(context).pop();
       Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
     }
   }
