@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
+import 'package:yms/colours.dart';
 
 class ParkingScreen extends StatefulWidget {
   const ParkingScreen({super.key});
@@ -16,118 +18,191 @@ class _ParkingScreenState extends State<ParkingScreen> {
     CarouselController buttonCarouselController = CarouselController();
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 15),
-          child: CarouselSlider(
-            items: [1, 2, 3].map((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    margin: const EdgeInsets.all(5),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Parking Lot- $i',
-                          style: const TextStyle(
-                            fontSize: 24,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 15),
+              child: CarouselSlider(
+                items: [1, 2, 3].map((i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        margin: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.blueGrey,
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        const SizedBox(height: 10),
-                        Expanded(
-                          child: GridView.builder(
-                            itemCount: 9,
-                            itemBuilder: (context, index) {
-                              return IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (_) => GiffyDialog.rive(
-                                      const RiveAnimation.network(
-                                        'https://cdn.rive.app/animations/vehicles.riv',
-                                        fit: BoxFit.cover,
-                                        placeHolder: Center(
-                                            child: CircularProgressIndicator()),
-                                      ),
-                                      giffyBuilder: (context, rive) {
-                                        return ClipRRect(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20)),
-                                          child: SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.2,
-                                            child: rive,
+                        child: Column(
+                          children: [
+                            Text(
+                              'Parking Lot- $i',
+                              style: const TextStyle(
+                                fontSize: 24,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Expanded(
+                              child: GridView.builder(
+                                itemCount: 9,
+                                itemBuilder: (context, index) {
+                                  return IconButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => GiffyDialog.rive(
+                                          const RiveAnimation.network(
+                                            'https://cdn.rive.app/animations/vehicles.riv',
+                                            fit: BoxFit.cover,
+                                            placeHolder: Center(
+                                                child:
+                                                    CircularProgressIndicator()),
                                           ),
-                                        );
-                                      },
-                                      title: const Text(
-                                        'Vehicle Number',
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      content: const Text(
-                                        'Registration Id',
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context, 'CALL'),
-                                          child: const Text('CALL'),
+                                          giffyBuilder: (context, rive) {
+                                            return ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(20)),
+                                              child: SizedBox(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.2,
+                                                child: rive,
+                                              ),
+                                            );
+                                          },
+                                          title: const Text(
+                                            'Vehicle Number',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          content: const Text(
+                                            'Registration Id',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  context, 'CALL'),
+                                              child: const Text('CALL'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context, 'OK'),
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
                                         ),
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context, 'OK'),
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.directions_car_filled,
+                                      color: index % 2 == 0
+                                          ? Colors.redAccent
+                                          : Colors.greenAccent,
+                                      size: 80,
                                     ),
                                   );
                                 },
-                                icon: Icon(
-                                  Icons.directions_car_filled,
-                                  color: index % 2 == 0
-                                      ? Colors.redAccent
-                                      : Colors.greenAccent,
-                                  size: 80,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 8,
+                                  crossAxisCount: 3,
                                 ),
-                              );
-                            },
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 8,
-                              crossAxisCount: 3,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
+                carouselController: buttonCarouselController,
+                options: CarouselOptions(
+                  //autoPlay: true,
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  viewportFraction: 0.9,
+                  initialPage: 0,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: true,
+                  enlargeStrategy: CenterPageEnlargeStrategy.height,
+                  padEnds: true,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30,
+                vertical: 20,
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: darkColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Total Vehicles in Parking',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: lightColor,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
+                      ),
+                    ),
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('vehicles')
+                          .snapshots(),
+                      builder: (context,
+                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                              snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        return Center(
+                          child: Text(
+                            snapshot.data!.docs.length.toString(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
                             ),
                           ),
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                  );
-                },
-              );
-            }).toList(),
-            carouselController: buttonCarouselController,
-            options: CarouselOptions(
-              //autoPlay: true,
-              height: MediaQuery.of(context).size.height * 0.5,
-              autoPlayCurve: Curves.fastOutSlowIn,
-              viewportFraction: 0.9,
-              initialPage: 1,
-              enlargeCenterPage: true,
-              enableInfiniteScroll: true,
-              enlargeStrategy: CenterPageEnlargeStrategy.height,
-              padEnds: true,
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

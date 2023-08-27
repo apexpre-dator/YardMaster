@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:yms/colours.dart';
 import 'package:yms/screens/phone.dart';
 import 'package:yms/screens/signup.dart';
 
@@ -24,7 +25,7 @@ class _MyVerifyState extends State<MyVerify> {
           color: Color.fromRGBO(30, 60, 87, 1),
           fontWeight: FontWeight.w600),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
+        border: Border.all(color: lightColor),
         borderRadius: BorderRadius.circular(20),
       ),
     );
@@ -65,7 +66,7 @@ class _MyVerifyState extends State<MyVerify> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/img1.png',
+                'assets/password.gif',
                 width: 150,
                 height: 150,
               ),
@@ -80,7 +81,7 @@ class _MyVerifyState extends State<MyVerify> {
                 height: 10,
               ),
               const Text(
-                "We need to register your phone without getting started!",
+                "Enter the OTP received!",
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -93,6 +94,7 @@ class _MyVerifyState extends State<MyVerify> {
                 defaultPinTheme: defaultPinTheme,
                 submittedPinTheme: submittedPinTheme,
                 focusedPinTheme: focusedPinTheme,
+                
                 length: 6,
                 onChanged: (value) {
                   code = value;
@@ -108,7 +110,7 @@ class _MyVerifyState extends State<MyVerify> {
                 height: 45,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green.shade600,
+                        backgroundColor: darkColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
@@ -128,6 +130,7 @@ class _MyVerifyState extends State<MyVerify> {
                             .get()
                             .then((doc) {
                           if (doc.exists) {
+                            Navigator.of(context).pop();
                             Navigator.of(context).popAndPushNamed('/home');
                           } else {
                             Navigator.of(context)

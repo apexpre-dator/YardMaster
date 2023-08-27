@@ -52,28 +52,55 @@ class _YardScreenState extends State<YardScreen> {
           children: [
             Container(
               margin: const EdgeInsets.symmetric(vertical: 15),
+              height: 375,
+              width: double.infinity,
               child: CarouselSlider(
-                items: [1, 2, 3, 4, 5].map((i) {
+                items: [1, 2, 3, 4].map((i) {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
                         margin: const EdgeInsets.all(5),
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Colors.blueGrey,
+                          color: lightColor,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
                           children: [
                             Text(
-                              'Dock No - $i',
+                              'Dock No : $i',
                               style: const TextStyle(
-                                fontSize: 24,
-                                color: Colors.white,
+                                fontSize: 20,
+                                color: darkColor,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 40,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Vehicles',
+                                    style: TextStyle(
+                                        color: darkColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    'Status',
+                                    style: TextStyle(
+                                        color: darkColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
                             StreamBuilder(
                               stream: FirebaseFirestore.instance
                                   .collection(i.toString())
@@ -306,24 +333,33 @@ class _YardScreenState extends State<YardScreen> {
                                                 ),
                                               );
                                             },
-                                            child: Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.fire_truck_rounded,
-                                                  color: Colors.yellowAccent,
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  '${snap['vNo']}',
-                                                  style: const TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w500,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 25,
+                                              ),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
+                                                      height: 75,
+                                                      child: Image.asset(
+                                                          'assets/truck.png')),
+                                                  Text(
+                                                    '${snap['vNo']}',
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
                                           StepProgressIndicator(
@@ -332,7 +368,8 @@ class _YardScreenState extends State<YardScreen> {
                                             totalSteps: 4,
                                             currentStep: snap['step'],
                                             selectedColor: Colors.greenAccent,
-                                            unselectedColor: Colors.yellow,
+                                            unselectedColor:
+                                                Colors.yellowAccent,
                                           ),
                                         ],
                                       ),
@@ -381,7 +418,7 @@ class _YardScreenState extends State<YardScreen> {
                     ),
                     child: const Center(
                       child: Text(
-                        'Current Vehicle Count',
+                        'Total Vehicles in Dock',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,

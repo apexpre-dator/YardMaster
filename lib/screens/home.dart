@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:yms/colours.dart';
-import 'package:yms/custom.dart';
 
 import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/parkingScreen.dart';
@@ -76,11 +75,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                         child: const Center(
                           child: Text(
-                            'Current Vehicle Count',
+                            'Total Vehicles in Yard',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 20,
+                              fontSize: 18,
                             ),
                           ),
                         ),
@@ -114,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                 ),
                               ),
                             );
@@ -124,6 +123,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ],
                   ),
                   const SizedBox(height: 20),
+                  const Text(
+                    'Dashboard',
+                    style: TextStyle(
+                        color: darkColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
                       print('here');
@@ -131,26 +138,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           .pushNamed(IncomingRegistration.routeName);
                     },
                     child: Card(
-                      color: lightColor,
+                      // color: lightColor,
+
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        // side: const BorderSide(
-                        //   color: darkColor,
-                        // ),
+                        borderRadius: BorderRadius.circular(40),
+                        side: const BorderSide(
+                          color: darkColor,
+                        ),
                       ),
                       elevation: 5,
                       child: SizedBox(
-                        height: 180,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        height: 210,
+                        width: 170,
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset('assets/incoming.gif'),
                             const Text(
                               'Incoming',
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
+                                color: darkColor,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -165,33 +174,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushNamed(QRViewExample.routeName);
-                      // Navigator.of(context).pop();
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //   builder: (context) => const OutgoingRegistration(
-                      //       vRegNo: "47465090-3ce2-11ee-bd4b-81b16a178a14"),
-                      // ));
                     },
                     child: Card(
-                      color: lightColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        // side: const BorderSide(
-                        //   color: darkColor,
-                        // ),
+                        borderRadius: BorderRadius.circular(40),
+                        side: const BorderSide(
+                          color: darkColor,
+                        ),
                       ),
                       elevation: 5,
                       child: SizedBox(
-                        height: 180,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        height: 210,
+                        width: 170,
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset('assets/outgoing.gif'),
                             const Text(
                               'Outgoing',
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
+                                color: darkColor,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -208,26 +212,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Navigator.of(context).pushNamed(RecordScreen.routeName);
                     },
                     child: Card(
-                      color: lightColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        // side: const BorderSide(
-                        //   color: darkColor,
-                        // ),
+                        borderRadius: BorderRadius.circular(40),
+                        side: const BorderSide(
+                          color: darkColor,
+                        ),
                       ),
                       elevation: 5,
                       child: SizedBox(
-                        height: 180,
+                        height: 150,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Image.asset('assets/outgoing.gif'),
+                            Container(
+                                height: 100,
+                                child: Image.asset('assets/history.gif')),
                             const Text(
-                              'Records',
+                              'Vehicle History',
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
+                                color: darkColor,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -235,6 +240,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 25,
                   ),
                 ],
               ),
