@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yms/methods/storage_methods.dart';
 import 'package:yms/models/driver_model.dart';
+import 'package:yms/models/user_model.dart';
 import 'package:yms/models/vehicle_model.dart';
 
 class FirestoreMethods {
@@ -83,7 +84,13 @@ class FirestoreMethods {
   Future<Driver> getDriver(String dId) async {
     DocumentSnapshot doc =
         await _firestore.collection('drivers').doc(dId).get();
-    Driver d = await Driver.fromSnap(doc);
+    Driver d = Driver.fromSnap(doc);
+    return d;
+  }
+  Future<UserModel> getUser(String dId) async {
+    DocumentSnapshot doc =
+        await _firestore.collection('users').doc(dId).get();
+    UserModel d = UserModel.fromSnap(doc);
     return d;
   }
 }

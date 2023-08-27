@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:yms/widgets/custom_dropdown.dart';
 import 'package:yms/models/yard_vehicle_model.dart';
 
 class YardScreen extends StatefulWidget {
@@ -71,135 +71,253 @@ class _YardScreenState extends State<YardScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 3,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (_) => GiffyDialog.rive(
-                                          const RiveAnimation.network(
-                                            'https://cdn.rive.app/animations/vehicles.riv',
-                                            fit: BoxFit.cover,
-                                            placeHolder: Center(
-                                                child:
-                                                    CircularProgressIndicator()),
-                                          ),
-                                          giffyBuilder: (context, rive) {
-                                            return ClipRRect(
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(20)),
-                                              child: SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.2,
-                                                child: rive,
-                                              ),
-                                            );
-                                          },
-                                          title: Text(
-                                            v.vehicleNo,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              CustomDropdownButton2(
-                                                dropdownWidth:
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width -
-                                                        160,
-                                                buttonWidth: double.infinity,
-                                                hint: 'Update Status',
-                                                value: items[v.step],
-                                                dropdownItems: items,
-                                                onChanged: updateStatus,
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: TextField(
-                                                  controller:
-                                                      timing, //editing controller of this TextField
-                                                  decoration:
-                                                      const InputDecoration(
-                                                    icon: Icon(Icons
-                                                        .timer), //icon of text field
-                                                    labelText:
-                                                        "Select Time", //label text of field
-                                                    border: InputBorder.none,
-                                                  ),
-                                                  readOnly:
-                                                      true, //set it true, so that user will not able to edit text
-                                                  onTap: () async {
-                                                    TimeOfDay? pickedTime =
-                                                        await showTimePicker(
-                                                      initialTime:
-                                                          TimeOfDay.now(),
-                                                      context: context,
-                                                    );
+                        StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection(i.toString())
+                              .snapshots(),
+                          builder: (context,
+                              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                                  snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
 
-                                                    if (pickedTime != null) {
-                                                      print(pickedTime
-                                                          .format(context));
-                                                      setState(() {
-                                                        timing.text = pickedTime
-                                                            .format(context);
-                                                      });
-                                                    } else {
-                                                      print(
-                                                          "Time is not selected");
-                                                    }
-                                                  },
-                                                ),
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                final snap = snapshot.data!.docs[index].data();
+
+                                return Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (dctx) => GiffyDialog.rive(
+                                              const RiveAnimation.network(
+                                                'https://cdn.rive.app/animations/vehicles.riv',
+                                                fit: BoxFit.cover,
+                                                placeHolder: Center(
+                                                    child:
+                                                        CircularProgressIndicator()),
                                               ),
-                                            ],
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () => Navigator.pop(
-                                                  context, 'CALL'),
-                                              child: const Text('Update'),
+                                              giffyBuilder: (context, rive) {
+                                                return ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(20)),
+                                                  child: SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.2,
+                                                    child: rive,
+                                                  ),
+                                                );
+                                              },
+                                              title: Text(
+                                                snap['vNo'],
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  if (snap['step'] == 0)
+                                                    const Text(
+                                                        'Vehicle Dock In')
+                                                  else if (snap['step'] == 1)
+                                                    const Text(
+                                                        'Start Vehicle Operations')
+                                                  else if (snap['step'] == 2)
+                                                    const Text(
+                                                        'End Vehicle Operations')
+                                                  else if (snap['step'] == 3)
+                                                    const Text(
+                                                        'Vehicle Dock Out')
+                                                  else
+                                                    const Text(
+                                                        'CheckOut Vehicle from Dock'),
+                                                  if (snap['step'] < 4)
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: TextField(
+                                                        controller:
+                                                            timing, //editing controller of this TextField
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          icon: Icon(Icons
+                                                              .timer), //icon of text field
+                                                          labelText:
+                                                              "Select Time", //label text of field
+                                                          border:
+                                                              InputBorder.none,
+                                                        ),
+                                                        readOnly:
+                                                            true, //set it true, so that user will not able to edit text
+                                                        onTap: () async {
+                                                          TimeOfDay?
+                                                              pickedTime =
+                                                              await showTimePicker(
+                                                            initialTime:
+                                                                TimeOfDay.now(),
+                                                            context: context,
+                                                          );
+
+                                                          if (pickedTime !=
+                                                              null) {
+                                                            print(pickedTime
+                                                                .format(
+                                                                    context));
+                                                            setState(() {
+                                                              timing.text =
+                                                                  pickedTime
+                                                                      .format(
+                                                                          context);
+                                                            });
+                                                          } else {
+                                                            print(
+                                                                "Time is not selected");
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+                                              actions: [
+                                                IconButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          dctx, 'CALL'),
+                                                  icon: const Icon(
+                                                    Icons.phone,
+                                                  ),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    if (snap['step'] == 0) {
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection("1")
+                                                          .doc(snap['vNo'])
+                                                          .update({
+                                                        "dockInTime":
+                                                            timing.text,
+                                                        "step": 1,
+                                                      });
+                                                    }
+                                                    if (snap['step'] == 1) {
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection("1")
+                                                          .doc(snap['vNo'])
+                                                          .update({
+                                                        "operationStartTime":
+                                                            timing.text,
+                                                        "step": 2,
+                                                      });
+                                                    }
+                                                    if (snap['step'] == 2) {
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection("1")
+                                                          .doc(snap['vNo'])
+                                                          .update({
+                                                        "operationEndTime":
+                                                            timing.text,
+                                                        "step": 3,
+                                                      });
+                                                    }
+                                                    if (snap['step'] == 3) {
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection("1")
+                                                          .doc(snap['vNo'])
+                                                          .update({
+                                                        "dockOutTime":
+                                                            timing.text,
+                                                        "step": 4,
+                                                      });
+                                                    }
+                                                    if (snap['step'] == 4) {
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection(
+                                                              "checkedOut")
+                                                          .doc(snap['vNo'])
+                                                          .set({
+                                                        "vNO": snap['vNo'],
+                                                        "vRegNo":
+                                                            snap['vRegNo'],
+                                                        "dockInTime":
+                                                            snap['dockInTime'],
+                                                        "operationStartTime": snap[
+                                                            'operationStartTime'],
+                                                        "operationEndTime": snap[
+                                                            'operationEndTime'],
+                                                        "dockOutTime":
+                                                            snap['dockOutTime'],
+                                                      });
+
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection("1")
+                                                          .doc(snap['vNo'])
+                                                          .delete();
+                                                    }
+
+                                                    Navigator.pop(dctx, 'OK');
+                                                  },
+                                                  child: Text(snap['step'] == 4
+                                                      ? 'Check Out'
+                                                      : 'OK'),
+                                                ),
+                                              ],
                                             ),
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context, 'OK'),
-                                              child: const Text('OK'),
+                                          );
+                                        },
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.fire_truck_rounded,
+                                              color: Colors.yellowAccent,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              '${snap['vNo']}',
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      );
-                                    },
-                                    child: Text(
-                                      'Vehicle No: $index',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
                                       ),
-                                    ),
+                                      StepProgressIndicator(
+                                        size: 15,
+                                        padding: 2,
+                                        totalSteps: 4,
+                                        currentStep: snap['step'],
+                                        selectedColor: Colors.greenAccent,
+                                        unselectedColor: Colors.yellow,
+                                      ),
+                                    ],
                                   ),
-                                  StepProgressIndicator(
-                                    size: 15,
-                                    padding: 2,
-                                    totalSteps: 4,
-                                    currentStep: v.step,
-                                    selectedColor: Colors.greenAccent,
-                                    unselectedColor: Colors.yellow,
-                                  ),
-                                ],
-                              ),
+                                );
+                              },
                             );
                           },
                         ),
@@ -215,7 +333,7 @@ class _YardScreenState extends State<YardScreen> {
               height: MediaQuery.of(context).size.height * 0.5,
               autoPlayCurve: Curves.fastOutSlowIn,
               viewportFraction: 0.9,
-              initialPage: 1,
+              initialPage: 0,
               enlargeCenterPage: true,
               enableInfiniteScroll: true,
               enlargeStrategy: CenterPageEnlargeStrategy.height,
