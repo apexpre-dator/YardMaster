@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:yms/colours.dart';
+import 'package:yms/custom.dart';
 
 import 'package:yms/screens/incomingRegistration.dart';
 import 'package:yms/screens/parkingScreen.dart';
@@ -93,20 +95,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             bottomRight: Radius.circular(15),
                           ),
                         ),
-                        child: const Center(
-                          child: Text(
-                            '15',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                          ),
+                        child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('vehicles')
+                              .snapshots(),
+                          builder: (context,
+                              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                                  snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return Center(
+                              child: Text(
+                                snapshot.data!.docs.length.toString(),
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
                       print('here');
