@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'dart:io';
 import 'dart:math';
 
@@ -63,7 +64,6 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
         }
       });
     } catch (e) {
-      print('Failed to pick image: $e');
     }
   }
 
@@ -115,7 +115,6 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
       _isLoading = false;
     });
 
-    print(res);
 
     if (res != "success") {
       SnackBar snackBar = SnackBar(
@@ -224,9 +223,9 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                             children: [
                               const CustomDisplay(
                                   title: "Assigned Parking Lot "),
-                              CustomDisplay(title: "$lotNo"),
+                              CustomDisplay(title: lotNo),
                               const CustomDisplay(title: "Assigned Dock No "),
-                              CustomDisplay(title: "$dockNo"),
+                              CustomDisplay(title: dockNo),
                             ],
                           ),
                         ),

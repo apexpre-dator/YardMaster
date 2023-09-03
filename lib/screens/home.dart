@@ -133,7 +133,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      print('here');
                       Navigator.of(context)
                           .pushNamed(IncomingRegistration.routeName);
                     },
@@ -173,6 +172,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   GestureDetector(
                     onTap: () {
+                      // Navigator.of(context).pop();
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) => const OutgoingRegistration(
+                      //       vRegNo: "577a03c0-44a9-11ee-a8be-450976527a3b"),
+                      // ));
                       Navigator.of(context).pushNamed(QRViewExample.routeName);
                     },
                     child: Card(
@@ -225,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
+                            SizedBox(
                                 height: 100,
                                 child: Image.asset('assets/history.gif')),
                             const Text(
@@ -241,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                 ],

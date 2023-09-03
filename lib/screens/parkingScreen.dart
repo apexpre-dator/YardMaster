@@ -30,16 +30,16 @@ class _ParkingScreenState extends State<ParkingScreen> {
                         margin: const EdgeInsets.all(5),
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Colors.blueGrey,
+                          color: lightColor,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
                           children: [
                             Text(
-                              'Parking Lot- $i',
+                              'Parking Lot : $i',
                               style: const TextStyle(
-                                fontSize: 24,
-                                color: Colors.white,
+                                fontSize: 20,
+                                color: darkColor,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -48,8 +48,8 @@ class _ParkingScreenState extends State<ParkingScreen> {
                               child: GridView.builder(
                                 itemCount: 9,
                                 itemBuilder: (context, index) {
-                                  return IconButton(
-                                    onPressed: () {
+                                  return InkWell(
+                                    onTap: () {
                                       showDialog(
                                         context: context,
                                         builder: (_) => GiffyDialog.rive(
@@ -74,12 +74,19 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                               ),
                                             );
                                           },
-                                          title: const Text(
-                                            'Vehicle Number',
-                                            textAlign: TextAlign.center,
+                                          title: Text(
+                                            index % 2 == 0
+                                                ? 'Empty Slot'
+                                                : 'Vehicle Number: UP76XX9999',
+                                            // textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                            ),
                                           ),
-                                          content: const Text(
-                                            'Registration Id',
+                                          content: Text(
+                                            index % 2 == 0
+                                                ? 'This Parking lot is Free'
+                                                : 'Driver Name: Ayush Uttam',
                                             textAlign: TextAlign.center,
                                           ),
                                           actions: [
@@ -97,13 +104,18 @@ class _ParkingScreenState extends State<ParkingScreen> {
                                         ),
                                       );
                                     },
-                                    icon: Icon(
-                                      Icons.directions_car_filled,
-                                      color: index % 2 == 0
-                                          ? Colors.redAccent
-                                          : Colors.greenAccent,
-                                      size: 80,
-                                    ),
+                                    child: index % 2 == 0 || i>=2
+                                        ? SizedBox(
+                                            height: 50,
+                                            width: 50,
+                                            child: Image.asset(
+                                              'assets/free.png',
+                                            ))
+                                        : SizedBox(
+                                            height: 50,
+                                            width: 50,
+                                            child: Image.asset(
+                                                'assets/notFree.png')),
                                   );
                                 },
                                 physics: const NeverScrollableScrollPhysics(),

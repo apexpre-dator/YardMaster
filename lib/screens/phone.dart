@@ -130,7 +130,7 @@ class _MyPhoneState extends State<MyPhone> {
                         codeSent: (String verificationId, int? resendToken) {
                           
                           MyPhone.verify = verificationId;
-                          Navigator.of(context).pushNamed(MyVerify.routeName);
+                          Navigator.of(context).popAndPushNamed(MyVerify.routeName);
                         },
                         codeAutoRetrievalTimeout: (String verificationId) {},
                       );

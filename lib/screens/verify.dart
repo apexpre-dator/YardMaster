@@ -130,11 +130,10 @@ class _MyVerifyState extends State<MyVerify> {
                             .get()
                             .then((doc) {
                           if (doc.exists) {
-                            Navigator.of(context).pop();
                             Navigator.of(context).popAndPushNamed('/home');
                           } else {
                             Navigator.of(context)
-                                .pushNamed(SignUpScreen.routeName);
+                                .popAndPushNamed(SignUpScreen.routeName);
                           }
                         });
                       } catch (e) {
@@ -151,7 +150,7 @@ class _MyVerifyState extends State<MyVerify> {
                 children: [
                   TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.of(context).popAndPushNamed('/');
                       },
                       child: const Text(
                         "Edit Phone Number ?",
