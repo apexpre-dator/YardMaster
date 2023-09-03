@@ -1,5 +1,9 @@
 # YardMaster - Streamlining Yard Management for Walmart
 
+<img src="ui/Screenshot_2023-08-29-17-39-54-71_bf5e0c18c338af8b6bf86413e5b96728.jpg" height="300em" /> &ensp; <img src="ui/Screenshot_2023-08-29-17-40-20-66_bf5e0c18c338af8b6bf86413e5b96728.jpg" height="300em" /> &ensp;
+<img src="ui/Screenshot_2023-08-29-17-41-48-83_bf5e0c18c338af8b6bf86413e5b96728.jpg" height="300em" /> &ensp; <img src="ui/Screenshot_2023-08-29-17-41-42-66_bf5e0c18c338af8b6bf86413e5b96728.jpg" height="300em" /> &ensp;
+<img src="ui/Screenshot_2023-08-29-17-40-55-85_bf5e0c18c338af8b6bf86413e5b96728.jpg" height="300em" />
+
 ## Introduction
 Welcome to YardMaster, an innovative Yard Management System designed to optimize the efficiency of Walmart's supply chain operations. This repository hosts the complete codebase for YardMaster, offering a comprehensive solution to address the challenges faced in yard management.
 
