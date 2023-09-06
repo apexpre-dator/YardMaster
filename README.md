@@ -51,7 +51,7 @@ To set up YardMaster locally and contribute to the project, follow the [Installa
 We welcome contributions from the open-source community to improve YardMaster. If you have suggestions, feature requests, or bug reports, please submit them in the [Issues](link-to-issues) section.
 
 ## License
-YardMaster is open-source software licensed under the [MIT License](link-to-license).
+YardMaster is an open-source software licensed under the [MIT License](link-to-license).
 
 ## Acknowledgments
 We would like to express our gratitude to the Nexus team and the open-source community for their support and contributions to YardMaster.
