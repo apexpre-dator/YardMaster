@@ -92,7 +92,7 @@ class _RecordScreenState extends State<RecordScreen> {
                         leading: const Padding(
                           padding: EdgeInsets.all(10),
                           child: Icon(
-                            Icons.sailing,
+                            Icons.directions_car_filled_sharp,
                             color: Colors.white,
                           ),
                         ),
@@ -104,7 +104,7 @@ class _RecordScreenState extends State<RecordScreen> {
                               Text(
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
-                                v[index].regNo,
+                                v[index].vNo,
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge!
@@ -112,7 +112,7 @@ class _RecordScreenState extends State<RecordScreen> {
                                     .copyWith(color: Colors.white),
                               ),
                               Text(
-                                v[index].vNo,
+                                v[index].vModel,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -140,7 +140,8 @@ class _RecordScreenState extends State<RecordScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                v[index].destination ?? '-',
+                                "Source: ${v[index].source} | Destination: ${v[index].destination ?? '-'}",
+                                maxLines: 2,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
@@ -196,7 +197,13 @@ class _RecordScreenState extends State<RecordScreen> {
                                                       color: Colors.white),
                                             ),
                                             Text(
-                                              v[index].timeOut ?? '-',
+                                              v[index].timeOut == null
+                                                  ? '-'
+                                                  : TimeOfDay.fromDateTime(
+                                                          DateTime.parse(
+                                                              v[index]
+                                                                  .timeOut!))
+                                                      .format(context),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyLarge!

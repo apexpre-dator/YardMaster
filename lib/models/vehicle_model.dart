@@ -66,6 +66,8 @@ class Vehicle {
       timeIn: snapshot["timeIn"],
       source: snapshot["source"],
       photoUrl: snapshot["photoUrl"],
+      destination: snapshot["destination"],
+      timeOut: snapshot["timeOut"],
     );
   }
 }

@@ -87,9 +87,9 @@ class FirestoreMethods {
     Driver d = Driver.fromSnap(doc);
     return d;
   }
+
   Future<UserModel> getUser(String dId) async {
-    DocumentSnapshot doc =
-        await _firestore.collection('users').doc(dId).get();
+    DocumentSnapshot doc = await _firestore.collection('users').doc(dId).get();
     UserModel d = UserModel.fromSnap(doc);
     return d;
   }

@@ -49,7 +49,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
     });
   }
 
-  void exitYard() async {
+  void exitYard(BuildContext context) async {
     setState(() {
       _isLoading = true;
     });
@@ -128,9 +128,8 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
                         // alignment: Alignment.center,
                         height: 250,
                         width: 250,
-                        child: Image.asset(
-                            fit: BoxFit.contain,
-                            'assets/done.gif'),
+                        child:
+                            Image.asset(fit: BoxFit.contain, 'assets/done.gif'),
                       ),
                       const SizedBox(
                         height: 25,
@@ -162,7 +161,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
                       bool isLastStep = (currentStep == getSteps().length - 1);
                       if (isLastStep) {
                         FocusScope.of(context).unfocus();
-                        exitYard();
+                        exitYard(context);
                         //vehicle gone out deregister
                         print('here');
                         // setState(() {
