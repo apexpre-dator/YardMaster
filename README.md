@@ -1,8 +1,16 @@
 # YardMaster - Streamlining Yard Management for Walmart
 
-<img src="ui/Screenshot_2023-08-29-17-39-54-71_bf5e0c18c338af8b6bf86413e5b96728.jpg" height="300em" /> &ensp; <img src="ui/Screenshot_2023-08-29-17-40-20-66_bf5e0c18c338af8b6bf86413e5b96728.jpg" height="300em" /> &ensp;
-<img src="ui/Screenshot_2023-08-29-17-41-48-83_bf5e0c18c338af8b6bf86413e5b96728.jpg" height="300em" /> &ensp; <img src="ui/Screenshot_2023-08-29-17-41-42-66_bf5e0c18c338af8b6bf86413e5b96728.jpg" height="300em" /> &ensp;
-<img src="ui/Screenshot_2023-08-29-17-40-55-85_bf5e0c18c338af8b6bf86413e5b96728.jpg" height="300em" />
+<img src="images\1.jpeg" height="300em" /> &ensp; <img src="images\2.jpeg" height="300em" /> &ensp;
+<img src="images\3.jpeg" height="300em" /> &ensp; <img src="images\4.jpeg" height="300em" /> &ensp;
+<img src="images\5.jpeg" height="300em" />
+
+<img src="images\6.jpeg" height="300em" /> &ensp; <img src="images\7.jpeg" height="300em" /> &ensp;
+<img src="images\8.jpeg" height="300em" /> &ensp; <img src="images\9.jpeg" height="300em" /> &ensp;
+<img src="images\10.jpeg" height="300em" />
+
+<img src="images\11.jpeg" height="300em" /> &ensp; <img src="images\12.jpeg" height="300em" /> &ensp;
+<img src="images\13.jpeg" height="300em" /> &ensp; <img src="images\14.jpeg" height="300em" /> &ensp;
+<img src="images\15.jpeg" height="300em" />
 
 ## Introduction
 Welcome to YardMaster, an innovative Yard Management System designed to optimize the efficiency of Walmart's supply chain operations. This repository hosts the complete codebase for YardMaster, offering a comprehensive solution to address the challenges faced in yard management.
