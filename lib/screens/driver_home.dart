@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:yms/colours.dart';
+import './driver_history.dart';
 
 class DriverHomeScreen extends StatefulWidget {
   const DriverHomeScreen({super.key});
@@ -71,7 +72,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen>
             ),
           ),
           // History Screen
-          Text('Vehicle History'),
+          const DriverHistoryScreen(),
         ],
       ),
       bottomNavigationBar: MotionTabBar(
