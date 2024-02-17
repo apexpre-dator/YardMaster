@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:yms/colours.dart';
 import 'package:yms/firebase_options.dart';
+import 'package:yms/screens/driver_home.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/incomingRegistration.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         home: const MyPhone(),
+        //home: DriverHomeScreen(),
         routes: {
           SignUpScreen.routeName: (context) => const SignUpScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(),
@@ -44,6 +46,7 @@ class MyApp extends StatelessWidget {
           RecordScreen.routeName: (context) => const RecordScreen(),
           YardScreen.routeName: (context) => const YardScreen(),
           ParkingScreen.routeName: (context) => const ParkingScreen(),
+          DriverHomeScreen.routeName: (context) => const DriverHomeScreen(),
         });
   }
 }

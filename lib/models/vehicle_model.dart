@@ -13,6 +13,9 @@ class Vehicle {
   final String timeIn;
   String? timeOut;
   final String source;
+  final String sourceCity;
+  final String sourceState;
+  final String sourceCountry;
   String? destination;
   String photoUrl;
 
@@ -29,6 +32,9 @@ class Vehicle {
     required this.timeIn,
     this.timeOut,
     required this.source,
+    required this.sourceCity,
+    required this.sourceState,
+    required this.sourceCountry,
     this.destination,
     required this.photoUrl,
   });
@@ -46,6 +52,9 @@ class Vehicle {
         "timeIn": timeIn,
         "timeOut": timeOut,
         "source": source,
+        "sourceCity": sourceCity,
+        "sourceState": sourceState,
+        "sourceCountry": sourceCountry,
         "destination": destination,
         "photoUrl": photoUrl,
       };
@@ -65,7 +74,12 @@ class Vehicle {
       lotNo: snapshot["lotNo"],
       timeIn: snapshot["timeIn"],
       source: snapshot["source"],
+      sourceCity: snapshot["sourceCity"],
+      sourceState: snapshot["sourceState"],
+      sourceCountry: snapshot["sourceCountry"],
       photoUrl: snapshot["photoUrl"],
+      destination: snapshot["destination"],
+      timeOut: snapshot["timeOut"],
     );
   }
 }

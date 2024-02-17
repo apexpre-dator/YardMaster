@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csc_picker/csc_picker.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -38,6 +39,10 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController timeIncoming = TextEditingController();
 
+  late String countryName;
+  late String? stateName;
+  late String? cityName;
+
   bool registered = false;
   File? vehicleImage;
   File? driverPic;
@@ -63,8 +68,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
           driverPic = imageTemp;
         }
       });
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   void registerVehicle(BuildContext context) async {
@@ -93,6 +97,9 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
       timeIn: DateTime.now().toIso8601String(),
       // timeOut: null,
       source: sourceController.text,
+      sourceCity: cityName!,
+      sourceState: stateName!,
+      sourceCountry: countryName,
       // destination: "",
       photoUrl: "",
     );
@@ -114,7 +121,6 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
     setState(() {
       _isLoading = false;
     });
-
 
     if (res != "success") {
       SnackBar snackBar = SnackBar(
@@ -527,6 +533,52 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                   border: OutlineInputBorder(),
                 ),
               ),
+            ),
+            CSCPicker(
+              dropdownDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey.shade300, width: 1)),
+              disabledDropdownDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.grey.shade300,
+                  border: Border.all(color: Colors.grey.shade300, width: 1)),
+              countrySearchPlaceholder: "Country",
+              stateSearchPlaceholder: "State",
+              citySearchPlaceholder: "City",
+              countryDropdownLabel: "Country",
+              stateDropdownLabel: "State",
+              cityDropdownLabel: "City",
+              defaultCountry: CscCountry.India,
+              selectedItemStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+              ),
+              dropdownHeadingStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold),
+              dropdownItemStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+              ),
+              dropdownDialogRadius: 10.0,
+              searchBarRadius: 10.0,
+              onCountryChanged: (value) {
+                setState(() {
+                  countryName = value;
+                });
+              },
+              onStateChanged: (value) {
+                setState(() {
+                  stateName = value;
+                });
+              },
+              onCityChanged: (value) {
+                setState(() {
+                  cityName = value;
+                });
+              },
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
