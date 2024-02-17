@@ -39,8 +39,8 @@ class FirestoreMethods {
     try {
       String vPhotoUrl = await StorageMethods()
           .uploadImgToStorage(v.regNo, vehicleImage!, false);
-      String dPhotoUrl =
-          await StorageMethods().uploadImgToStorage(v.regNo, driverPic!, true);
+      // String dPhotoUrl =
+      //     await StorageMethods().uploadImgToStorage(v.regNo, driverPic!, true);
 
       v.photoUrl = vPhotoUrl;
 
