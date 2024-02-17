@@ -30,6 +30,7 @@ class FirestoreMethods {
 
   Future<String> registerVehicle(
     Vehicle v,
+    // String dId,
     File? vehicleImage,
     File? driverPic,
   ) async {
@@ -38,16 +39,17 @@ class FirestoreMethods {
     try {
       String vPhotoUrl = await StorageMethods()
           .uploadImgToStorage(v.regNo, vehicleImage!, false);
-      // String dPhotoUrl =
-      //     await StorageMethods().uploadImgToStorage(v.regNo, driverPic!, true);
+      String dPhotoUrl =
+          await StorageMethods().uploadImgToStorage(v.regNo, driverPic!, true);
 
       v.photoUrl = vPhotoUrl;
-      // d.photoUrl = dPhotoUrl;
 
       _firestore.collection('vehicles').doc(v.regNo).set(
             v.toJson(),
           );
-      // _firestore.collection('drivers').doc(d.dId).set(
+
+      // Need to update Image in Driver's Collection
+      // _firestore.collection('drivers').doc(dId).set(
       //       d.toJson(),
       //     );
 
