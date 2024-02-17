@@ -109,6 +109,13 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
       "vRegNo": vRegNo,
     });
 
+    await FirebaseFirestore.instance.collection("dockVehicles").doc(vehicle.vNo).set({
+      "vNo": vehicle.vNo,
+      "objective": vehicle.objective,
+      "step": 0,
+      "vRegNo": vRegNo,
+    });
+
     setState(() {
       _isLoading = false;
     });
