@@ -24,7 +24,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
   final TextEditingController timeOutgoing = TextEditingController();
 
   bool _isLoading = false;
-  late Driver driver;
+  late DriverModel driver;
   late Vehicle vehicle;
   bool _checkOut = false;
 
@@ -228,17 +228,17 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
         title: const Text("Driver"),
         content: Column(
           children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              height: 150,
-              width: double.infinity,
-              child: Image.network(
-                driver.photoUrl,
-                width: 150,
-                height: 150,
-                fit: BoxFit.fill,
-              ),
-            ),
+            // Container(
+            //   alignment: Alignment.centerLeft,
+            //   height: 150,
+            //   width: double.infinity,
+            //   child: Image.network(
+            //     driver.photoUrl,
+            //     width: 150,
+            //     height: 150,
+            //     fit: BoxFit.fill,
+            //   ),
+            // ),
             const SizedBox(
               height: 10,
             ),
@@ -281,10 +281,10 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               hint: TimeOfDay.fromDateTime(DateTime.parse(vehicle.timeIn))
                   .format(context),
             ),
-            const CustomDisplay(title: 'Source Address'),
-            TextDisplay(
-              hint: vehicle.source,
-            ),
+            // const CustomDisplay(title: 'Source Address'),
+            // TextDisplay(
+            //   hint: vehicle.source,
+            // ),
             const CustomDisplay(title: 'Vehicle Weight'),
             const SizedBox(height: 10),
             CustomInput(

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:yms/methods/firestore_methods.dart';
-import 'package:yms/models/user_model.dart';
+import 'package:yms/models/employee_model.dart';
 import 'package:yms/screens/phone.dart';
 import 'package:yms/colours.dart';
 
@@ -14,7 +14,7 @@ class SideBarWidget extends StatefulWidget {
 }
 
 class _SideBarWidgetState extends State<SideBarWidget> {
-  late UserModel user;
+  late EmployeeModel user;
   bool _isLoading = false;
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _SideBarWidgetState extends State<SideBarWidget> {
       _isLoading = true;
     });
     user = await FirestoreMethods()
-        .getUser(FirebaseAuth.instance.currentUser!.uid);
+        .getEmplpyee(FirebaseAuth.instance.currentUser!.uid);
 
     setState(() {
       _isLoading = false;
@@ -82,7 +82,7 @@ class _SideBarWidgetState extends State<SideBarWidget> {
         ),
       ),
       extendedTheme: const SidebarXTheme(
-        width: 225,
+        width: 260,
         decoration: BoxDecoration(
           color: canvasColor,
         ),
@@ -127,11 +127,6 @@ class _SideBarWidgetState extends State<SideBarWidget> {
             icon: Icons.warehouse,
             label: user.yardName,
           ),
-        SidebarXItem(
-          icon: Icons.edit,
-          label: 'Edit Profile',
-          onTap: () {},
-        ),
         SidebarXItem(
           icon: Icons.logout_outlined,
           label: 'Logout',

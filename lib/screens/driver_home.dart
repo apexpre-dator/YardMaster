@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:yms/colours.dart';
+import 'package:yms/screens/phone.dart';
 import './driver_history.dart';
 
 class DriverHomeScreen extends StatefulWidget {
@@ -44,6 +46,21 @@ class _DriverHomeScreenState extends State<DriverHomeScreen>
             bottom: Radius.circular(23),
           ),
         ),
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.notifications_none,
+          ),
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                FirebaseAuth auth = FirebaseAuth.instance;
+                auth.signOut();
+                Navigator.of(context).popAndPushNamed(MyPhone.routeName);
+              },
+              icon: Icon(Icons.logout))
+        ],
       ),
       // implement driver profile here --------------------------------------------------------------
       // endDrawer : ,

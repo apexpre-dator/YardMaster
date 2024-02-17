@@ -12,7 +12,6 @@ class Vehicle {
   final String lotNo;
   final String timeIn;
   String? timeOut;
-  final String source;
   final String sourceCity;
   final String sourceState;
   final String sourceCountry;
@@ -31,7 +30,6 @@ class Vehicle {
     required this.lotNo,
     required this.timeIn,
     this.timeOut,
-    required this.source,
     required this.sourceCity,
     required this.sourceState,
     required this.sourceCountry,
@@ -51,7 +49,6 @@ class Vehicle {
         "lotNo": lotNo,
         "timeIn": timeIn,
         "timeOut": timeOut,
-        "source": source,
         "sourceCity": sourceCity,
         "sourceState": sourceState,
         "sourceCountry": sourceCountry,
@@ -73,7 +70,6 @@ class Vehicle {
       dockNo: snapshot["dockNo"],
       lotNo: snapshot["lotNo"],
       timeIn: snapshot["timeIn"],
-      source: snapshot["source"],
       sourceCity: snapshot["sourceCity"],
       sourceState: snapshot["sourceState"],
       sourceCountry: snapshot["sourceCountry"],

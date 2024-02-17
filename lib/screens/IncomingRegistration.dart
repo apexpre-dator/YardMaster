@@ -6,10 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yms/methods/firestore_methods.dart';
-import 'package:yms/models/driver_model.dart';
 import 'package:yms/models/vehicle_model.dart';
 import 'package:yms/widgets/custom_display.dart';
 import 'package:yms/widgets/custom_input.dart';
@@ -33,10 +31,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
   final TextEditingController objectiveController = TextEditingController();
   final TextEditingController sourceController = TextEditingController();
   final TextEditingController dIdController = TextEditingController();
-  final TextEditingController dNameController = TextEditingController();
   final TextEditingController dlNoController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
   final TextEditingController timeIncoming = TextEditingController();
 
   late String countryName;
@@ -47,11 +42,10 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
   File? vehicleImage;
   File? driverPic;
   String lotNo = (Random().nextInt(8) + 1).toString();
-  String dockNo = "1";
+  String dockNo = (Random().nextInt(4) + 1).toString();
   bool _isLoading = false;
   String obj = 'Loading';
 
-  late Driver driver;
   late Vehicle vehicle;
   final String vRegNo = const Uuid().v1();
 
@@ -75,28 +69,25 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
     setState(() {
       _isLoading = true;
     });
-    driver = Driver(
-      dId: dIdController.text,
-      dName: dNameController.text,
-      dlNo: dlNoController.text,
-      phone: phoneController.text,
-      address: addressController.text,
-      vRegNo: vRegNo,
-      photoUrl: "",
-    );
+    // driver = DriverModel(
+    //   dId: dIdController.text,
+    //   dName: dNameController.text,
+    //   dlNo: dlNoController.text,
+    //   phone: phoneController.text,
+    //   address: addressController.text,
+    // );
     vehicle = Vehicle(
       regNo: vRegNo,
       vNo: vNoController.text,
       vWeight: vWeightController.text,
       vModel: vModelController.text,
       persons: personsController.text,
-      dId: driver.dId,
+      dId: dIdController.text,
       objective: obj,
       dockNo: dockNo,
       lotNo: lotNo,
       timeIn: DateTime.now().toIso8601String(),
       // timeOut: null,
-      source: sourceController.text,
       sourceCity: cityName!,
       sourceState: stateName!,
       sourceCountry: countryName,
@@ -105,7 +96,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
     );
 
     final res = await FirestoreMethods()
-        .registerVehicle(vehicle, driver, vehicleImage, driverPic);
+        .registerVehicle(vehicle, vehicleImage, driverPic);
 
     await FirebaseFirestore.instance.collection(dockNo).doc(vehicle.vNo).set({
       "vNo": vehicle.vNo,
@@ -144,10 +135,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
     objectiveController.dispose();
     sourceController.dispose();
     dIdController.dispose();
-    dNameController.dispose();
     dlNoController.dispose();
-    addressController.dispose();
-    phoneController.dispose();
     timeIncoming.dispose();
   }
 
@@ -192,16 +180,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(
-                          height: 45,
-                        ),
-                        const Text(
-                          'Vehicle Registered Successfully!',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        
                         const SizedBox(
                           height: 35,
                         ),
@@ -432,12 +411,24 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                         const SizedBox(
                           width: 30,
                         ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            await pickImage(false);
-                          },
-                          child: const Text('Upload'),
-                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                await pickImage(false);
+                              },
+                              child: const Text('Upload'),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {},
+                              child: const Text('Scan Id'),
+                            ),
+                          ],
+                        )
                       ],
                     ),
             ),
@@ -445,42 +436,9 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
               height: 10,
             ),
             CustomInput(
-              hint: "Driver Name",
-              inputBorder: const OutlineInputBorder(),
-              controller: dNameController,
-            ),
-            CustomInput(
-              hint: "License Number",
-              inputBorder: const OutlineInputBorder(),
-              controller: dlNoController,
-            ),
-            CustomInput(
-              hint: "Identification Number",
+              hint: "Id Number",
               inputBorder: const OutlineInputBorder(),
               controller: dIdController,
-            ),
-            IntlPhoneField(
-              controller: phoneController,
-              decoration: const InputDecoration(
-                labelText: 'Phone Number',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(),
-                ),
-              ),
-              initialCountryCode: 'IN',
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              child: TextField(
-                maxLines: 2,
-                minLines: 1,
-                controller: addressController,
-                onSubmitted: (v) {},
-                decoration: const InputDecoration(
-                  hintText: 'Address',
-                  border: OutlineInputBorder(),
-                ),
-              ),
             ),
           ],
         ),
@@ -521,19 +479,19 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
               },
               selectedColor: Theme.of(context).colorScheme.secondary,
             ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              child: TextField(
-                maxLines: 2,
-                minLines: 1,
-                controller: sourceController,
-                onSubmitted: (v) {},
-                decoration: const InputDecoration(
-                  hintText: 'Enter Source Address',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
+            // Container(
+            //   margin: const EdgeInsets.only(bottom: 10),
+            //   child: TextField(
+            //     maxLines: 2,
+            //     minLines: 1,
+            //     controller: sourceController,
+            //     onSubmitted: (v) {},
+            //     decoration: const InputDecoration(
+            //       hintText: 'Enter Source Address',
+            //       border: OutlineInputBorder(),
+            //     ),
+            //   ),
+            // ),
             CSCPicker(
               dropdownDecoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
