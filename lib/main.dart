@@ -25,6 +25,17 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // Future<bool> myFunction(String userId) async {
+  //   bool flag = true;
+  //   final docRef =
+  //       await FirebaseFirestore.instance.collection('employees').doc(userId);
+  //   docRef.get().then((doc) => {
+  //         if (doc.exists) {flag = true} else {flag = false}
+  //       });
+
+  //   return flag;
+  // }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,7 +48,13 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (_, snapshot) {
             final isSignedIn = snapshot.data != null;
-            return isSignedIn ? HomeScreen() : MyPhone();
+            if (isSignedIn) {
+
+              // Change here to Driver Screen for Driver Login
+              return const HomeScreen(); // DriverHomeScreen();
+            } else {
+              return const MyPhone();
+            }
           },
         ),
         //home: DriverHomeScreen(),
