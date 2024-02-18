@@ -275,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         icons: const [
           Icons.home,
           Icons.receipt,
-          Icons.person,
+          Icons.local_parking_rounded,
         ],
         textStyle: const TextStyle(
           color: Colors.white,
