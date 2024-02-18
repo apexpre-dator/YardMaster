@@ -14,7 +14,6 @@ class MyPhone extends StatefulWidget {
 
 class _MyPhoneState extends State<MyPhone> {
   TextEditingController countryController = TextEditingController();
-  
 
   @override
   void initState() {
@@ -121,21 +120,25 @@ class _MyPhoneState extends State<MyPhone> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
-                      
                       await FirebaseAuth.instance.verifyPhoneNumber(
                         phoneNumber: countryController.text + MyPhone.phone,
                         verificationCompleted:
                             (PhoneAuthCredential credential) async {},
                         verificationFailed: (FirebaseAuthException e) {},
                         codeSent: (String verificationId, int? resendToken) {
-                          
                           MyPhone.verify = verificationId;
-                          Navigator.of(context).popAndPushNamed(MyVerify.routeName);
+                          Navigator.of(context)
+                              .popAndPushNamed(MyVerify.routeName);
                         },
                         codeAutoRetrievalTimeout: (String verificationId) {},
                       );
                     },
-                    child: const Text("Send the code")),
+                    child: const Text(
+                      "Send the code",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )),
               )
             ],
           ),

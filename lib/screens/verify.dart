@@ -94,7 +94,6 @@ class _MyVerifyState extends State<MyVerify> {
                 defaultPinTheme: defaultPinTheme,
                 submittedPinTheme: submittedPinTheme,
                 focusedPinTheme: focusedPinTheme,
-                
                 length: 6,
                 onChanged: (value) {
                   code = value;
@@ -144,7 +143,12 @@ class _MyVerifyState extends State<MyVerify> {
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
-                    child: const Text("Verify Phone Number")),
+                    child: const Text(
+                      "Verify Phone Number",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )),
               ),
               Row(
                 children: [

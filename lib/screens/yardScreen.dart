@@ -251,7 +251,8 @@ class _YardScreenState extends State<YardScreen> {
                                                         if (snap['step'] == 0) {
                                                           await FirebaseFirestore
                                                               .instance
-                                                              .collection("1")
+                                                              .collection(
+                                                                  i.toString())
                                                               .doc(snap['vNo'])
                                                               .update({
                                                             "dockInTime":
@@ -262,7 +263,8 @@ class _YardScreenState extends State<YardScreen> {
                                                         if (snap['step'] == 1) {
                                                           await FirebaseFirestore
                                                               .instance
-                                                              .collection("1")
+                                                              .collection(
+                                                                  i.toString())
                                                               .doc(snap['vNo'])
                                                               .update({
                                                             "operationStartTime":
@@ -273,7 +275,8 @@ class _YardScreenState extends State<YardScreen> {
                                                         if (snap['step'] == 2) {
                                                           await FirebaseFirestore
                                                               .instance
-                                                              .collection("1")
+                                                              .collection(
+                                                                  i.toString())
                                                               .doc(snap['vNo'])
                                                               .update({
                                                             "operationEndTime":
@@ -284,7 +287,8 @@ class _YardScreenState extends State<YardScreen> {
                                                         if (snap['step'] == 3) {
                                                           await FirebaseFirestore
                                                               .instance
-                                                              .collection("1")
+                                                              .collection(
+                                                                  i.toString())
                                                               .doc(snap['vNo'])
                                                               .update({
                                                             "dockOutTime":
@@ -316,7 +320,8 @@ class _YardScreenState extends State<YardScreen> {
 
                                                           await FirebaseFirestore
                                                               .instance
-                                                              .collection("1")
+                                                              .collection(
+                                                                  i.toString())
                                                               .doc(snap['vNo'])
                                                               .delete();
                                                         }
@@ -368,8 +373,7 @@ class _YardScreenState extends State<YardScreen> {
                                             totalSteps: 4,
                                             currentStep: snap['step'],
                                             selectedColor: Colors.greenAccent,
-                                            unselectedColor:
-                                                Colors.yellowAccent,
+                                            unselectedColor: Colors.white,
                                           ),
                                         ],
                                       ),
@@ -439,7 +443,7 @@ class _YardScreenState extends State<YardScreen> {
                     ),
                     child: StreamBuilder(
                       stream: FirebaseFirestore.instance
-                          .collection(1.toString())
+                          .collection("dockVehicles")
                           .snapshots(),
                       builder: (context,
                           AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>

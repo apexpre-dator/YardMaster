@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yms/methods/storage_methods.dart';
 import 'package:yms/models/driver_model.dart';
-import 'package:yms/models/user_model.dart';
+import 'package:yms/models/employee_model.dart';
 import 'package:yms/models/vehicle_model.dart';
 
 class FirestoreMethods {
@@ -30,7 +30,7 @@ class FirestoreMethods {
 
   Future<String> registerVehicle(
     Vehicle v,
-    Driver d,
+    // String dId,
     File? vehicleImage,
     File? driverPic,
   ) async {
@@ -39,18 +39,19 @@ class FirestoreMethods {
     try {
       String vPhotoUrl = await StorageMethods()
           .uploadImgToStorage(v.regNo, vehicleImage!, false);
-      String dPhotoUrl =
-          await StorageMethods().uploadImgToStorage(v.regNo, driverPic!, true);
+      // String dPhotoUrl =
+      //     await StorageMethods().uploadImgToStorage(v.regNo, driverPic!, true);
 
       v.photoUrl = vPhotoUrl;
-      d.photoUrl = dPhotoUrl;
 
       _firestore.collection('vehicles').doc(v.regNo).set(
             v.toJson(),
           );
-      _firestore.collection('drivers').doc(d.dId).set(
-            d.toJson(),
-          );
+
+      // Need to update Image in Driver's Collection
+      // _firestore.collection('drivers').doc(dId).set(
+      //       d.toJson(),
+      //     );
 
       res = "success";
     } on FirebaseException catch (e) {
@@ -81,16 +82,16 @@ class FirestoreMethods {
     return v;
   }
 
-  Future<Driver> getDriver(String dId) async {
+  Future<DriverModel> getDriver(String dId) async {
     DocumentSnapshot doc =
         await _firestore.collection('drivers').doc(dId).get();
-    Driver d = Driver.fromSnap(doc);
+    DriverModel d = DriverModel.fromSnap(doc);
     return d;
   }
 
-  Future<UserModel> getUser(String dId) async {
-    DocumentSnapshot doc = await _firestore.collection('users').doc(dId).get();
-    UserModel d = UserModel.fromSnap(doc);
+  Future<EmployeeModel> getEmplpyee(String dId) async {
+    DocumentSnapshot doc = await _firestore.collection('employees').doc(dId).get();
+    EmployeeModel d = EmployeeModel.fromSnap(doc);
     return d;
   }
 }

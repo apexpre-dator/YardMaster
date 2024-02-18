@@ -140,7 +140,8 @@ class _RecordScreenState extends State<RecordScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Source: ${v[index].source} | Destination: ${v[index].destination ?? '-'}",
+                                // Change here to source
+                                "Source: ${v[index].sourceCity}, ${v[index].sourceState} | Destination: ${v[index].destination ?? '-'}",
                                 maxLines: 2,
                                 style: Theme.of(context)
                                     .textTheme

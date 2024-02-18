@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:yms/colours.dart';
-import 'package:yms/models/user_model.dart';
+import 'package:yms/models/driver_model.dart';
+import 'package:yms/models/employee_model.dart';
+import 'package:yms/screens/driver_home.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/phone.dart';
 
@@ -21,6 +23,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
   final empIdController = TextEditingController();
   final yardNameController = TextEditingController();
+
+  final dlNoController = TextEditingController();
+  final addressController = TextEditingController();
+
+  bool _isEmployee = true;
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +118,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
 
+    final addressField = TextFormField(
+      autofocus: false,
+      controller: addressController,
+      // validator: (value) {
+      //   RegExp regex = RegExp(r'.{6,}$');
+
+      //   if (value!.isEmpty) {
+      //     return ("Please enter the Yard name!");
+      //   }
+
+      //   if (!regex.hasMatch(value)) {
+      //     return ('Please enter a valid Yarrd Name! Min. 6 characters!');
+      //   }
+      //   return null;
+      // },
+      keyboardType: TextInputType.name,
+      onSaved: (val) {
+        addressController.text = val!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        prefixIcon: const Icon(Icons.account_circle),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Driver Address",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+
     final empIdField = TextFormField(
       autofocus: false,
       controller: empIdController,
@@ -135,6 +172,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
         prefixIcon: const Icon(Icons.account_circle),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Employee ID",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+
+    final dlNoField = TextFormField(
+      autofocus: false,
+      controller: dlNoController,
+      // validator: (value) {
+      //   RegExp regex = RegExp(r'.{6,}$');
+
+      //   if (value!.isEmpty) {
+      //     return ("Please enter your Employee ID!");
+      //   }
+
+      //   if (!regex.hasMatch(value)) {
+      //     return ('Please enter a valid ID! Min. 6 characters!');
+      //   }
+      //   return null;
+      // },
+      keyboardType: TextInputType.name,
+      onSaved: (val) {
+        dlNoController.text = val!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        prefixIcon: const Icon(Icons.account_circle),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Driver License No",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -203,11 +270,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(
                       height: 15,
                     ),
-                    empIdField,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'Driver',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Switch(
+                          value: _isEmployee,
+                          activeColor: Colors.purple,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _isEmployee = value;
+                            });
+                          },
+                        ),
+                        Text(
+                          'Employee',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                     const SizedBox(
                       height: 15,
                     ),
-                    yardNameField,
+                    if (_isEmployee) empIdField,
+                    if (!_isEmployee) dlNoField,
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    if (_isEmployee) yardNameField,
+                    if (!_isEmployee) addressField,
                     const SizedBox(
                       height: 25,
                     ),
@@ -232,17 +326,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       User? user = auth.currentUser;
 
-      UserModel userModel = UserModel(
-        name: userNameController.text,
-        email: emailController.text,
-        empId: empIdController.text,
-        uid: user!.uid,
-        yardName: yardNameController.text,
-        phone: MyPhone.phone,
-      );
+      if (_isEmployee) {
+        EmployeeModel employeeModel = EmployeeModel(
+          name: userNameController.text,
+          email: emailController.text,
+          empId: empIdController.text,
+          uid: user!.uid,
+          yardName: yardNameController.text,
+          phone: MyPhone.phone,
+        );
 
-      await fireStore.collection('users').doc(user.uid).set(userModel.toJson());
-      Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+        await fireStore
+            .collection('employees')
+            .doc(user.uid)
+            .set(employeeModel.toJson());
+        Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+      } else {
+        DriverModel driverModel = DriverModel(
+          dId: user!.uid,
+          dName: userNameController.text,
+          dlNo: dlNoController.text,
+          phone: MyPhone.phone,
+          address: addressController.text,
+        );
+
+        await fireStore
+            .collection('drivers')
+            .doc(user.uid)
+            .set(driverModel.toJson());
+        Navigator.of(context).popAndPushNamed(DriverHomeScreen.routeName);
+      }
     }
   }
 }

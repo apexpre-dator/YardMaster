@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UserModel {
+class EmployeeModel {
   final String name;
   final String email;
   final String empId;
@@ -8,7 +8,7 @@ class UserModel {
   final String yardName;
   String? phone;
 
-  UserModel({
+  EmployeeModel({
     required this.name,
     required this.email,
     required this.empId,
@@ -26,10 +26,10 @@ class UserModel {
         "phone": phone,
       };
 
-  static UserModel fromSnap(DocumentSnapshot snap) {
+  static EmployeeModel fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
-    return UserModel(
+    return EmployeeModel(
       name: snapshot['name'],
       email: snapshot['email'],
       empId: snapshot['empId'],
