@@ -6,6 +6,8 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:yms/colours.dart';
 import 'package:yms/models/yard_vehicle_model.dart';
 
+import 'package:url_launcher/url_launcher.dart';
+
 class YardScreen extends StatefulWidget {
   const YardScreen({super.key});
   static const routeName = '/yard-screen';
@@ -35,6 +37,20 @@ class _YardScreenState extends State<YardScreen> {
         v.operationEndTime = timing.text;
       }
     });
+  }
+
+  Future<void> _launchInBrowserView(Uri url) async {
+    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
   }
 
   @override
@@ -239,11 +255,76 @@ class _YardScreenState extends State<YardScreen> {
                                                   ),
                                                   actions: [
                                                     IconButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              dctx, 'CALL'),
+                                                      onPressed: () async {
+                                                        final ref =
+                                                            await FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'drivers')
+                                                                .doc(
+                                                                    snap['dId'])
+                                                                .get();
+                                                        final String phoneNo =
+                                                            ref['phone'];
+                                                            
+                                                        // final Uri toLaunch = Uri(
+                                                        //     scheme: 'https',
+                                                        //     host:
+                                                        //         'www.cylog.org',
+                                                        //     path: 'headers/');
+
+                                                        // _launchInBrowserView(
+                                                        //     toLaunch);
+                                                        _makePhoneCall(phoneNo);
+                                                        Navigator.pop(
+                                                            dctx, 'CALL');
+                                                      },
                                                       icon: const Icon(
                                                         Icons.phone,
+                                                      ),
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () async {
+                                                        List<String> stepNames =
+                                                            [
+                                                          'Dock In',
+                                                          'Start Operation',
+                                                          'End Operation',
+                                                          'Dock Out',
+                                                          'Check-Out'
+                                                        ];
+                                                        final ref =
+                                                            await FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'drivers')
+                                                                .doc(
+                                                                    snap['dId'])
+                                                                .collection(
+                                                                    'notifications');
+
+                                                        await ref.add({
+                                                          'text':
+                                                              'Kindly reach Dock no. $i for ${stepNames[snap['step']]}',
+                                                          'time': DateTime.now()
+                                                              .toIso8601String(),
+                                                        });
+
+                                                        SnackBar snackBar =
+                                                            const SnackBar(
+                                                          content: Text(
+                                                              'SMS sent to Driver'),
+                                                        );
+                                                        ScaffoldMessenger.of(
+                                                                dctx)
+                                                            .showSnackBar(
+                                                                snackBar);
+
+                                                        Navigator.pop(
+                                                            dctx, 'SMS');
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons.sms_rounded,
                                                       ),
                                                     ),
                                                     TextButton(
@@ -324,6 +405,17 @@ class _YardScreenState extends State<YardScreen> {
                                                                   i.toString())
                                                               .doc(snap['vNo'])
                                                               .delete();
+                                                        }
+                                                        if (snap['step'] == 4) {
+                                                          SnackBar snackBar =
+                                                              const SnackBar(
+                                                            content: Text(
+                                                                'Vehicle Checked-Out'),
+                                                          );
+                                                          ScaffoldMessenger.of(
+                                                                  dctx)
+                                                              .showSnackBar(
+                                                                  snackBar);
                                                         }
 
                                                         Navigator.pop(
