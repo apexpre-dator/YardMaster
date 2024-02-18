@@ -97,6 +97,7 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
       lotNo: lotNo,
       timeIn: DateTime.now().toIso8601String(),
       // timeOut: null,
+      sourceWarehouse: sourceController.text,
       sourceCity: cityName!,
       sourceState: stateName!,
       sourceCountry: countryName,
@@ -498,19 +499,19 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
               },
               selectedColor: Theme.of(context).colorScheme.secondary,
             ),
-            // Container(
-            //   margin: const EdgeInsets.only(bottom: 10),
-            //   child: TextField(
-            //     maxLines: 2,
-            //     minLines: 1,
-            //     controller: sourceController,
-            //     onSubmitted: (v) {},
-            //     decoration: const InputDecoration(
-            //       hintText: 'Enter Source Address',
-            //       border: OutlineInputBorder(),
-            //     ),
-            //   ),
-            // ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              child: TextField(
+                maxLines: 2,
+                minLines: 1,
+                controller: sourceController,
+                onSubmitted: (v) {},
+                decoration: const InputDecoration(
+                  hintText: 'Enter Source Warehouse Name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
             CSCPicker(
               dropdownDecoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
