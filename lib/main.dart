@@ -49,7 +49,6 @@ class MyApp extends StatelessWidget {
           builder: (_, snapshot) {
             final isSignedIn = snapshot.data != null;
             if (isSignedIn) {
-
               // Change here to Driver Screen for Driver Login
               return const HomeScreen(); // DriverHomeScreen();
             } else {
@@ -57,7 +56,7 @@ class MyApp extends StatelessWidget {
             }
           },
         ),
-        //home: DriverHomeScreen(),
+        //home: DriverHomeScreen(dId: "dlhatJQU5bgrSSEbv68ZxJYIbsw2"),
         routes: {
           SignUpScreen.routeName: (context) => const SignUpScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(),
@@ -71,9 +70,11 @@ class MyApp extends StatelessWidget {
           RecordScreen.routeName: (context) => const RecordScreen(),
           YardScreen.routeName: (context) => const YardScreen(),
           ParkingScreen.routeName: (context) => const ParkingScreen(),
-          DriverHomeScreen.routeName: (context) => const DriverHomeScreen(),
-          DriverHistoryScreen.routeName: (context) =>
-              const DriverHistoryScreen(),
+          DriverHomeScreen.routeName: (context) =>
+              const DriverHomeScreen(dId: ''),
+          DriverHistoryScreen.routeName: (context) => const DriverHistoryScreen(
+                dId: '',
+              ),
         });
   }
 }

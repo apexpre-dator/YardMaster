@@ -7,8 +7,9 @@ import 'package:yms/screens/phone.dart';
 import './driver_history.dart';
 
 class DriverHomeScreen extends StatefulWidget {
-  const DriverHomeScreen({super.key});
+  const DriverHomeScreen({super.key, required this.dId});
   static const routeName = '/driver';
+  final String dId;
 
   @override
   State<DriverHomeScreen> createState() => _DriverHomeScreenState();
@@ -89,7 +90,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen>
             ),
           ),
           // History Screen
-          const DriverHistoryScreen(),
+          DriverHistoryScreen(dId: widget.dId),
         ],
       ),
       bottomNavigationBar: MotionTabBar(

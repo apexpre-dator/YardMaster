@@ -354,7 +354,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             .collection('drivers')
             .doc(user.uid)
             .set(driverModel.toJson());
-        Navigator.of(context).popAndPushNamed(DriverHomeScreen.routeName);
+        Navigator.of(context)
+            .popAndPushNamed(DriverHomeScreen.routeName, arguments: user.uid);
       }
     }
   }
