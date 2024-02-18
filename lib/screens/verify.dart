@@ -124,12 +124,22 @@ class _MyVerifyState extends State<MyVerify> {
                         final firestore = FirebaseFirestore.instance;
 
                         await firestore
-                            .collection('users')
+                            .collection('employees')
                             .doc(auth0.currentUser!.uid)
                             .get()
                             .then((doc) {
                           if (doc.exists) {
                             Navigator.of(context).popAndPushNamed('/home');
+                          }
+                        });
+
+                        await firestore
+                            .collection('drivers')
+                            .doc(auth0.currentUser!.uid)
+                            .get()
+                            .then((doc) {
+                          if (doc.exists) {
+                            Navigator.of(context).popAndPushNamed('/driver');
                           } else {
                             Navigator.of(context)
                                 .popAndPushNamed(SignUpScreen.routeName);
