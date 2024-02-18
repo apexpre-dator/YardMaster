@@ -76,13 +76,22 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
     //   phone: phoneController.text,
     //   address: addressController.text,
     // );
+
+    final ref = await FirebaseFirestore.instance
+        .collection('drivers')
+        .where('dlNo', isEqualTo: dIdController.text)
+        .get();
+
+    final allData = ref.docs.map((doc) => doc.data()).toList();
+    final driverId = allData[0]['dId'];
+
     vehicle = Vehicle(
       regNo: vRegNo,
       vNo: vNoController.text,
       vWeight: vWeightController.text,
       vModel: vModelController.text,
       persons: personsController.text,
-      dId: dIdController.text,
+      dId: driverId,
       objective: obj,
       dockNo: dockNo,
       lotNo: lotNo,
@@ -107,9 +116,13 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
       "dockOutTime": null,
       "step": 0,
       "vRegNo": vRegNo,
+      "dId": vehicle.dId,
     });
 
-    await FirebaseFirestore.instance.collection("dockVehicles").doc(vehicle.vNo).set({
+    await FirebaseFirestore.instance
+        .collection("dockVehicles")
+        .doc(vehicle.vNo)
+        .set({
       "vNo": vehicle.vNo,
       "objective": vehicle.objective,
       "step": 0,
@@ -187,7 +200,6 @@ class _IncomingRegistrationState extends State<IncomingRegistration> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        
                         const SizedBox(
                           height: 35,
                         ),
