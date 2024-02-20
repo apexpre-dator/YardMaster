@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/driver_model.dart';
@@ -5,9 +6,8 @@ import 'package:yms/models/vehicle_model.dart';
 import '../widgets/driver_history.dart';
 
 class DriverHistoryScreen extends StatefulWidget {
-  const DriverHistoryScreen({super.key, required this.dId});
+  const DriverHistoryScreen({super.key});
   static const routeName = '/driver-history';
-  final String dId;
 
   @override
   State<DriverHistoryScreen> createState() => _DriverHistoryScreenState();
@@ -27,7 +27,8 @@ class _DriverHistoryScreenState extends State<DriverHistoryScreen> {
     setState(() {
       _isLoading = true;
     });
-    DriverModel driver = await FirestoreMethods().getDriver(widget.dId);
+    DriverModel driver = await FirestoreMethods()
+        .getDriver(FirebaseAuth.instance.currentUser!.uid);
     v = await FirestoreMethods().getDriverVehicles(driver.dlNo);
     setState(() {
       _isLoading = false;

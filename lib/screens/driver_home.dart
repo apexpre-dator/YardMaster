@@ -4,12 +4,12 @@ import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:yms/colours.dart';
 import 'package:yms/screens/phone.dart';
+import '../widgets/sidebar_driver.dart';
 import './driver_history.dart';
 
 class DriverHomeScreen extends StatefulWidget {
-  const DriverHomeScreen({super.key, required this.dId});
+  const DriverHomeScreen({super.key});
   static const routeName = '/driver';
-  final String dId;
 
   @override
   State<DriverHomeScreen> createState() => _DriverHomeScreenState();
@@ -53,18 +53,17 @@ class _DriverHomeScreenState extends State<DriverHomeScreen>
             Icons.notifications_none,
           ),
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                FirebaseAuth auth = FirebaseAuth.instance;
-                auth.signOut();
-                Navigator.of(context).popAndPushNamed(MyPhone.routeName);
-              },
-              icon: Icon(Icons.logout))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         FirebaseAuth auth = FirebaseAuth.instance;
+        //         auth.signOut();
+        //         Navigator.of(context).popAndPushNamed(MyPhone.routeName);
+        //       },
+        //       icon: Icon(Icons.logout))
+        // ],
       ),
-      // implement driver profile here --------------------------------------------------------------
-      // endDrawer : ,
+      endDrawer: const SafeArea(child: SideBarDriverWidget()),
       body: TabBarView(
         controller: _motionTabBarController,
         children: <Widget>[
@@ -90,7 +89,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen>
             ),
           ),
           // History Screen
-          DriverHistoryScreen(dId: widget.dId),
+          const DriverHistoryScreen(),
         ],
       ),
       bottomNavigationBar: MotionTabBar(
