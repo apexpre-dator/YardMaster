@@ -80,6 +80,7 @@ flutter:
     - assets/
     - assets/QR-Code.png
     - assets/truck.png
+    - assets/forklift.png
     # - assets/outgoing.gif
     # - assets/dummy.png
   # An image asset can refer to one or more resolution-specific "variants", see

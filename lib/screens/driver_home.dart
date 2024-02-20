@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:yms/colours.dart';
-import 'package:yms/screens/phone.dart';
 import '../widgets/sidebar_driver.dart';
 import './driver_history.dart';
 

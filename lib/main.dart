@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:yms/colours.dart';
 import 'package:yms/firebase_options.dart';
 import 'package:yms/screens/driver_history.dart';
 import 'package:yms/screens/driver_home.dart';
+import 'package:yms/screens/landingScreen.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/incomingRegistration.dart';
@@ -22,19 +24,44 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // Future<bool> myFunction(String userId) async {
-  //   bool flag = true;
-  //   final docRef =
-  //       await FirebaseFirestore.instance.collection('employees').doc(userId);
-  //   docRef.get().then((doc) => {
-  //         if (doc.exists) {flag = true} else {flag = false}
-  //       });
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
-  //   return flag;
-  // }
+class _MyAppState extends State<MyApp> {
+  bool _isLoading = true;
+  late bool flag;
+
+  Future<void> myFunction(String userId) async {
+    setState(() {
+      _isLoading = true;
+    });
+    final docRef = await FirebaseFirestore.instance
+        .collection('employees')
+        .doc(userId)
+        .get();
+    if (docRef.exists) {
+      flag = true;
+    } else {
+      flag = false;
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (FirebaseAuth.instance.currentUser != null) {
+      myFunction(FirebaseAuth.instance.currentUser!.uid);
+    } else {
+      _isLoading = false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +71,23 @@ class MyApp extends StatelessWidget {
           primarySwatch: colorCustom,
         ),
         debugShowCheckedModeBanner: false,
-        home: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (_, snapshot) {
-            // final isSignedIn = snapshot.data != null;
-            // if (isSignedIn) {
-            //   // Change here to Driver Screen for Driver Login
-            //   return const HomeScreen(); // DriverHomeScreen();
-            // } else {
-            return const MyPhone();
-            // }
-          },
-        ),
-        //home: DriverHomeScreen(dId: "dlhatJQU5bgrSSEbv68ZxJYIbsw2"),
+        home: _isLoading
+            ? const LandingScreen()
+            : StreamBuilder<User?>(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (_, snapshot) {
+                  final isSignedIn = snapshot.data != null;
+                  if (isSignedIn) {
+                    if (flag) {
+                      return const HomeScreen();
+                    } else {
+                      return const DriverHomeScreen();
+                    }
+                  } else {
+                    return const MyPhone();
+                  }
+                },
+              ),
         routes: {
           SignUpScreen.routeName: (context) => const SignUpScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(),
