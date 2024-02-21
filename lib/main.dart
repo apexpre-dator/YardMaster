@@ -7,6 +7,7 @@ import 'package:yms/firebase_options.dart';
 import 'package:yms/screens/driver_history.dart';
 import 'package:yms/screens/driver_home.dart';
 import 'package:yms/screens/landingScreen.dart';
+import 'package:yms/screens/notifications.dart';
 import 'package:yms/screens/outgoingVehicles.dart';
 import 'package:yms/screens/home.dart';
 import 'package:yms/screens/incomingRegistration.dart';
@@ -104,6 +105,7 @@ class _MyAppState extends State<MyApp> {
           DriverHomeScreen.routeName: (context) => const DriverHomeScreen(),
           DriverHistoryScreen.routeName: (context) =>
               const DriverHistoryScreen(),
+          Notifications.routeName: (context) => const Notifications(),
         });
   }
 }

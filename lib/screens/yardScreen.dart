@@ -134,6 +134,7 @@ class _YardScreenState extends State<YardScreen> {
 
                                 return ListView.builder(
                                   shrinkWrap: true,
+                                  physics: BouncingScrollPhysics(),
                                   itemCount: snapshot.data!.docs.length,
                                   itemBuilder: (context, index) {
                                     final snap =

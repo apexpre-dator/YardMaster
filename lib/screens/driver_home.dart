@@ -47,7 +47,9 @@ class _DriverHomeScreenState extends State<DriverHomeScreen>
           ),
         ),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed('/notifications');
+          },
           icon: const Icon(
             Icons.notifications_none,
           ),
