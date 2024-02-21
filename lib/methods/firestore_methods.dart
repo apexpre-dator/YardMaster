@@ -82,6 +82,22 @@ class FirestoreMethods {
     return v;
   }
 
+  Future<Vehicle?> getCurrentDriverVehicle(String dId) async {
+    Vehicle? v;
+    var temp = await _firestore
+        .collection('vehicles')
+        .where('dId', isEqualTo: dId)
+        .where('timeOut', isEqualTo: null)
+        .get();
+    final allData = temp.docs.map((doc) => doc.data()).toList();
+    for (var element in allData) {
+      DocumentSnapshot doc =
+          await _firestore.collection('vehicles').doc(element['regNo']).get();
+      v = Vehicle.fromSnap(doc);
+    }
+    return v;
+  }
+
   Future<List<Vehicle>> getDriverVehicles(String dId) async {
     List<Vehicle> v = [];
     var temp = await _firestore

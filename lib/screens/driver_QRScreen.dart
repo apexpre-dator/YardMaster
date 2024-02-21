@@ -79,11 +79,6 @@ class _DriverQRScreenState extends State<DriverQRScreen> {
                         gapless: false,
                       ),
                     ),
-                    // Image.asset(
-                    //   'assets/QR-Code.png',
-                    //   height: MediaQuery.of(context).size.height * 0.4,
-                    //   width: MediaQuery.of(context).size.width * 0.8,
-                    // ),
                   ],
                 ),
     );
