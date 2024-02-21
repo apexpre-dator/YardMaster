@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:yms/colours.dart';
+import 'package:yms/screens/driver_QRScreen.dart';
 import '../widgets/sidebar_driver.dart';
 import './driver_history.dart';
 
@@ -47,7 +48,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen>
         ),
         leading: IconButton(
           onPressed: () {},
-          icon: Icon(
+          icon: const Icon(
             Icons.notifications_none,
           ),
         ),
@@ -64,30 +65,11 @@ class _DriverHomeScreenState extends State<DriverHomeScreen>
       endDrawer: const SafeArea(child: SideBarDriverWidget()),
       body: TabBarView(
         controller: _motionTabBarController,
-        children: <Widget>[
+        children: const <Widget>[
           // QR Screen
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Column(
-              children: [
-                // implement logic for checking if QR is generated
-                Text(
-                  'QR Code Generated',
-                  style: TextStyle(fontSize: 24),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Image.asset(
-                  'assets/QR-Code.png',
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                ),
-              ],
-            ),
-          ),
+          DriverQRScreen(),
           // History Screen
-          const DriverHistoryScreen(),
+          DriverHistoryScreen(),
         ],
       ),
       bottomNavigationBar: MotionTabBar(
