@@ -12,6 +12,8 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,9 +30,9 @@ class _NotificationsState extends State<Notifications> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('drivers')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .doc(userId)
             .collection('notifications')
-            .orderBy('timestamp', descending: true)
+            .orderBy('timestamp', descending: false)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -38,45 +40,41 @@ class _NotificationsState extends State<Notifications> {
               child: CircularProgressIndicator(),
             );
           }
-          final data = snapshot.data!.docs;
-          return data.length == 0
-              ? Center(
-                  child: Text('No Notifications yet'),
-                )
-              : ListView.builder(
-                  itemCount: data.length,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final snap = data[index].data();
+          var data = snapshot.data!.docs;
+          return ListView.builder(
+            itemCount: data.length,
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              final snap = data[index].data();
 
-                    var time = DateFormat('hh:mm a')
-                        .format(DateTime.parse(snap['time']))
-                        .toString();
-                    var date = DateFormat("dd-MM-yyyy")
-                        .format(DateTime.parse(snap['time']))
-                        .toString();
+              var time = DateFormat('hh:mm a')
+                  .format(DateTime.parse(snap['time']))
+                  .toString();
+              var date = DateFormat("dd-MM-yyyy")
+                  .format(DateTime.parse(snap['time']))
+                  .toString();
 
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Icon(Icons.notifications_active_outlined),
-                      ),
-                      title: Text('YardMaster'),
-                      subtitle: Text(snap['text']),
-                      trailing: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            date,
-                          ),
-                          Text(
-                            time,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
+              return ListTile(
+                leading: CircleAvatar(
+                  child: Icon(Icons.notifications_active_outlined),
+                ),
+                title: Text('YardMaster'),
+                subtitle: Text(snap['text']),
+                trailing: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      date,
+                    ),
+                    Text(
+                      time,
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
         },
       ),
     );
