@@ -134,6 +134,7 @@ class _YardScreenState extends State<YardScreen> {
 
                                 return ListView.builder(
                                   shrinkWrap: true,
+                                  physics: BouncingScrollPhysics(),
                                   itemCount: snapshot.data!.docs.length,
                                   itemBuilder: (context, index) {
                                     final snap =
@@ -302,12 +303,14 @@ class _YardScreenState extends State<YardScreen> {
                                                                     snap['dId'])
                                                                 .collection(
                                                                     'notifications');
+                                                        DateTime  dt = DateTime.now();
 
                                                         await ref.add({
                                                           'text':
                                                               'Kindly reach Dock no. $i for ${stepNames[snap['step']]}',
-                                                          'time': DateTime.now()
+                                                          'time': dt
                                                               .toIso8601String(),
+                                                          'timestamp': dt
                                                         });
 
                                                         SnackBar snackBar =

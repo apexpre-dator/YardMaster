@@ -15,6 +15,8 @@ class MyVerify extends StatefulWidget {
 }
 
 class _MyVerifyState extends State<MyVerify> {
+  bool myFlag = false;
+
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
@@ -129,22 +131,27 @@ class _MyVerifyState extends State<MyVerify> {
                             .get()
                             .then((doc) {
                           if (doc.exists) {
+                            setState(() {
+                              myFlag = true;
+                            });
                             Navigator.of(context).popAndPushNamed('/home');
                           }
                         });
 
-                        await firestore
-                            .collection('drivers')
-                            .doc(auth0.currentUser!.uid)
-                            .get()
-                            .then((doc) {
-                          if (doc.exists) {
-                            Navigator.of(context).popAndPushNamed('/driver');
-                          } else {
-                            Navigator.of(context)
-                                .popAndPushNamed(SignUpScreen.routeName);
-                          }
-                        });
+                        if (!myFlag) {
+                          await firestore
+                              .collection('drivers')
+                              .doc(auth0.currentUser!.uid)
+                              .get()
+                              .then((doc) {
+                            if (doc.exists) {
+                              Navigator.of(context).popAndPushNamed('/driver');
+                            } else {
+                              Navigator.of(context)
+                                  .popAndPushNamed(SignUpScreen.routeName);
+                            }
+                          });
+                        }
                       } catch (e) {
                         SnackBar snackBar = SnackBar(
                           content: Text(e.toString()),
