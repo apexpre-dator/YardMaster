@@ -63,7 +63,6 @@ class _DriverQRScreenState extends State<DriverQRScreen> {
                 )
               : Column(
                   children: [
-                    // implement logic for checking if QR is generated
                     const Text(
                       'QR Code Generated',
                       style: TextStyle(fontSize: 24),
@@ -78,6 +77,20 @@ class _DriverQRScreenState extends State<DriverQRScreen> {
                         size: 320,
                         gapless: false,
                       ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Dock No - ${v!.dockNo}',
+                      style: const TextStyle(fontSize: 22),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Parking Lot No - ${v!.lotNo}',
+                      style: const TextStyle(fontSize: 22),
                     ),
                   ],
                 ),
