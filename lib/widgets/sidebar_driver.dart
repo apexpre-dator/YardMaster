@@ -30,7 +30,6 @@ class _SideBarDriverWidgetState extends State<SideBarDriverWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
   }
@@ -133,6 +132,7 @@ class _SideBarDriverWidgetState extends State<SideBarDriverWidget> {
           onTap: () {
             FirebaseAuth auth = FirebaseAuth.instance;
             auth.signOut();
+            Navigator.of(context).pop();
             Navigator.of(context).popAndPushNamed(MyPhone.routeName);
           },
         ),

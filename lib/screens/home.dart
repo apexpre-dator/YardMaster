@@ -9,7 +9,7 @@ import 'package:yms/screens/parkingScreen.dart';
 import 'package:yms/screens/qr_scan.dart';
 import 'package:yms/screens/records.dart';
 import 'package:yms/screens/yardScreen.dart';
-import 'package:yms/widgets/sidebar.dart';
+import 'package:yms/widgets/sidebar_employee.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
