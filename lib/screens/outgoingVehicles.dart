@@ -25,14 +25,13 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
 
   bool _isLoading = false;
   late DriverModel driver;
-  late Vehicle vehicle;
+  late Vehicle? vehicle;
   bool _checkOut = false;
 
   void loadData() {}
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
   }
@@ -41,9 +40,14 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
     setState(() {
       _isLoading = true;
     });
-    vehicle = await FirestoreMethods().getVehicle(widget.vRegNo);
-    driver = await FirestoreMethods().getDriver(vehicle.dId);
-
+    vehicle = await FirestoreMethods().getOutgoingVehicle(widget.vRegNo);
+    if (vehicle != null) {
+      driver = await FirestoreMethods().getDriver(vehicle!.dId);
+    } else {
+      setState(() {
+        _checkOut = true;
+      });
+    }
     setState(() {
       _isLoading = false;
     });
@@ -53,10 +57,10 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
     setState(() {
       _isLoading = true;
     });
-    vehicle.destination = addressDestinationController.text;
-    vehicle.timeOut = DateTime.now().toIso8601String();
+    vehicle!.destination = addressDestinationController.text;
+    vehicle!.timeOut = DateTime.now().toIso8601String();
 
-    String res = await FirestoreMethods().exitYard(vehicle);
+    String res = await FirestoreMethods().exitYard(vehicle!);
 
     setState(() {
       _isLoading = false;
@@ -194,7 +198,7 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
               height: 150,
               width: double.infinity,
               child: Image.network(
-                vehicle.photoUrl,
+                vehicle!.photoUrl,
                 width: 150,
                 height: 150,
                 fit: BoxFit.fill,
@@ -205,19 +209,19 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
             ),
             const CustomDisplay(title: 'Vehicle Number'),
             TextDisplay(
-              hint: vehicle.vNo,
+              hint: vehicle!.vNo,
             ),
             const CustomDisplay(title: 'Vehicle Weight (MT)'),
             TextDisplay(
-              hint: vehicle.vWeight,
+              hint: vehicle!.vWeight,
             ),
             const CustomDisplay(title: 'Vehicle Model'),
             TextDisplay(
-              hint: vehicle.vModel,
+              hint: vehicle!.vModel,
             ),
             const CustomDisplay(title: 'Accompanied Personnel'),
             TextDisplay(
-              hint: vehicle.persons,
+              hint: vehicle!.persons,
             ),
           ],
         ),
@@ -274,11 +278,11 @@ class _OutgoingRegistrationState extends State<OutgoingRegistration> {
           children: [
             const CustomDisplay(title: 'Objective'),
             TextDisplay(
-              hint: vehicle.objective,
+              hint: vehicle!.objective,
             ),
             const CustomDisplay(title: 'Incoming Time'),
             TextDisplay(
-              hint: TimeOfDay.fromDateTime(DateTime.parse(vehicle.timeIn))
+              hint: TimeOfDay.fromDateTime(DateTime.parse(vehicle!.timeIn))
                   .format(context),
             ),
             // const CustomDisplay(title: 'Source Address'),

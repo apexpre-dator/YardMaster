@@ -70,6 +70,22 @@ class FirestoreMethods {
     return v;
   }
 
+  Future<Vehicle?> getOutgoingVehicle(String vRegNo) async {
+    var temp = await _firestore
+        .collection('vehicles')
+        .where('timeOut', isNull: true)
+        .where('regNo', isEqualTo: vRegNo)
+        .get();
+    final allData = temp.docs.map((doc) => doc.data()).toList();
+    Vehicle? v;
+    for (var element in allData) {
+      DocumentSnapshot doc =
+          await _firestore.collection('vehicles').doc(element['regNo']).get();
+      v = Vehicle.fromSnap(doc);
+    }
+    return v;
+  }
+
   Future<List<Vehicle>> getVehicles() async {
     List<Vehicle> v = [];
     var temp = await _firestore.collection('vehicles').get();
