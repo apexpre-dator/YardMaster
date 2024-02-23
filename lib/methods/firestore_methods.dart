@@ -87,7 +87,7 @@ class FirestoreMethods {
     var temp = await _firestore
         .collection('vehicles')
         .where('dId', isEqualTo: dId)
-        .where('timeOut', isEqualTo: null)
+        .where('timeOut', isNull: true)
         .get();
     final allData = temp.docs.map((doc) => doc.data()).toList();
     for (var element in allData) {
