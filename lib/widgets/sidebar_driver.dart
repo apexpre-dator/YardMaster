@@ -132,8 +132,10 @@ class _SideBarDriverWidgetState extends State<SideBarDriverWidget> {
           onTap: () {
             FirebaseAuth auth = FirebaseAuth.instance;
             auth.signOut();
-            Navigator.of(context).pop();
-            Navigator.of(context).popAndPushNamed(MyPhone.routeName);
+            Navigator.of(context).popUntil((route) {
+              return false;
+            });
+            Navigator.of(context).pushNamed(MyPhone.routeName);
           },
         ),
       ],

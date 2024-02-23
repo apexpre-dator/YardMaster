@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:yms/methods/firestore_methods.dart';
 import 'package:yms/models/employee_model.dart';
+import 'package:yms/screens/home.dart';
+import 'package:yms/screens/parkingScreen.dart';
 import 'package:yms/screens/phone.dart';
 import 'package:yms/colours.dart';
+import 'package:yms/screens/yardScreen.dart';
 
 class SideBarWidget extends StatefulWidget {
   const SideBarWidget({super.key});
@@ -132,8 +135,10 @@ class _SideBarWidgetState extends State<SideBarWidget> {
           onTap: () {
             FirebaseAuth auth = FirebaseAuth.instance;
             auth.signOut();
-            Navigator.of(context).pop();
-            Navigator.of(context).popAndPushNamed(MyPhone.routeName);
+            Navigator.of(context).popUntil((route) {
+              return false;
+            });
+            Navigator.of(context).pushNamed(MyPhone.routeName);
           },
         ),
       ],
